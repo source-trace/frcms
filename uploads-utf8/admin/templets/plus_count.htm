@@ -1,0 +1,146 @@
+<?php echo ahead("访问统计管理");?>
+<script language="JavaScript" src="../js/fusioncharts.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">访问统计管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="plus_count.php">统计情况</a> | <a href="?do=all">详细记录</a> | <a href="?do=chour">24小时统计</a> | <a href="?do=cday">日统计</a> | <a href="?do=cweek">周统计</a> | <a href="?do=cmonth">月统计</a> | <a href="?do=ccome">来源统计</a> | <a href="?do=cpage">访问页面</a> | <a href="?do=cip">区域统计</a> | <a href="?do=cbrower">客户端软件</a> | <?php if(aflags($admin_flags,3,1)){?><a href="#" onClick="if (confirm('您确定要清除所有统计记录吗？\n注意：此操作不可恢复！')) window.location='?do=del'">清除统计</a> |&nbsp;<?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+  <td height=25 class="pl20">调用代码：&lt;script src=&quot;plus/count/mycount.php?style=text&quot;&gt;&lt;/script&gt;</td>
+  </tr>
+</table>
+<?php
+if($do=="all"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr align="center"> 
+    <th height="22" colspan="5">访问详细记录</th>
+  </tr>
+ <tr align="center">
+ <td width="30">编号</td>
+  <td>来源/访问网页</td>
+  <td width="140">时间/访问方式</td>
+  <td width="140">操作系统/浏览器</td>
+  <td width="140">IP/地理位置</td>
+  </tr>
+<?php
+$i=0;
+foreach($rsdb as $key=>$rs){
+$i++
+?>
+<tr align="center"> 
+    <td><?php echo $i;?></td>
+    <td align="left">From：<?php if($rs["c_come"]=="网址输入或收藏夹打开"){echo $rs["c_come"];}else{echo "<a href=\"{$rs["c_come"]}\" title=\"查看来源网页\" target=\"_blank\">{$rs["c_come"]}</a>";}?><br>To：<?php echo "<a href=\"{$rs["c_page"]}\" title=\"查看网页\" target=\"_blank\">{$rs["c_page"]}</a>";?></td>
+    <td height=22 align="left"><?php echo $rs["c_time"];?><br><?php if(substr($rs["c_come"],0,$rs["c_comes"])==substr($rs["c_page"],0,$rs["c_pages"])){echo "站内浏览";}else{echo "新入站浏览";}?></td>
+    <td align="left"><?php echo $rs["c_os"];?><br><?php echo $rs["c_brower"];?></td>
+    <td align="left"><?php echo $rs["c_ip"];?><br><?php echo $rs["c_where"];?></td>
+  </tr>
+<?php
+}
+?>
+<tr><td height="25" colspan="5" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</table>
+<?php
+}elseif($do=="chour"||$do=="cday"||$do=="cweek"||$do=="cmonth"||$do=="ccome"||$do=="cpage"||$do=="cip"||$do=="cbrower"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr align="center"> 
+    <th height="22"><?php echo $charttit;?></th>
+  </tr>
+ <tr align="center">
+ <td><?php echo $chartdiv;?></td>
+  </tr>
+<?php
+if($do=="chour"||$do=="cday"||$do=="cweek"||$do=="cmonth"){
+?>  
+<tr align="center"> 
+    <th height="22"><?php echo $charttit1;?></th>
+  </tr>
+ <tr align="center">
+ <td><?php echo $chartdiv1;?></td>
+  </tr>
+</table>
+<?php
+}
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th height=25>站点访问量概况</th>
+    <th height=25>最近30天访问量走势</th>
+</tr>
+<tr align="center"> 
+    <td width="40%" height="22">
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+        <tr align="center"> 
+            <td height="22" colspan="4">统计开始时间：<?php echo $firsttime;?></td>
+        </tr>
+        <tr align="center"> 
+            <td width="25%" height="22">　</td>
+            <td width="25%">PV</td> 
+            <td width="25%">IP</td>
+            <td width="25%">人均浏览</td>
+        </tr>
+        <tr align="center"> 
+            <td height="22">今 日：</td>
+            <td><?php echo $ctoday;?></td> 
+            <td><?php echo $ctodayip;?></td>
+            <td ><?php echo $ctodayround;?></td>
+        </tr>
+        <tr align="center"> 
+            <td height="22">昨 日：</td>
+            <td><?php echo $cyesterday;?></td> 
+            <td><?php echo $cyesterdayip;?></td>
+            <td><?php echo $cyesterdayround;?></td>
+        </tr>
+        <tr align="center"> 
+            <td height="22">本 月：</td>
+            <td><?php echo $cthismonth;?></td> 
+            <td><?php echo $cthismonthip;?></td>
+            <td><?php echo $cthismonthround;?></td>
+        </tr>
+        <tr align="center"> 
+            <td height="22">今 年：</td>
+            <td><?php echo $cthisyear;?></td> 
+            <td><?php echo $cthisyearip;?></td>
+            <td><?php echo $cthisyearround;?></td>
+        </tr>
+        <tr align="center"> 
+            <td height="22">总访问：</td>
+            <td><?php echo $total;?></td> 
+            <td><?php echo $totalip;?></td>
+            <td><?php echo $totalround;?></td>
+        </tr>
+     </table>
+     </td>
+    <td width="60%"><?php echo $chartdiv;?></td> 
+</tr>
+<tr align="center"> 
+    <th height="22" colspan="2">15分钟内在线用户列表</th>
+  </tr>
+<?php
+$i=0;
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25 align="left"><strong>时间：</strong><?php echo $rs["c_time"];?><strong>　IP：</strong><?php echo $rs["c_ip"];?></td>
+    <td height=25 align="left"><strong>来路：</strong><?php echo $rs["c_come"];?></td>
+  </tr>
+<tr align="center"> 
+    <td height=25 align="left"><strong>地理位置：</strong><?php echo $rs["c_where"];?></td>
+    <td height=25 align="left"><strong>停留：</strong><?php echo $tldb[$i];?></td>
+  </tr>
+<?php
+$i++; 
+}
+?>
+<tr><td height="25" align="center" colspan="2"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>

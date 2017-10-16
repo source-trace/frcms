@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+<script language="javascript">
+<!--
+function fnRemoveBrank(strSource)
+{
+ return strSource.replace(/^\s*/,'').replace(/\s*$/,'');
+}
+function String.prototype.lenB()
+{
+return this.replace(/[^\x00-\xff]/g,"**").length;
+}
+function Juge(theForm)
+{
+  if (fnRemoveBrank(theForm.username.value) == "")
+  {
+    alert("请输入用户名/呢称!");
+    theForm.username.focus();
+    return (false);
+  }
+  var objv = fnRemoveBrank(theForm.email.value);
+  var pattern = /^([a-zA-Z0-9_-])+(\.([a-zA-Z0-9_-])+)*@([a-zA-Z0-9_-])+(\.([a-zA-Z0-9_-])+)+$/;
+  flag = pattern.test(objv);
+  if(!flag)
+  {
+    alert("电子邮件：格式不正确！请重新输入。");
+	theForm.email.focus();
+	return (false); 
+  }
+  if (fnRemoveBrank(theForm.title.value) == "")
+  {
+    alert("请输入留言主题!");
+    theForm.title.focus();
+    return (false);
+  } 
+  if (fnRemoveBrank(theForm.Content.value) == "")
+  {
+    alert("请输入留言内容!");
+    theForm.Content.focus();
+    return (false);
+  }
+  if ((theForm.Content.value).lenB()>=2000)
+  {
+	 alert("留言内容太长了，要求不多于2000个字符!");
+	 theForm.Content.focus();
+	 return (false);
+  } 
+ }
+ //-->
+</script>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 客服中心 >> {$c_name}</div>
+</div>
+<div class="container">
+	<div class="guestbookleft">
+		<div class="tit"><span></span>关于我们</div>
+		<div class="con">{getsitebottomnav(1)}</div>
+	</div>
+	<div class="guestbook">
+		<div class="tit"><span></span>用户留言列表</div>
+		<div class="con">
+            <div class="helpsearch"><font style="font-size: 14px; font-weight: bold;">欢迎您在此处留下您宝贵的意见或建议，非常感谢！</font>　　<input name="Submit22" type="button" class="inputcl" value="给管理员留言" onclick="window.location='#w'" />　　<input name="Submit4" type="button" class="inputcl" value="查看帮助信息" onclick="window.location='../help/index.php'" /></div>
+            <div style="margin-top: 10px;">{$guestbooklist}</div>
+        </div>
+       	<div>
+		<div class="tits">在线提交留言内容<a name="w"></a></div>
+		<div class="con">{$guestbook}</div>
+	</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

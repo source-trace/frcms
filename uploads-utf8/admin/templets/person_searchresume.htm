@@ -1,0 +1,104 @@
+<?php
+echo ahead("简历搜索");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/sms.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">求职简历管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="person_searchlist.php">管理首页</a>&nbsp;|&nbsp;<a href="person_searchlist.php">人才管理</a>&nbsp;|&nbsp;<?php if(aflags($admin_flags,0,1)){?><a href="person_addresume.php">简历添加</a>&nbsp;|&nbsp;<?php }?><a href="person_resumelist.php">简历管理</a>&nbsp;|&nbsp;<a href="person_searchresume.php">人才查询</a>&nbsp;|&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>二级选项：</b><a href="person_resumelist.php?operate=0">待审简历</a> | <a href="person_resumelist.php?operate=1">已审简历</a> | <a href="person_resumelist.php?operate=2">未激活</a> |  <a href="person_resumelist.php?operate=3">已激活</a> | <a href="person_resumelist.php?operate=4">待审照片</a> | <a href="person_resumelist.php?operate=5">未公开简历</a> | <a href="person_resumelist.php?operate=6">普通人才</a> | <a href="person_resumelist.php?operate=7">毕业生</a> | <a href="person_resumelist.php?operate=8">高级人才</a></td>
+  </tr>
+</table>
+<table width="100%" border="0" align="center" cellpadding=2 cellspacing=1 class="tableBorder mt6">
+  <tr>
+    <th height=25 colspan="2">求职简历查询</th>
+  </tr>
+  <form name="form2" action="person_resumelist.php" method="POST">
+    <tr>
+    <td width="14%" align="right">人 才 类 型：</td>
+    <td width="86%"><input id="usergroup" type="radio" checked value="0" name="usergroup" />普通<input id="radUserGroup" type="radio" value="1" name="usergroup" />毕业生<input id="usergroup" type="radio" value="2" name="usergroup" />高级人才</td>
+  </tr>
+  <tr>
+    <td align="right">目前所在地：</td>
+    <td><input name="nowworkadd" type="hidden" id="nowworkadd" value="" /><input name="nowworkadds" type="text" onClick="JumpSearchLayer(5,'form2','nowworkadd','nowworkadds');" id="nowworkadds" value="选择希望工作地区" size="60" readonly /></td>
+  </tr>
+  <tr>
+    <td align="right">希望工作地区：</td>
+    <td><input name="workadd" type="hidden" id="workadd" value="" /><input name="workadds" type="text" onClick="JumpSearchLayer(5,'form2','workadd','workadds');" id="workadds" value="选择希望工作地区" size="60" readonly /></td>
+  </tr>
+  <tr>
+    <td align="right">希望行业类别：</td>
+    <td><input type="hidden" name="trade" id="trade" value="" ><input name="trades" type="text" onClick="JumpSearchLayer(4,'form2','trade','trades');" value="选择希望行业类别" size="60" readonly /></td>
+  </tr>
+  <tr>
+    <td align="right">希望工作岗位：</td>
+    <td><input type="hidden" name="position" id="position" value="" ><input name="positions" type="text" onClick="JumpSearchLayer(1,'form2','position','positions');" value="选择希望岗位类别" size="60" readonly /></td>
+  </tr>
+  <tr>
+    <td align="right">简历更新日期：</td>
+    <td><input type="hidden" id="datetime" name="datetime"><input type="text" id="datetimes" name="datetimes" value="选择日期" class="search_cases" onClick="JumpSearchDate('form2','datetimes','datetime');" readonly /></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;学 历 要 求： </td>
+    <td><select name="edu1" style="font-size:12px; width:100px; font-family:宋体" >
+                <option value="" selected>不限</option>
+                <?php echo getother('edu','e','e_id asc',0);?>
+                </select>
+              &nbsp;&nbsp;~&nbsp;&nbsp;
+              <select name="edu2" style="font-size:12px; width:100px; font-family:宋体" >
+                <option value="" selected>不限</option>
+                <?php echo getother('edu','e','e_id asc',0);?>
+                </select>
+              包含企业指定学历不限</td>
+  </tr>
+  <tr>
+    <td align="right">性 别 要 求：</td>
+    <td>
+<SELECT style="FONT-SIZE: 12px; WIDTH: 60px; FONT-FAMILY: 宋体" name=sex>
+<OPTION value=0 selected>不限</OPTION>
+<OPTION value=1>男性</OPTION>
+<OPTION value=2>女性</OPTION>
+</SELECT></td>
+  </tr>
+  <tr>
+    <td align="right">年 龄 要 求：</td>
+    <td>
+	<SELECT name=age1 size=1 id="age1" style="font-size:12px; width:100px; font-family:宋体">
+<OPTION value="" selected>不限</OPTION>
+<?php
+             	for($i=16;$i<=60;$i++){
+					echo "<option value=\"$i\">{$i}</option>\r\n";
+				}
+				?>
+</SELECT> ~ <select name=age2 size=1 id="age2" style="font-size:12px; width:100px; font-family:宋体">
+<option value="" selected>不限</option>
+<?php
+             	for($i=16;$i<=60;$i++){
+					echo "<option value=\"$i\">{$i}</option>\r\n";
+				}
+				?>
+</select>岁
+	</td>
+  </tr>
+  <tr>
+  <td>&nbsp;</td>
+    <td>　　　　　　
+      <INPUT name=btnSearch  type=submit class="inputs" id=submit1 value="开始搜索">
+    &nbsp;<INPUT name=reset1 type=reset class="inputs" id=reset1 value="取　消"></td>
+  </tr>
+  </form>
+</table>
+<div id="bodyly" style="position:absolute;top:0px;FILTER: alpha(opacity=80);background-color:#333; z-index:0;left:0px;display:none;"></div>
+<script language = "JavaScript" src="../js/getprovince.js"></script>
+<script language = "JavaScript" src="../js/gettrade.js"></script>
+<script language = "JavaScript" src="../js/getposition.js"></script>
+<script language = "JavaScript" src="../js/getprofession.js"></script>
+<script language="javascript" src="../js/jobjss.js"></script>
+<?php echo acopy();?>

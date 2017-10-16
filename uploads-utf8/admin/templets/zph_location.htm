@@ -1,0 +1,159 @@
+<?php
+echo ahead("招聘会场馆管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">招聘会场馆管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="zph_searchlist.php">管理首页</a> | <?php if(aflags($admin_flags,0,1)){?><a href="zph_searchlist.php?do=add">添加招聘会</a> | <?php }?><a href="zph_location.php">场馆管理</a> | <?php if(aflags($admin_flags,0,1)){?><a href="zph_location.php?do=add">添加场馆</a>&nbsp;|&nbsp;<?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php
+if($do=="add"||$do=="edit"){
+?>
+<script language="javascript">
+/* ======================================================================================
+下面的函数用来显示供用户添加标点的地图，其参数配制（请参照说明文档中的参数配制说明）：
+CID、tid、width、height、zoom、control等参数需要您在部署代码时设置好；而cityName、nid等参数将从网
+页表单中读取值；如果您传递了NID参数的值，地图中将显示此NID所代表的标点。                          
+====================================================================================== */
+  function initMap() {
+    var url = "../plus/map/proxy.php?api=template1000&CID=finereason&tid=tid1000&cityName=&nid="+document.getElementById("l_map").value+"&width=490&height=280&zoom=10&control=2";
+    document.getElementById("map").src = url;  
+  }
+/* ======================================================================================
+点击“提交”按钮运行此函数保存地图标点信息，其参数配制（请参照说明文档中的参数配制说明）：
+CID、tid、等参数需要您在部署代码时设置好；而name、nid、address、phone、cityName等参数将从网
+页表单中读取值；如果您传递了NID参数的值，将修改此NID代表的标点，而不添加新的标点。                          
+====================================================================================== */
+  function updateMap() {
+  	if (!map.getLatLon()) {
+  		alert("请先标注位置");
+  		return;
+    }	
+    var url = "../plus/map/proxy.php?api=poiUpdate&CID=finereason&tid=tid1000&nid="+document.getElementById("l_map").value+
+          "&name="+encodeURIComponent(document.getElementById("l_location").value)+
+          "&address="+encodeURIComponent(document.getElementById("l_address").value)+
+          "&phone="+encodeURIComponent(document.getElementById("l_tel").value)+
+          "&latLon="+map.getLatLon();
+		document.getElementById("mapSubmit").src = url;
+  }
+/* ======================================================================================
+点击“提交”按钮后，程序会自动调用setNid方法把自动生成的nid传进来，用户可以自己在方法里添加代码把nid保存起来                           
+====================================================================================== */
+  function setNid(nid) {
+    document.getElementById("l_map").value = nid;
+  }
+	</script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post">
+<input type="hidden" name="l_id" value="<?php echo $l_id;?>">
+<tr>
+    <th colspan=2 height=25><?php if($l_id!=''){echo '修改';}else{echo '添加';}?>场馆</th>
+</tr>
+<tr><td width="80" height="25" align="right">场馆名称：</td>
+<td><input maxlength="100" size="50" name="l_location" class="txt" value="<?php echo $l_location;?>" /></td></tr>
+<tr><td height="25" align="right">场馆地址：</td>
+<td><input maxlength="100" size="50" name="l_address" id="l_address" class="txt" value="<?php echo $l_address;?>" /> <input name="button" type="button" class="inputs" onclick="map.go2Search(document.getElementById('l_address').value);" value="在地图上匹配地址"/></td></tr>
+<tr><td height="25" align="right">地图标注：</td>
+<td><!-- ====================================================================================
+下面的两个IFRAME中，第一个用来显示地图供用户添加标点；第二个用来在“提交”后保存标点信息（不在网页中显示），
+===================================================================================== -->
+<iframe id="map" name="map" src="" width="510" height="320" frameborder="1" scrolling=no></iframe>
+<iframe id="mapSubmit" name="mapSubmit" src="" width=0 height=0 frameborder=0 scrolling=no></iframe><br /><input maxlength="50" size="50" name="l_map" class="txt" value="<?php echo $l_map;?>" readonly="readonly" /> <input type="button" name="submit" class="inputs" value="创建标注" onClick="updateMap()"/> <input type="button" name="remap" value="重载地图" class="inputs" onclick="initMap()"/></td></tr>
+<tr><td height="25" align="right">联系电话：</td>
+<td><input maxlength="100" size="50" name="l_tel" id="l_tel" value="<?php echo $l_tel;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">联系邮箱：</td>
+<td><input maxlength="100" size="50" name="l_email" id="l_email" value="<?php echo $l_email;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">乘车路线：</td>
+<td><input maxlength="100" size="50" name="l_bus" value="<?php echo $l_bus;?>" class="txt" /></td></tr>
+<?php if((aflags($admin_flags,2,1)&&$l_id!='')||(aflags($admin_flags,0,1)&&$l_id=='')){?><tr><td height="25" align="center" colspan="2"><input name="Submit" type="submit" class="inputs" value="<?php if($l_id!=''){echo ' 修 改 ';}else{echo ' 添 加 ';}?>"></td></tr><?php }?>
+</form>
+</table>
+<script language="javascript">
+initMap();
+</script>
+<?php }else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="form" action="zph_location.php" method="post">
+<tr>
+    <th colspan=7 height=25>场馆列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="40%">场馆名称</td> 
+    <td width="28%">场馆地址</td>
+    <td width="18%">联系电话</td>
+    <td width="5%">操作</td>
+    <td width="4%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center" onMouseOver="this.style.background='#FFFFCC'" onMouseOut="this.style.background='#EEF7FD'"> 
+    <td height=25><?php echo $rs["l_id"];?></td>
+    <td align="left"><a href="?do=edit&l_id=<?php echo $rs["l_id"];?>"><?php echo $rs["l_location"];?></a></td>
+    <td><?php echo $rs["l_address"];?></td>
+    <td><?php echo $rs["l_tel"];?></td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&l_id=<?php echo $rs["l_id"];?>">编辑</a><?php }else{echo "<font color=\"#666666\">编辑</font>";}?></td>
+    <td><input type="checkbox" name="l_id" value="<?php echo $rs["l_id"]; ?>" class="checkbox" /></td>
+</tr>
+<?php 
+}
+?>
+<?php if(aflags($admin_flags,3,1)){?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="l_ids" value="">
+    <input name="button" type="button" class="inputs" onClick="confirmX(1);" value=" 删除 "></td></tr>
+<?php }?>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("l_id");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form.l_ids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("l_id");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

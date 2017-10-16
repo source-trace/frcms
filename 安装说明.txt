@@ -1,0 +1,9 @@
+把 uploads 文件夹里面的内容上传到网站空间
+
+然后运行http://你的网址/install/
+
+按里面的步骤进行安装。
+
+
+演示地址：http://p.finereason.com
+技术论坛: http://bbs.finereason.com

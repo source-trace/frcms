@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="keywords" content="{$m_name}求职，个人简历，求职简历，职场风采，活动图片" />
+<meta name="description" content="{$m_name}的{$p_type}，{$c_description}" />
+<title>{$m_name}的{$p_type}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+window.onload=function()
+{ 
+	fResizeImg(600,600, 'perpic');  
+}
+function fResizeImg(w, h, id){     
+var img='';     
+var obj;     
+if(id==undefined)obj=document.images;     
+else obj=document.getElementById(id).getElementsByTagName('img');     
+	 
+for(var i=0; i<obj.length; i++){     
+	img=obj[i];     
+	if(img.width>w&&(img.height<img.width)){     
+		img.height=img.height-(img.height/(img.width/(img.width-w)))     
+		img.width=w;     
+	}else if(img.height>h&&(img.height>img.width)){     
+		img.width=img.width-(img.width/(img.height/(img.height-h)))     
+		img.height=h;     
+	}     
+		 
+	img.onclick=function(){     
+		try{ imgPopup.close();} catch(e){}     
+		imgPopup=open('#', 'imgurl', 'width=500, height=500, left='+(screen.availWidth-500)/2+     
+		', top='+(screen.availHeight-500)/2)     
+		imgPopup.document.write('<script>document.onclick=function(){ close();} /* 单击关闭窗口 */ <\/script>');     
+			 
+		imgPopup.document.write('<img src="'+this.src+'"/>'+     
+			'<script>'+     
+				'var w, h;'+     
+				'var img=document.images[0];'+     
+				'if(navigator.appName=="Opera"){w=img.width+10; h=img.height+40} else {w=img.width+10; h=img.height+25};'+     
+				'self.resizeTo(w, h);'+     
+				'self.moveTo((screen.availWidth-img.width)/2,(screen.availHeight-img.height)/2)'+     
+			'<\/script>'+     
+			'<style>body{margin:0; padding:0;} .hd{visibility:hidden;}<\/style>');     
+		imgPopup.document.write('<p class="hd">ok</p>');     
+		imgPopup.document.close();     
+		imgPopup.focus();     
+	}     
+}  
+}     
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> <a href="{$FR_系统目录}person/">个人求职</a> >> {$m_name}的{$p_type}</div>
+</div>
+<div class="container">
+	<div class="pers_left">
+		<div class="pers_jobs">
+			<div class="tit"><span></span>{$m_name}</div>
+			<div class="con"><li><img src="{$m_logo}" width="100" height="120" /></li>
+            	<li><b>性　　别：</b>{$m_sex}</li>
+				<li><b>出生日期：</b>{$m_birth}</li>
+				<li><b>最高学历：</b>{$m_edu}</li>
+				<li><b>现所在地：</b>{$m_seat}</li>
+             </div>
+		</div>
+        <div class="pers_hotjob">
+			<div class="tit"><span></span>推荐人才</div>
+			<div class="con">{$FR_推荐人才列表}</div>
+		</div>
+	</div>
+	<div class="pers_right">
+        <div class="pers_info">
+			<div class="tit"><span></span>{$m_name}的{$p_type}</div>
+			<div class="con">
+                <div class="perpic" id="perpic"><li style="text-align:center"><img src="{$pic}" width="700" /></li>
+                    <li>图片名称：{$p_name}</li>
+                    <li>图片描述：{$p_info}</li>
+                </div>
+                <div class="back">【<a href="javascript:window.close();">关闭窗口</a>】</div>
+            </div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

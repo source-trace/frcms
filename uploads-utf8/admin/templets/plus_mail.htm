@@ -1,0 +1,107 @@
+<?php
+echo ahead("邮件群发管理");
+?>
+<script charset="utf-8" src="../freditor/kindeditor.js"></script>
+<script>
+	KE.show({id : 'mailbody',width : "100%",height : "300px",resizeMode : 1,urlType : "domain",
+		afterCreate : function(id) {
+			KE.event.ctrl(document, 13, function() {
+				KE.util.setData(id);
+				document.forms['form'].submit();
+			});
+			KE.event.ctrl(KE.g[id].iframeDoc, 13, function() {
+				KE.util.setData(id);
+				document.forms['form'].submit();
+			});
+		}
+	});
+function insertText(labelstr)
+{
+	KE.insertHtml("mailbody", labelstr);
+}
+function check()
+{
+	if(document.form.mailsubject.value==""){
+		alert("请输入邮件标题!");
+		document.form.mailsubject.focus();
+		return (false);
+	}
+	if (document.form.mailbody.value=="") {   
+        alert("请输入邮件内容！");   
+        return false; 
+	}   
+}
+
+function insertmailsubject(labelstr)
+{
+document.form.mailsubject.focus();
+var sel=document.selection;
+if (sel!=null) 
+   {
+   var mg=sel.createRange();
+   if (mg!=null)
+        {
+        mg.text=labelstr;
+        }
+   }
+}
+function getmembertype(typeid)
+{
+	location.href='?typeid='+typeid;
+}
+</script>
+</head>
+<body>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form action="?do=send" method="post" name="form" onSubmit="return check();">
+<input type="hidden" name="members" value="<?php echo $members;?>">
+<tr>
+    <th colspan=2 height=25>邮件群发管理</th>
+</tr>
+<tr><td width="80" height="25" align="right">收件人：</td>
+<td><?php if($members==""){?><select name="mtype" onChange=getmembertype(this.options[this.selectedIndex].value)>
+		<option value="0">全部会员</option>
+		<?php for($m=1;$m<=4;$m++){?>
+		<option value="<?php echo $m;?>"
+        <?php if($typeid==$m) echo "selected"?>><?php echo $sysgroup[$m];?></option>
+		<?php }?>
+	    </select>
+		<select name="mtypes">
+		<option value="0" selected>全部会员</option>
+        <?php if($typeid!=0) echo agroup($typeid)?>
+		</select>
+		<select name="mdate">
+	    <option value="0">所有会员</option>
+	    <option value="1">一周未登录</option>
+	    <option value="2">30天未登录</option>
+	    <option value="3">一周内到期</option>
+	    <option value="4">30天内到期</option>
+        <option value="5">生日祝福</option>
+        <option value="6">周年贺电</option>
+	    </select>
+		<?php }else{
+        echo $members;
+        }?>
+</td></tr>
+	<tr>
+	  <td align="right">邮件主题：</td>
+	  <td><input name="mailsubject" type="text" size="50" />
+	  可选标签：<a style="cursor:hand" onClick="javascript:insertmailsubject('{$FR_会员用户名}');">会员用户名</a> | <a style="cursor:hand" onClick="javascript:insertmailsubject('{$FR_会员名称}');">会员名称</a></td>
+    </tr>
+<tr><td height="25" align="right">邮件内容：</td>
+<td><textarea name="mailbody" cols="80" rows="5"></textarea>
+      <br>可选标签：<a style="cursor:hand" onClick="javascript:insertText('{$FR_会员用户名}');">会员用户名</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_会员名称}');">会员名称</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站名称}');">网站名称</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站标题}')">网站标题</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站网址}')">网站网址</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_LOGO地址}')">LOGO地址</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站关键字}')">网站关键字</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站描述}')">网站描述</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系人}')">联系人</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系地址}')">联系地址</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系电话}')">联系电话</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系传真}')">联系传真</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_管理员名称}')">管理员名称</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_管理员邮箱}')">管理员邮箱</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_系统目录}')">系统目录</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_管理员目录}')">管理员目录</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_页尾导航}')">页尾导航</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站版权}')">网站版权</a></td></tr>
+<tr>
+	  <td align="right">发送速度：</td>
+	  <td><input name="mailsp" type="radio" value="1" checked />快速发送
+      <input name="mailsp" type="radio" value="0" />稳定发送 <font class="f00">注意：群发邮件时如果邮件服务器不支持群发，请选择稳定发送。</font></td>
+    </tr>
+<tr><td height="25" align="right">&nbsp;</td>
+<td><input name="submit1" type="submit" class="inputs" value=" 发 送 ">
+      <input name="Submit" type="reset" class="inputs" value=" 重 置 " />
+</td></tr>
+</form>
+</table>
+<?php
+echo acopy();
+?>

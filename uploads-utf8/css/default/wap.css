@@ -1,0 +1,8 @@
+body{margin:6px;line-height: 1.4em;}
+#logo{text-align:left;width:110px;}
+.tit{ height:22px; font-weight:bold;margin:5px auto; background-color:#06C; color:#FFFFFF;padding-left:10px;overflow:hidden; }
+.con{margin:0px auto;}
+#clr{clear: both;height:1px; line-height:1px}
+.line{height:2px;color:#06C}
+.conpage{margin:0px auto;height:26px; line-height:26px; text-align:center; background:#FFF;}
+.conpage li{display:inline}

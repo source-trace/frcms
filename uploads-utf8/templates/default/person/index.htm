@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+<script src="{$FR_系统目录}js/jquery.js" language="javascript"></script>
+<script src="{$cfg['path']}js/artDialog.min.js" language="javascript"></script>
+<script src="{$cfg['path']}js/frcmsmain.js" language="javascript"></script>
+</head>
+<script language="javascript">
+function show_t(id_num,maxs,num){
+	for(var i=1;i<=maxs;i++)
+	{
+		document.getElementById("mt"+id_num+i).className="tit_bg03"
+		document.getElementById("c"+id_num+i).style.display="none"
+	}
+	document.getElementById("mt"+id_num+num).className="tit_bg02";
+	document.getElementById("c"+id_num+num).style.display="block"
+}
+function check()
+{
+	if (document.loginform.login.value=="")
+	{
+		alert("请输入登录帐号");
+		document.loginform.login.focus;
+		return false;
+	}
+	if (document.loginform.pwd.value=="")
+	{
+		alert("请输入登录密码");
+		document.loginform.pwd.focus;
+		return false;
+	}
+}
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">
+    	<li><a href="{$FR_系统目录}more/newhire.php"><b>找工作</b></a></li>
+		<li><a href="{$FR_系统目录}more/newhire.php">最新职位</a></li>
+		<li><a href="{$FR_系统目录}more/commondhire.php">推荐职位</a></li>
+		<li><a href="{$FR_系统目录}hr/hr_hirelist.php">猎头职位</a></li>
+		<li><a href="{$FR_系统目录}more/newresume.php"><b>招人才</b></a></li>
+		<li><a href="{$FR_系统目录}more/newresume.php">最新人才</a></li>
+		<li><a href="{$FR_系统目录}more/commondresume.php">推荐人才</a></li>
+		<li><a href="{$FR_系统目录}more/photoresume.php">相片人才</a></li>
+		<li><a href="{$FR_系统目录}besthr/">高级人才</a></li>
+		<li><a href="{$FR_系统目录}sideline/">兼职人才</a></li>
+		<li><a href="{$FR_系统目录}article"><b>职场</b></a></li>
+		<li><a href="{$FR_系统目录}article/list.php?typeid=7">人事动态</a></li>
+		<li><a href="{$FR_系统目录}article/list.php?typeid=8">薪酬福利</a></li>
+		<li><a href="{$FR_系统目录}article/list.php?typeid=9">绩效考核</a></li>
+		<li><a href="{$FR_系统目录}article/list.php?typeid=10">职场测试</a></li>
+		<li><a href="{$FR_系统目录}article/list.php?typeid=15">创业培训</a></li>
+		<li><a href="{$FR_系统目录}article/list.php?typeid=16">疑难解答</a></li>
+    </div>
+</div>
+<div class="container">
+	<div class="main_login">
+    	<div class="tit"><span></span>会员登录</div>
+		<div class="con" id="member_center"></div>
+        <script language="javascript">{Get_login('{$FR_系统目录}logins.php?t=ajax&g_t=' + new Date().getTime());}</script>
+    </div>
+    <div class="main_search">
+    	<div class="tit"><span><script language="javascript" src="{$FR_系统目录}js/date.js"></script></span><div id="mt01" class="tit_bg02" onmouseover="show_t(0,2,1);">职位搜索</div><div id="mt02" class="tit_bg03" onmouseover="show_t(0,2,2);">人才搜索</div></div>
+		<div class="con">
+        	<div id="c01" style="display:none"><table width="100%" border="0" cellspacing="0" cellpadding="2">
+            <form name="hiresearch" action="{$FR_系统目录}search/hire_searchresult.php" method="post" target="_blank">
+              <tr>
+                <td>行　业：<input type="hidden" value="" name="trade"><input type="text" name="trades" value="选择行业类别" class="search_case" onclick="JumpSearchLayers(2,0,4,'hiresearch','trades','trade');" readonly /></td>
+                <td>岗　位：<input type="hidden" value="" name="position"><input type="text" name="positions" value="选择岗位分类" class="search_case" onclick="JumpSearchLayers(0,0,1,'hiresearch','positions','position');" readonly /></td>
+              </tr>
+              <tr>
+                <td>工作地：<input type="hidden" value="" name="workadd"><input type="text" name="workadds" value="选择工作地点" class="search_case" onclick="JumpSearchLayers(0,0,2,'hiresearch','workadds','workadd');" readonly /></td>
+                <td>日　期：<input type="hidden" value="" name="datetime"><input type="text" name="datetimes" value="选择发布日期" class="search_case" onclick="JumpSearchDate('hiresearch','datetimes','datetime');" readonly /></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                <div class="searchinput">
+                <input name="keyword" type="text" class="inputkey" onblur="if(this.value=='') this.value='请输入搜索的关键词！';" onfocus="if(this.value=='请输入搜索的关键词！') this.value='';" value="请输入搜索的关键词！" /><input type="submit" name="submits" value="" class="searchsub" />
+                 </div>
+                </td>
+                </tr>
+              <tr>
+                <td colspan="2"><div class="searchkey"><li class="but" style="font-weight:bold; color:#F00;"><span> </span>热门关键词：</li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=计算机软件" target="_blank">计算机软件</a></li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=销售行政及商务" target="_blank">销售行政及商务</a></li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=互联网开发及应用" target="_blank">互联网开发及应用</a></li>
+                <li><a href="{$FR_系统目录}search/hire_searchresult.php?keyword=IT管理" target="_blank">IT管理</a></li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=IT品管/技术支持" target="_blank">IT品管/技术支持</a></li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=通信技术" target="_blank">通信技术</a></li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=销售管理" target="_blank">销售管理</a></li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=销售人员" target="_blank">销售人员</a></li>
+                <li>　<a href="{$FR_系统目录}search/hire_searchresult.php?keyword=设计师" target="_blank">设计师</a></li>
+                </div>
+                <div class="searchkeyd">谁在使用我们的服务</div></td>
+                </tr>
+              </form>
+            </table>
+            </div>
+            <div id="c02"><table width="100%" border="0" cellspacing="0" cellpadding="2">
+            <form name="resumesearch" action="{$FR_系统目录}search/resume_searchresult.php" method="post" target="_blank">
+              <tr>
+                <td>专　业：<input type="hidden" value="" name="profession"><input type="text" name="professions" value="选择专业类别" class="search_case" onclick="JumpSearchLayers(0,0,5,'resumesearch','professions','profession');" readonly /></td>
+                <td>岗　位：<input type="hidden" value="" name="position"><input type="text" name="positions" value="选择岗位分类" class="search_case" onclick="JumpSearchLayers(0,0,1,'resumesearch','positions','position');" readonly /></td>
+              </tr>
+              <tr>
+                <td>工作地：<input type="hidden" value="" name="workadd"><input type="text" name="workadds" value="选择工作地点" class="search_case" onclick="JumpSearchLayers(0,0,2,'resumesearch','workadds','workadd');" readonly /></td>
+                <td>日　期：<input type="hidden" value="" name="datetime"><input type="text" name="datetimes" value="选择发布日期" class="search_case" onclick="JumpSearchDate('resumesearch','datetimes','datetime');" readonly /></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                <div class="searchinput">
+                <input name="keyword" type="text" class="inputkey" onblur="if(this.value=='') this.value='请输入搜索的关键词！';" onfocus="if(this.value=='请输入搜索的关键词！') this.value='';" value="请输入搜索的关键词！" /><input type="submit" name="submits" value="" class="searchsub" />
+                 </div>
+                </td>
+                </tr>
+              <tr>
+                <td colspan="2"><div class="searchkey"><li class="but" style="font-weight:bold; color:#F00;"><span> </span>热门关键词：</li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=计算机软件" target="_blank">计算机软件</a></li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=销售行政及商务" target="_blank">销售行政及商务</a></li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=互联网开发及应用" target="_blank">互联网开发及应用</a></li>
+                <li><a href="{$FR_系统目录}search/resume_searchresult.php?keyword=IT管理" target="_blank">IT管理</a></li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=IT品管/技术支持" target="_blank">IT品管/技术支持</a></li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=通信技术" target="_blank">通信技术</a></li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=销售管理" target="_blank">销售管理</a></li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=销售人员" target="_blank">销售人员</a></li>
+                <li>　<a href="{$FR_系统目录}search/resume_searchresult.php?keyword=设计师" target="_blank">设计师</a></li>
+                </div>
+                <div class="searchkeyd">谁在使用我们的服务</div></td>
+                </tr>
+              </form>
+            </table></div>
+        </div>
+    </div>
+    <div class="main_regs">
+    	<div class="tit"><span></span>您还没有注册？</div>
+		<div class="con">
+            <ul><li>· 为个人会员提供免费、快捷、高效、可靠的网上求职服务！</li>
+			<li>· 日益扩充的职位库供个人会员随时查询、筛选合适的职位！</li>
+			<li>· 强大的职位搜索引擎在几秒内便能帮助个人会员搜索出符合要求的工作岗位！	</li>	
+			<li>· <font color="#FF0000">客服专员：{$FR_联系人}</font>  ·<font color="#FF0000">客服专线：{$FR_联系电话}</font></li>
+			<li>  <a href="/guestbook"><font color="#FF0000">在线投诉、意见反馈</a></font></li>
+			</ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+	<div class="per_vipjob">
+		<div class="tit"><span></span>推荐名企招聘</div>
+		<div class="con">{$FR_推荐名企招聘}</div>
+	</div>
+	<div class="main_hothire">
+    	<div class="tit"><span>更多>></span><div class="tit_bg01">热点企业招聘</div></div>
+		<div class="con">{$FR_热点企业招聘}</div>
+    </div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+{$FR_搜索弹出层}
+</body>
+</html>
+<script language="javascript" src="{$FR_系统目录}js/searchjs.js"></script>

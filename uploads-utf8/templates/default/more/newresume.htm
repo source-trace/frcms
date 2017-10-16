@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<title>{$TitProvinceName}{$TitPosionName}最新人才信息-{$FR_网站标题}</title>
+<meta name="keywords" content="{$TitProvinceName},{$TitPosionName},招聘,最新人才,{$TitProvinceName}人才" />
+<meta name="description" content="{$FR_网站名称}为您提供{$TitProvinceName}{$TitPosionName}最新人才信息" />
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+function confirmX(num){
+	var ids = document.getElementsByName("id");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			if (obj.checked==true){
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.checks.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1){
+		document.form.action="../member/index.php?a=search&mpage=company_interviewsend&show=1";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	if(num==2){
+		document.form.action="../member/index.php?do=myexpert&mpage=company_myexpert&show=1";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("id");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 人才中心 >> {$TitProvinceName}{$TitPosionName}最新人才信息</div>
+</div>
+<div class="container">
+	<div class="moretop">
+		<div class="tit"><span></span>快速查询人才信息</div>
+		<div class="con">
+            {if $workadd!=''}
+                {if strlen($workadd)>4}
+                    {php $widl=intval(substr($workadd,0,4));}
+                    {if strlen($workadd)>9}
+                        {php $widr=substr($workadd,0,9);}
+                    {else}
+                        {php $widr=$workadd;}
+                    {/if}
+                    {php $wid=$widr;}
+                {else}
+                    {php $widl=intval($workadd);}
+                    {php $wid=$widl;}
+                {/if}
+            {else}
+                {php $wid=0;}
+            {/if}
+        	<div style="width:100%; height:30px; line-height:30px; font-size:14px;">
+            <b><a href="?position={$position}">选择地区</a>{if $wid==0} > 全国{php $wtemp="全国";}
+            {/if}
+            {if $widl!=''} > <a href="newresume.php?position={$position}&workadd={$widl}">{CSysName($widl,'provinceandcity','p')}</a>
+            {php $wtemp.=CSysName($widl,'provinceandcity','p');}
+            {/if}
+            {if $widr!=''}
+             > {CSysName($widr,'provinceandcity','p')}
+             {php $wtemp.=CSysName($widr,'provinceandcity','p');}
+             {/if}
+            </b></div>
+            <div class=provincelist>{GetProvinceList("newresume.php?position=$position",100,"p_order asc","",$wid)}</div>
+            <!--{if $position!=''}-->
+                <!--{if strlen($position)>4}-->
+                    <!--{php $pidl=intval(substr($position,0,4));}-->
+                    <!--{php $pidr=intval(substr($position,-4));}-->
+                    <!--{php $pid=$pidl;}-->
+                <!--{else}-->
+                    <!--{php $pidl=intval($position);}-->
+                    <!--{php $pid=$pidl;}-->
+                <!--{/if}-->
+            <!--{else}-->
+                <!--{php $pid=0;}-->
+            <!--{/if}-->
+            <div style="width:100%; height:30px; line-height:30px; font-size:14px;"><b><a href="newresume.php?workadd={$workadd}">选择职位</a>
+            {if $pid==0} > 请选择{/if}
+            {if $pidl!=''} > <a href="newresume.php?workadd={$workadd}&position={$pidl}">{CSysName($pidl,'position','p')}</a>
+            {php $ptemp=CSysName($pidl,'position','p');}
+            {/if}
+            {if $pidr!=''}
+            > {CSysName($pidr,'position','p')}
+            {php $ptemp.=CSysName($pidr,'position','p');}
+            {/if}
+            </b></div>
+            <div class=poistionlist>{GetPoistionList("newresume.php?workadd=$workadd",100,"p_order asc","",$pid)}</div>
+		</div>
+	</div>
+	<div class="moremain">
+		<div class="tit"><span></span><a href="newresume.php">最新人才</a> | <a href="commondresume.php">精英人才</a> | <a href="photoresume.php">相片人才</a> | <a href="newresume.php?jobtype=2">兼职人才</a> | <a href="newresume.php?usergroup=0">普通人才</a> | <a href="newresume.php?usergroup=1">毕业生</a> | <a href="newresume.php?usergroup=2">高级人才</a></div>
+		<div class="con"><table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="moretab">
+          <form name="form" action="?position={$position}&workadd={$workadd}&numberss={$numbers}&taxiss={$taxiss}&usergroup={$usergroup}&page={$page}" method="post">
+            {$newresumelist}
+            <tr class="moretabpage">
+              <td height="21" colspan="9"><div class="moretabdiv"><input type="hidden" name="checks" value="">每页显示<select name="numbers" size="1" style="z-index:0" onchange="javascript:window.location='{joinchar($strfilename)}numbers='+this.options[this.selectedIndex].value;">
+        <option value="10" {if $numbers==10}selected{/if}>10条</option>
+        <option value="20" {if $numbers==20}selected{/if}>20条</option>
+        <option value="50" {if $numbers==50}selected{/if}>50条</option>
+        </select>
+        <select name="taxis" size="1" onchange="javascript:window.location='{joinchar($strfilename)}taxis='+this.options[this.selectedIndex].value;">
+        <option value="1" {if $taxis==1}selected{/if}>按更新时间降序</option>
+        <option value="2" {if $taxis==2}selected{/if}>按更新时间升序</option>
+        <option value="3" {if $taxis==3}selected{/if}>按关注度排序</option>
+        </select>
+        <input name="Input2" type="button" value="发送面试邀请" class="inputs" onClick="confirmX(1);" /> 
+			<input name="Input3" type="button" value="放入人才库" class="inputs" onClick="confirmX(2);" />  </div>{$getpageinfo['pagecode']}</td>
+            </tr>
+            </form>
+          </table>
+      </div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

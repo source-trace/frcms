@@ -1,0 +1,29 @@
+<?php
+echo ahead("网站模板管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网站模板管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>提示信息：</b>模版文件位于<?php echo "templates/{$cfg['template']}"?>目录下，新制作的模版方案请直接上传至templates目录！</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="template_main.php?do=add">添加网站模板</a> | <a href="template_main.php">网站模板管理</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=8 height=25>网站模版列表</th>
+</tr>
+<tr align="center"> 
+	<td width="80%" height="22">目录名/文件名</td>
+	<td width="20%">占用空间大小</td>
+</tr>
+<?php echo $dirlist;?>
+</table>
+<?php
+echo acopy();
+?>

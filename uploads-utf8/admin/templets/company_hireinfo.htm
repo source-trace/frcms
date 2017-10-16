@@ -1,0 +1,115 @@
+<?php
+echo ahead("查看职位信息");
+?>
+</head>
+<body>
+<table width="200" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25" class="tableHeaderText" colspan="2"> 查看职位信息 </th>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" class="style1"><strong> 　职位描述：</strong></td>
+  </tr>
+  <tr>
+    <td width="120" align="right">招聘类型：</td>
+    <td><?php echo hiretype($h_type);?></td>
+  </tr>
+  <tr>
+    <td align="right">职位名称：</td>
+    <td><?php echo $h_place;?></td>
+  </tr>
+  <tr>
+    <td align="right">招聘部门：</td>
+    <td><?php echo $h_dept;?></td>
+  </tr>
+  <tr>
+    <td align="right">岗位类别：</td>
+    <td><?php echo xreplace($h_position,0,1);?></td>
+  </tr>
+  <tr>
+    <td align="right">工作地区：</td>
+    <td><?php echo xreplace($h_workadd);?></td>
+  </tr>
+  <tr>
+    <td align="right">招聘人数：</td>
+    <td><?php echo hirenumber($h_number);?></td>
+  </tr>
+  <tr>
+    <td align="right">薪资待遇：</td>
+    <td><?php echo hirepay($h_pay);?></td>
+  </tr>
+  <tr>
+    <td align="right">截止日期：</td>
+    <td><?php echo $h_enddate;?></td>
+  </tr>
+  <tr>
+    <td align="right">具体要求：</td>
+    <td style="white-space:normal;word-break:break-all; overflow:hidden"><?php echo $h_introduce;?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" class="style1"><strong> 　对应聘者的要求：</strong></td>
+  </tr>
+  <tr>
+    <td align="right">人才类型：</td>
+    <td><?php if($h_usergroup==1){echo "毕业生";}
+    elseif($h_usergroup==2) {echo "高级人才";}
+    else{echo "普通人才";}
+    ?></td>
+  </tr>
+  <tr>
+    <td align="right">专业要求：</td>
+    <td><?php echo xreplace($h_profession);?></td>
+  </tr>
+  <tr>
+    <td align="right">学历要求：</td>
+    <td><?php echo hireedu($h_edu);?></td>
+  </tr>
+  <tr>
+    <td align="right">工作经验：</td>
+    <td><?php echo hireexperience($h_experience);?></td>
+  </tr>
+  <tr>
+    <td align="right">性别：</td>
+    <td><?php echo hiresex($h_sex);?></td>
+  </tr>
+  <tr>
+    <td align="right">年龄：</td>
+    <td><?php if($h_age1!=0) echo $h_age1;
+              if($h_age2!=0) echo "～".$h_age2;?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" class="style1"><strong> 　公司联系方式：</strong></td>
+  </tr>
+  <tr>
+    <td align="right">公司名称：</td>
+    <td><?php echo $h_comname;?></td>
+  </tr>
+  <tr>
+    <td align="right">通讯地址：</td>
+    <td><?php echo $h_address;?></td>
+  </tr>
+  <tr>
+    <td align="right">邮编：</td>
+    <td><?php echo $h_post;?></td>
+  </tr>
+  <tr>
+    <td align="right">联系人：</td>
+    <td><?php echo $h_contact;?></td>
+  </tr>
+  <tr>
+    <td align="right">联系电话：</td>
+    <td><?php echo $h_tel;?></td>
+  </tr>
+  <tr>
+    <td align="right">传真：</td>
+    <td><?php echo $h_fax;?></td>
+  </tr>
+  <tr>
+    <td align="right">电子邮件：</td>
+    <td><?php echo $h_email;?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><input name="Submit3" type="button" class="inputs" id="Submit3" style="cursor:hand" onClick="javascript:window.close();" value="关 闭" /></td>
+  </tr>
+</table>
+<?php echo acopy();?>

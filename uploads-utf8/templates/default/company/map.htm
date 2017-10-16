@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$m_name}电子地图，{$m_seat}招聘，{$c_keywords}" />
+<meta name="description" content="{$m_name}电子地图，{$c_description}" />
+<title>{$m_name}电子地图-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> <a href="{$FR_系统目录}company/">企业招聘</a> >> {$m_name}电子地图</div>
+</div>
+<div class="container">
+	<div class="coms_left">
+		<div class="coms_infos">
+			<div class="tit"><span></span>{$m_name}</div>
+			<div class="con"><li><b>所属行业：</b>{$m_trade}</li>
+				<li><b>所在地区：</b>{$m_seat}</li>
+				<li><b>公司性质：</b>{$m_ecoclass}</li>
+				<li><b>成立日期：</b>{$m_founddate}</li>
+				<li><b>注册资金：</b>{$m_fund}万元</li>
+				<li><b>公司规模：</b>{$m_workers}</li>
+                <li class="comrzfw">{$g_name}</li>
+                <li class="comrzzz">{$m_confirm}</li>
+             </div>
+		</div>
+        <div class="coms_jobs">
+			<div class="tit"><span></span>招聘职位</div>
+			<div class="con">{getcomhirelist($m_id,0)}</div>
+		</div>
+	</div>
+	<div class="coms_right">
+        <div class="coms_info">
+			<div class="tit"><span></span>{$m_name}电子地图</div>
+			<div class="con"><iframe width="730px" height="500px" scrolling="no" border="0" frameborder="0" src="{membermap($m_map,730,500)}"></iframe>
+            <div class="back">【<a href="{$FR_系统目录}company/company.php?comid={$m_id}">返回企业招聘主页</a>】【<a href="{$FR_系统目录}company/hires.php?comid={$m_id}">返回职位列表页</a>】</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

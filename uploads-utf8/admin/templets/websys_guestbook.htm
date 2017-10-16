@@ -1,0 +1,175 @@
+<?php
+echo ahead("网站留言管理");
+if($do=="show"){
+?>
+<script charset="utf-8" src="../freditor/kindeditor.js"></script>
+<script>
+	KE.show({id : 'content',width : "100%",height : "300px",resizeMode : 1,urlType : "absolute",
+		afterCreate : function(id) {
+			KE.event.ctrl(document, 13, function() {
+				KE.util.setData(id);
+				document.forms['form'].submit();
+			});
+			KE.event.ctrl(KE.g[id].iframeDoc, 13, function() {
+				KE.util.setData(id);
+				document.forms['form'].submit();
+			});
+		}
+	});
+function check()
+{
+	if (document.form.content.value=="") {   
+        alert("请输入回复内容！");   
+        return false; 
+	}   
+}
+</script>
+<?php }?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网站留言管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>提示信息：</b></td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20">如果留言信息不想前台显示，则设置状态为屏蔽中。给网站的留言默认状态可在“网站信息配置”中设置，给会员的留言默认为屏蔽中。<br />
+回复用户留言时，回复信息系统将自动的发送邮件到用户的邮箱！ 操作时请完整填写表单信息。</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="websys_guestbook.php">网站全部留言</a> | <a href="websys_guestbook.php?tid=0">站点留言管理</a> | <a href="websys_guestbook.php?tid=1">个人留言管理</a> | <a href="websys_guestbook.php?tid=2">企业留言管理</a> | <a href="websys_guestbook.php?tid=3">院校留言管理</a> | <a href="websys_guestbook.php?tid=4">培训留言管理</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>二级选项：</b><a href="websys_guestbook.php?tid=<?php echo $tid;?>&a=1">已回复</a> | <a href="websys_guestbook.php?tid=<?php echo $tid;?>&a=0">未回复</a> | <a href="websys_guestbook.php?tid=<?php echo $tid;?>&p=1">已审核</a> | <a href="websys_guestbook.php?tid=<?php echo $tid;?>&p=0">屏蔽中</a></td>
+  </tr>
+  <tr><form name="searchForm" action="?tid=<?php echo $tid;?>&a=<?php echo $a;?>&p=<?php echo $p;?>" method="post">
+    <td height=25 class="pl20"><b>操作选项：</b>搜索关键字：<input name="keywords" type="text" class="txt" value="<?php echo $keywords;?>">&nbsp;<input name="submit" type="submit" class="inputs" id=submit value="立刻查找"></td></form>
+  </tr>
+</table>
+<?php
+if($do=="show"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=4 height=25>查看留言内容</th>
+</tr>
+<tr><td width="100" height="25" align="right">留言人：</td>
+<td width="160"><?php echo $username;?></td>
+<td width="200" align="left">留言时间：<?php echo $addtime;?></td>
+<td align="center"><a href="#reply">回复</a> <?php if(aflags($admin_flags,3,1)){?><a href="javascript:if(confirm('确定要删除吗?'))location.href='?do=del&gids=<?php echo $gid;?>&tid=<?php echo $tid;?>&a=<?php echo $a;?>&p=<?php echo $p;?>&page=<?php echo $page;?>'">删除</a><?php }?></td>
+</tr>
+<tr><td height="25" align="right">留言主题：</td>
+<td colspan="3"><?php echo $title;?></td>
+</tr>
+<tr>
+    <td height="25" align="right">留言内容：</td>
+    <td colspan="3"><?php echo $content;?></td>
+</tr>
+<tr>
+    <th colspan=4 height=25>留言回复列表</th>
+</tr>
+<?php echo $rblist;?>
+<?php if(aflags($admin_flags,1,1)){?>
+<tr>
+    <th colspan=4 height=25>回复<a name="reply"></a></th>
+</tr>
+<form name="form" action="?do=savedata&gid=<?php echo $gid;?>&tid=<?php echo $tid;?>&a=<?php echo $a;?>&p=<?php echo $p;?>&page=<?php echo $page;?>" method="post" onSubmit="return check();">
+<tr>
+    <td height="25" align="right">新回复：<input type="hidden" name="rid" value="<?php echo $rid;?>"></td>
+    <td colspan="3"><textarea name="content" cols="60" rows="10" class="txt"><?php echo $rcontent;?></textarea></td>
+</tr>
+<tr>
+    <td height="25" align="right"> 　</td>
+    <td colspan="3"><input type="submit" name="button2" id="button" value=" 保 存 " class="inputs"> <input type="button" name="button2" id="button" value=" 返 回 " class="inputs" onClick="window.history.go(-1);">
+    </td>
+</tr>
+<?php }?>
+</form>
+</table>
+<?php }else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form" action="?" method="post">
+<tr>
+    <th colspan=7 height=25>留言列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="38%">留言主题</td> 
+    <td width="18%">留言时间</td>
+    <td width="12%">用户名/昵称</td>
+    <td width="12%">状态</td>
+    <td width="10%">操作</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php echo $gblist;?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="gids" value="">
+<input type="hidden" name="tid" value="<?php echo $tid;?>">
+<input type="hidden" name="a" value="<?php echo $a;?>">
+<input type="hidden" name="p" value="<?php echo $p;?>">
+    <?php if(aflags($admin_flags,1,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(1);" value="审核"> 
+      <input name="button" type="button" class="inputs" onClick="confirmX(2);" value="屏蔽">
+      <?php }
+      if(aflags($admin_flags,3,1)){?>
+      <input name="button" type="button" class="inputs" onClick="confirmX(3);" value=" 删除 ">
+      <?php }?></td></tr>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("gid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form.gids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=comm";
+		document.form.submit();		
+	}
+	if(num==2)
+	{
+		document.form.action="?do=uncomm";
+		document.form.submit();		
+	}
+	if(num==3)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("gid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

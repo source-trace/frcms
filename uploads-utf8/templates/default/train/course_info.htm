@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">
+    <ul>
+      <li> </li>
+      <li> </li>
+      <li> </li>
+      <li> </li>
+	</ul>
+</div>
+</div>
+
+<div class="container">
+	<div class="schtop">
+		<div class="schname">{$m_name}<img src='/skin/system/group0.gif' alt='{$g_name}' /></div>
+		<div class="schurl" style="padding-left:120px;">{$m_url}</div>
+        </div>
+
+	</div>
+</div>
+
+
+<div class="container mtop">
+	
+		<div class="tras_left">
+        	<ul>
+			<li><a href="/train/train_view.php?tid={$m_id}">机构概况</a></li>
+			<li><a href="/train/teachers_info.php?tid={$m_id}">师资力量</a></li>
+			<li><a href="/train/achievement_info.php?tid={$m_id}">主要业绩</a></li>
+			<li><a href="/train/course_more.php?tid={$m_id}">培训课程</a></li>
+			<li><a href="/train/trainer_more.php?tid={$m_id}">培训师</a></li>
+			<li><a href="/train/contact.php?tid={$m_id}">联系方式</a></li>
+            </ul>
+		</div>
+	
+		<div class="tras_right sch_info">    
+    			<div class="tit"><span></span>培训课程详细信息</div>
+                <div class="con1">
+               
+               
+               
+               
+               <table border="0" cellspacing="1" cellpadding="4" width="100%" bgcolor="#cccccc" height="574">
+  <tbody>
+    <tr>
+      <td bgcolor="#eefaff" width="15%" align="right">课程名称：</td>
+      <td bgcolor="#ffffff" width="35%">{$c_name}</td>
+      <td bgcolor="#ffffff" rowspan="12" colspan="2" align="middle"><a href="/train/signup.php?cid={$c_id}&amp;ctit={$c_name}&tid={$m_id}" target="_blank">在线报名</a></td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">课程类别:</td>
+      <td bgcolor="#ffffff">{$c_type}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">培训对象:</td>
+      <td bgcolor="#ffffff">{$c_object}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">培训目的:</td>
+      <td bgcolor="#ffffff">{$c_aim}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">可获证书:</td>
+      <td bgcolor="#ffffff">{$c_certificate}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">总学时:</td>
+      <td bgcolor="#ffffff">{$c_period}课时</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">培训费用:</td>
+      <td bgcolor="#ffffff">{$c_fee}元</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">培训机构:</td>
+      <td bgcolor="#ffffff"><a href="/train/train_view.asp?tid={$c_tid}" target="_blank">{$c_train}</a></td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">开课时间:</td>
+      <td bgcolor="#ffffff">{$c_begin}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">上课地点:</td>
+      <td bgcolor="#ffffff">{$c_schoolroom} </td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">上课时间:<br /></td>
+      <td bgcolor="#ffffff">{$c_schooltime} </td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">主讲人:</td>
+      <td bgcolor="#ffffff">{$c_trainer}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">详细地址:</td>
+      <td bgcolor="#ffffff">{$c_address}   </td>
+      <td bgcolor="#eefaff" width="15%" align="right">报名电话:</td>
+      <td bgcolor="#ffffff" width="35%">{$c_tel}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">传真号码:</td>
+      <td bgcolor="#ffffff">{$c_fax}</td>
+      <td bgcolor="#eefaff" align="right">电子邮箱:</td>
+      <td bgcolor="#ffffff">{$c_email}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" height="148" align="right">课程介绍:</td>
+      <td bgcolor="#ffffff" colspan="3">{$c_introduce}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" colspan="4" align="middle"><a href="/train/signup.php?cid={$c_id}&amp;ctit={$c_name}&tid={$m_id}" target="_blank">在线报名</a> <a href="javascript:window.close();">关闭窗口</a></td>
+    </tr>
+  </tbody>
+</table>
+
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+    			</div>
+    	</div>
+    
+</div>
+
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

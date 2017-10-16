@@ -1,0 +1,418 @@
+<?php
+echo ahead("猎头服务管理");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/sms.js"></script>
+</head>
+<body><br />
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+ 
+  <tr>
+    <th height="25">猎头职位管理</th>
+  </tr>
+  <tr>
+  <td height=25 ><strong>管理选项</strong>：<a href="hr_zw.php">管理首页</a> | <?php if(aflags($admin_flags,0,1)){?><a href="hr_zw.php?do=add">猎头职位添加</a> | <?php }?><a href="hr_zw.php">猎头职位管理</a> | <a href="hr.php">猎头服务设置</a> [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  
+  <form action="hr_zw.php" method="post">
+    <tr height="25" > 
+      <td align="left">
+          &nbsp;&nbsp;&nbsp;关键字： 
+        <input name="search" type="text" id="search" size="10" value="<?php echo $search;?>">
+          <select name="segment" size="1" id="segment">
+            <option value="hire_place" <?php if($segment=='hire_place') echo 'selected="selected"' ?>>职位名称</option>
+            <option value="hire_comname" <?php if($segment=='hire_comname') echo 'selected="selected"' ?>>公司名称</option>
+          </select>
+          <input name="Submit" type="submit" class="inputs" value="搜索">     </td>
+    </tr>
+  </form>
+</table>
+
+<?php
+if($do=="add"||$do=="edit"){
+?>
+
+<script language="javascript">
+<!--
+function CheckZwForm(thisform)
+{
+if (thisform.coname.value == "")
+{
+alert("公司名称不能为空");
+thisform.coname.focus();
+return false;
+}
+if (thisform.comtype.value == "")
+{
+alert("公司性质不能为空");
+thisform.comtype.focus();
+return false;
+}
+if (thisform.job.value == "")
+{
+alert("招聘职位不能为空");
+thisform.job.focus();
+return false;
+}
+if (thisform.jobtype.value == "")
+{
+alert("岗位类别不能为空");
+thisform.jobtype.focus();
+return false;
+}
+if (thisform.gzdd.value == "")
+{
+alert("工作地点不能为空");
+thisform.gzdd.focus();
+return false;
+}
+if (thisform.pname.value == "")
+{
+alert("联系人不能为空");
+thisform.pname.focus();
+return false;
+}
+if (thisform.tel.value == "")
+{
+alert("联系电话不能为空");
+thisform.tel.focus();
+return false;
+}
+if (thisform.email.value == "")
+{
+alert("联系邮箱不能为空");
+thisform.email.focus();
+return false;
+}
+if (thisform.addr.value == "")
+{
+alert("联系地址不能为空");
+thisform.addr.focus();
+return false;
+}
+}
+--></script>
+
+<script language="javascript" src="/js/calendar.js" type="text/javascript"></script>
+
+
+
+
+
+<br>
+<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="1" class="tableBorder">
+<form method="POST" action="hr_zw.php?do=savedata" name="addform" onSubmit="return CheckZwForm(this)">
+  <tr>
+    <th height="25" colspan="2">高级猎头职位信息添加</th>
+  </tr>
+    <tr>
+      <td  height="25" valign="top" bgcolor="#efefef" class="amtd" colspan="2"><font color="#000080"><b>高级猎头企业基本资料</b></font>　</td>
+    </tr>
+  <tr>
+	<td width="19%"  height="25" align="right">公司名称：</td>
+	<td width="81%"  height="18" align="left">
+	  <input name="cname" type="text" class="f11" id="cname" size="40" value="<?php echo $h_cname;?>" />
+	<font color=#ff0000> *</font></td>
+  </tr>
+  <tr>
+	<td  height="25" align="right">企业性质：</td>
+	<td  height="2" align="left">
+    <select name="comtype" class="txt" id="comtype">
+	  <option>请选择</option>
+	   <?php echo getother('ecoclass','e','e_id asc',$h_comtype,1);?>
+	</select></td>
+  </tr>
+    <tr>
+      <td  height="25" bgcolor="#efefef" class="amtd" colspan="2"><font color="#000080"><b>高级猎头职位信息</b></font></td>
+    </tr>
+	  <tr>
+		<td width="19%"  height="25" align="right">招聘职位：</td>
+		<td width="81%"  height="25" align="left">
+		  <input type="text" size="25" name="job" value="<?php echo $h_job;?>" />
+	    <font color=#ff0000> *</font></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">岗位类别：</td>
+		<td  height="25" align="left">
+		<font color=#ff0000> 
+	<select name="gangwei" id="gangwei">
+	<option>请在以下列表中选择</option>
+	   <?php echo getposition(0,$h_gangwei);?>		
+	</select>
+	*</font></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">招聘人数：</td>
+		<td  height="25" align="left">
+        <select name="cnum">
+		
+        <?php for($i=1;$i<200;$i++){?>	
+		<option value="<?php echo $i ?>" <?php if($h_cnum==$i){ echo "selected='selected'"; } ?>><?php echo $i;?></option>
+		<?php }?>	
+        
+		  </select>
+		  人</td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">工作性质：</td>
+		<td  height="25" align="left">
+		  <SELECT  name='jobtype' style="border:1px solid #000080; ">
+			<option value="全职" <?php if($h_jobtype=='全职'){ echo "selected='selected'"; }?> >全职</option>
+			<option value="兼职" <?php if($h_jobtype=='兼职'){ echo "selected='selected'"; }?>>兼职</option>
+			<option value="均可" <?php if($h_jobtype=='均可'){ echo "selected='selected'"; }?>>均可</option>
+		  </SELECT>
+		  <font color=#ff0000>&nbsp; </font></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">工作地点：</td>
+		<td  height="25" align="left"><input name="workadd" type="text" id="workadd" size="19"  value="<?php echo $h_workadd ?>" /></td>
+	  </tr>
+	  <tr>
+	    <td  height="25" align="right">截止日期：</td>
+	    <td  height="25" align="left"><input name="enddate" type="text" id="enddate" size="19"  value="<?php echo $h_enddate ?>"  onFocus="ShowCalendar(this.id)" onClick="ShowCalendar(this.id)"  /></td>
+    </tr>
+	 <!-- <tr>
+		<td  height="25" align="right">性别要求：</td>
+		<td  height="25" align="left"><select name="sex" id="sex">
+		  <option value="不限" selected>不限</option>
+		  <option value="男">男</option>
+		  <option value="女">女</option>
+		</select></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">年龄要求：</td>
+		<td  height="25" align="left"><input name="age" type="text" id="age" size="19"></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">学历要求：</td>
+		<td  height="25" align="left"><span class="12">
+		  <select size=1 name='edu' style="border:1px solid #000080; ">
+			<option value="不限" >不限</option>
+		<?php echo getother('edu','e','e_id asc',$edu,1);?>
+		  </select>
+		</span></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">外语水平：</td>
+		<td  height="25" align="left">
+        <select size=1 name='lanlevel'>
+		  <option value='无'>无</option>  
+		<?php echo getother('foreigndegree','f','f_id asc',$lanlevel,1);?>
+		</select></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">计算机能力：</td>
+		<td  height="25" align="left">
+        <select size=1 name='computer'>
+		  <option value='无' >无</option>
+		  <option value='一般'> 一般</option>
+		  <option value='精通'>精通</option>
+		  <option value='优秀'>优秀</option>
+		  <option value='良好'>良好</option>
+		  <option value='较差'>较差</option>
+		</select></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">工作经验：</td>
+		<td  height="25" align="left">
+		  <input type="text" size="5" name="period" class="f11" maxlength="2">
+	&nbsp; 年<font color=#ff0000>&nbsp; </font></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">户口要求：</td>
+		<td  height="25" align="left">
+        <select name="hukou" id="hukou">
+		  <option value="不限">不限</option>
+		  <option value="本地">本地</option>
+		</select></td>
+	  </tr>
+      
+      
+      -->
+      
+	  <tr>
+		<td  height="25" align="right">具体要求：</td>
+		<td  height="25" align="left"><textarea name="requisition" cols="60" rows="5" id="requisition"><?php echo $h_requisition ?></textarea></td>
+	  </tr>      
+      
+<!--	  <tr>
+		<td  height="25" align="right">月薪待遇：</td>
+		<td  height="25" align="left"><input name="monthpay" type="text" id="monthpay" size="19"></td>
+	  </tr>-->
+	  <tr>
+		<td  height="25" align="right">年薪待遇：</td>
+		<td  height="25" align="left"><input name="yearpay" type="text" id="yearpay" size="5" value="<?php echo $h_yearpay ?>">万元</td>
+	  </tr>
+<!--	  <tr>
+		<td  height="25" align="right">提供住房：</td>
+		<td  height="25" align="left"><select name="house" id="house">
+		  <option >选择</option>
+		  <option value="是">是</option>
+		  <option value="否">否</option>
+		</select></td>
+	  </tr>-->
+	  <tr>
+		<td  height="25" align="right">福利待遇：</td>
+		<td  height="25" align="left"><input name="welfare" type="text" id="welfare" size="40" value="<?php echo $h_welfare ?>">            </td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">岗位描述：</td>
+		<td  height="25" align="left"><textarea name="jobdesc" cols="50" rows="6" id="jobdesc"><?php echo $h_jobdesc ?></textarea></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">岗位职责：</td>
+		<td  height="25" align="left"><textarea name="duty" cols="50" rows="6" id="duty"><?php echo $h_duty ?></textarea></td>
+	  </tr>
+    <tr>
+      <td  height="25" bgcolor="#efefef" class="amtd" colspan="2"> <font color="#000080"><b>高级猎头职位联系方式</b></font></td>
+    </tr>
+	  <tr>
+		<td width="19%"  height="25" align="right">联 系 人：</td>
+		<td width="81%"  height="2" align="left"><input name="contact" type="text" id="contact" size="19" value="<?php echo $h_contact ?>" />
+		<font color=#ff0000>*</font></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">联系电话：</td>
+		<td  height="18" align="left"> <b> </b>
+			<input name="tel" type="text" class="f11" id="tel" size="19" value="<?php echo $h_tel ?>" />
+			<font color=#ff0000> *</font></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right">联系传真：</td>
+		<td  height="18" align="left"><input name="fax" type="text" id="fax" size="19" value="<?php echo $h_fax ?>" />            </td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right"> 联系邮箱：</td>
+		<td  height="18" align="left">
+		  <input name="email" type="text" class="f11" id="email" size="40" value="<?php echo $h_email ?>" />
+		  <font color=#ff0000> *</font></td>
+	  </tr>
+	  <tr>
+		<td  height="25" align="right"> 联系地址：</td>
+		<td   align="left">
+		  <input name="address" type="text" class="f11" id="address" size="40" value="<?php echo $h_address ?>" />
+		  <font color=#ff0000> *</font> </td>
+	  </tr>
+    <tr height="25">
+      <td  height="30" align="center" colspan="2">
+      <input name="id" type="hidden"  value="<?php echo $h_id ?>" />
+      <input name="Submit" type="submit" class="inputs" value="发 布" />
+&nbsp;&nbsp;&nbsp;&nbsp;
+        <input name="button" type="button" class="inputs" value="重 填" /></td>
+    </tr></form>
+</table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" id="nav-one" class="nav">
+<form name="form2" action="hr_zw.php" method="post">
+<tr>
+     <th height="25" colspan="9">猎头职位列表</th>
+</tr>
+<tr align="center">
+  <td width="5%"><b>编号</b></td>
+  <td width="20%"><b>招聘职位</b></td>
+  <td><b>公司名称</b></td>
+  <td width="10%"><b>工作地</b></td>
+  <td width="6%"><b>年薪</b></td>
+  <td width="20%"><b>发布时间</b></td>
+  <td width="6%"><b>状态</b></td>
+  <td width="5%">操作</td>
+  <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" id="checkSelect" onclick="javascript:checkAll(this)" value="checkbox" /></td>
+ </tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr onmouseover="this.style.background='#FFFFCC'" onmouseout="this.style.background='#EEF7FD'" align="center">
+ <td height="20"><?php echo $rs["h_id"];?></td>
+ <td><a href="../hr/hr_hire.php?id=<?php echo $rs["h_id"];?>" target="_blank"><?php echo $rs["h_job"];?></a></td>
+ <td><?php echo $rs["h_cname"];?></td>
+ <td><?php echo $rs["h_workadd"];?></td>
+ <td><?php echo $rs["h_yearpay"];?>万</td>
+ <td><?php echo $rs["h_adddate"];?></td> 
+ <td><?php if($rs["h_flag"]==1){echo '已审核';}else{ echo '未审核';}?></td>
+ <td><?php if(aflags($admin_flags,2,1)){?><a href="hr_zw.php?do=edit&id=<?php echo $rs["h_id"];?>">修改</a><?php }else{echo "<font color=\"#666666\">修改</font>";}?></td>
+ <td>
+  <span class="forumRow">
+   <input name="id" type="checkbox" class="checkbox" value="<?php echo $rs["h_id"];?>">
+ </span></td>
+ </tr>
+<?php 
+}
+?>
+<tr>
+  <td colspan="9" align="right"><span class="amrow">
+      <input type="hidden" name="idss" id="idss" value="" />
+    <?php if(aflags($admin_flags,1,1)){?><input name="button01" type="button" class="inputs" id="button01" onclick="javascript:confirmX(3)"  value="审核" />
+    <input name="button02" type="button" class="inputs" id="button02" onclick="javascript:confirmX(4)"  value="屏蔽" />
+    <?php }
+     if(aflags($admin_flags,3,1)){?>
+    <input name="button04" type="button" class="inputs" id="button04" onclick="javascript:confirmX(2)"  value="删除" />
+    <?php }?>
+  </span></td>
+</tr>
+<tr>
+<td height="25" align="center" colspan="13" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("id");
+	var check=false;
+	var a=0;
+	if (ids != null) 
+	{
+		ts=tr=""
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				check=true;
+				
+				ts=ts+tr+obj.value;
+				tr=',';
+			}
+		}
+		document.getElementById('idss').value=ts;
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	
+	if(num==2)
+	{
+		if(confirm("警告:此操作将会删除所有信息!\n是否继续操作下去?"))	
+		{
+			document.form2.action="?do=del";
+			document.form2.submit();		
+		}
+	}
+	if(num==3)
+	{
+		if(confirm("确定要审核吗?"))	
+		{
+			document.form2.action="?do=post";
+			document.form2.submit();		
+		}
+	}
+	if(num==4)
+	{
+		if(confirm("确定要屏蔽吗?"))	
+		{
+			document.form2.action="?do=unpost";
+			document.form2.submit();		
+		}
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("id");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<?php } echo acopy();?>

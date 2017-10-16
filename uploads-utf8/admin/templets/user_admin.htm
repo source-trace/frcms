@@ -1,0 +1,399 @@
+<?php
+echo ahead("管理员管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">管理员管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="user_admin.php">管理首页</a> | <?php if(aflags($admin_flags,0,1)){?><a href="?do=add">添加管理员</a>&nbsp;|&nbsp;<?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php if($do=="add"){ ?>
+<script language="javascript">
+<!--
+function showflag(str) {
+    if (str==1){
+        document.getElementById('PurviewDetail').style.display='none';
+        document.getElementById('SmallPurview').style.display='none';
+        document.getElementById('FlagsPurview').style.display='none';
+    }
+    if (str==2){
+        document.getElementById('PurviewDetail').style.display='';
+        document.getElementById('SmallPurview').style.display='';
+        document.getElementById('FlagsPurview').style.display='';
+    }
+}
+ //-->
+</script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post">
+<input type="hidden" name="aid" value="<?php echo $aid;?>">
+<tr>
+    <th colspan=4 height=25><?php if($aid!=''){echo '修改';}else{echo '添加';}?>管理员</th>
+</tr>
+<tr><td width="120" height="25" align="right">管理员账号：</td>
+<td width="300"><input name="a_user" type="text" size="20" class="txt" value="<?php echo $a_user;?>" /></td>
+<td width="120" align="right">管理员密码：</td>
+<td><input name="a_pass" type="password" size="20" class="txt" value="" /><?php if($aid!='') echo "不修改密码请留空"?></td>
+</tr>
+<tr><td height="25" align="right">姓名：</td>
+<td><input name="a_name" type="text" size="20" class="txt" value="<?php echo $a_name;?>" /></td>
+<td align="right">电话：</td>
+<td><input name="a_tel" type="text" size="20" class="txt" value="<?php echo $a_tel;?>" /></td>
+</tr>
+<tr><td height="25" align="right">手机：</td>
+<td><input name="a_mobile" type="text" size="20" class="txt" value="<?php echo $a_mobile;?>" /></td>
+<td align="right">QQ：</td>
+<td><input name="a_qq" type="text" size="20" class="txt" value="<?php echo $a_qq;?>" /></td>
+</tr>
+<tr><td height="25" align="right">客服：</td>
+<td colspan="3"><input type="radio" name="a_kf" value="0" checked="checked" class="checkbox">否
+<input type="radio" name="a_kf" value="1" <?php if($a_kf==1) echo 'checked="checked"';?> class=" checkbox">
+是 客服资料显示在会员中心首页</td></tr>
+<tr><td height="25" align="right">权限设置：</td>
+<td colspan="3"><li style="list-style:none; float:left; width:100%;"><input name="UserLevel" type="radio" class="checkbox" onclick="showflag(1);" value="manage" checked="checked"> 超级管理员：拥有所有权限</li>
+			<li style="list-style:none; float:left; width:100%;"><input name="UserLevel" type="radio" class="checkbox" onclick="showflag(2);" value="submanage" <?php if($a_type=='submanage') echo 'checked="checked"';?>> 普通管理员：需要详细指定每一项管理权限</li></td></tr>
+            <tr id="FlagsPurview" <?php if($a_type=='manage') echo 'style="display:none"';?>>
+                <td height="25" align="right">操作权限：</td>
+                <td colspan="3">
+                    <input name="flags1" type="checkbox" class="checkbox" value="1" <?php if($flags1==1) echo 'checked="checked"';?>>添加 可查看、添加信息，可添加会员相关信息。<br />
+                    <input name="flags2" type="checkbox" class="checkbox" value="1" <?php if($flags2==1) echo 'checked="checked"';?>>设置 可查看、审核、推荐信息，可设置会员类型。<br />
+                    <input name="flags3" type="checkbox" class="checkbox" value="1" <?php if($flags3==1) echo 'checked="checked"';?>>修改 可查看、修改信息、修改会员资料及职位、简历信息。<br />
+                    <input name="flags4" type="checkbox" class="checkbox" value="1" <?php if($flags4==1) echo 'checked="checked"';?>>删除 可查看、删除信息、删除会员所有相关数据。
+                </td>
+            </tr>
+            <tr id="PurviewDetail" <?php if($a_type!='submanage') echo 'style="display:none"';?>>
+			<td colspan="4">
+                <div style="margin-left: 20px; color: #ff0000;">注意：请继续设置栏目详细权限，选中后该栏目权限可用。</div>
+				<div class="au">
+				<div class="aub">栏目权限</div>
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af1.style.display=''}else{af1.style.display='none'}" value="1" <?php echo chkPurview($a_flag,1);?>>
+						系统设置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af2.style.display=''}else{af2.style.display='none'}" value="2" <?php echo chkPurview($a_flag,2);?>>
+						会员管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af3.style.display=''}else{af3.style.display='none'}" value="3" <?php echo chkPurview($a_flag,3);?>>
+						频道管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af4.style.display=''}else{af4.style.display='none'}" value="4" <?php echo chkPurview($a_flag,4);?>>
+						模板风格</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af5.style.display=''}else{af5.style.display='none'}" value="5" <?php echo chkPurview($a_flag,5);?>>
+						数据维护</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af6.style.display=''}else{af6.style.display='none'}" value="6" <?php echo chkPurview($a_flag,6);?>>
+						文件管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af7.style.display=''}else{af7.style.display='none'}" value="7" <?php echo chkPurview($a_flag,7);?>>
+						插件管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" onClick="if (this.checked){af8.style.display=''}else{af8.style.display='none'}" value="8" <?php echo chkPurview($a_flag,8);?>>
+						系统相关</li>
+					</ul>
+				</div>
+		  </td>
+		</tr>
+		<tr id="SmallPurview" <?php if($a_type!='submanage') echo 'style="display:none"';?>>
+			<td colspan="4">
+				<div class="au">
+					<div class="aub">详细权限</div>
+				</div>
+				<div class="au" id="af1" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="101" <?php echo chkPurview($a_flag,101);?>>
+						网站信息配置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="102" <?php echo chkPurview($a_flag,102);?>>
+						系统区域设置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="103" <?php echo chkPurview($a_flag,103);?>>
+						系统行业设置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="104" <?php echo chkPurview($a_flag,104);?>>
+						系统专业设置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="105" <?php echo chkPurview($a_flag,105);?>>
+						系统岗位设置</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="106" <?php echo chkPurview($a_flag,106);?>>
+						系统其他设置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="107" <?php echo chkPurview($a_flag,107);?>>
+						网站广告管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="108" <?php echo chkPurview($a_flag,108);?>>
+						网站公告管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="109" <?php echo chkPurview($a_flag,109);?>>
+						友情链接管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="110" <?php echo chkPurview($a_flag,110);?>>
+						网站留言管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="111" <?php echo chkPurview($a_flag,111);?>>
+						网站评论管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="112" <?php echo chkPurview($a_flag,112);?>>
+						网站邮件配置</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="113" <?php echo chkPurview($a_flag,113);?>>
+						系统分站管理</li>
+					</ul>
+				</div>
+				<div class="au" id="af2" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="201" <?php echo chkPurview($a_flag,201);?>>
+						用户资料管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="202" <?php echo chkPurview($a_flag,202);?>>
+						审核新用户</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="203" <?php echo chkPurview($a_flag,203);?>>
+						用户组管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="204" <?php echo chkPurview($a_flag,204);?>>
+						用户等级管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="205" <?php echo chkPurview($a_flag,205);?>>
+						用户消费设置</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="206" <?php echo chkPurview($a_flag,206);?>>
+						用户消费记录</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="207" <?php echo chkPurview($a_flag,207);?>>
+						管理员添加</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="208" <?php echo chkPurview($a_flag,208);?>>
+						管理员管理</li>
+					</ul>
+				</div>
+				<div class="au" id="af3" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="301" <?php echo chkPurview($a_flag,301);?>>
+						系统频道设置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="302" <?php echo chkPurview($a_flag,302);?>>
+						个人求职管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="303" <?php echo chkPurview($a_flag,303);?>>
+						企业招聘管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="311" <?php echo chkPurview($a_flag,311);?>>
+						微招聘管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="304" <?php echo chkPurview($a_flag,304);?>>
+						院校频道管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="305" <?php echo chkPurview($a_flag,305);?>>
+						教育培训管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="306" <?php echo chkPurview($a_flag,306);?>>
+						猎头服务管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="312" <?php echo chkPurview($a_flag,312);?>>
+						招聘会管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="309" <?php echo chkPurview($a_flag,309);?>>
+						高级人才管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="310" <?php echo chkPurview($a_flag,310);?>>
+						兼职人才管理</li>
+						<?php echo $channellist;?>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="308" <?php echo chkPurview($a_flag,308);?>>
+						通用页面管理</li>
+					</ul>
+				</div>
+				<div class="au" id="af4" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="402" <?php echo chkPurview($a_flag,402);?>>
+						网站模板管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="403" <?php echo chkPurview($a_flag,403);?>>
+						风格样式管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="404" <?php echo chkPurview($a_flag,404);?>>
+						通用标签管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="405" <?php echo chkPurview($a_flag,405);?>>
+						企业模板管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="406" <?php echo chkPurview($a_flag,406);?>>
+						简历模板管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="401" <?php echo chkPurview($a_flag,401);?>>
+						模板文件管理</li>
+					</ul>
+				</div>
+				<div class="au" id="af5" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="501" <?php echo chkPurview($a_flag,501);?>>
+						备份数据库</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="502" <?php echo chkPurview($a_flag,502);?>>
+						恢复数据库</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="503" <?php echo chkPurview($a_flag,503);?>>
+						执行SQL语句</li>
+<!--						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="504" <?php echo chkPurview($a_flag,504);?>>
+						系统空间占用</li>-->
+					</ul>
+				</div>
+				<div class="au" id="af6" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="601" <?php echo chkPurview($a_flag,601);?>>
+						HTML文件生成</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="602" <?php echo chkPurview($a_flag,602);?>>
+						HTML文件管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="603" <?php echo chkPurview($a_flag,603);?>>
+						企业LOGO管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="604" <?php echo chkPurview($a_flag,604);?>>
+						上传文件管理</li>
+					</ul>
+				</div>
+				<div class="au" id="af7" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="701" <?php echo chkPurview($a_flag,701);?>>
+						在线支付设置</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="703" <?php echo chkPurview($a_flag,703);?>>
+						调查投票管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="704" <?php echo chkPurview($a_flag,704);?>>
+						网站统计管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="705" <?php echo chkPurview($a_flag,705);?>>
+						充值卡充值管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="706" <?php echo chkPurview($a_flag,706);?>>
+						邮件群发管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="707" <?php echo chkPurview($a_flag,707);?>>
+						手机短信管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="70701" <?php echo chkPurview($a_flag,70701);?>>
+						短信模板设置</li>
+<!--                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="708" <?php echo chkPurview($a_flag,708);?>>
+						邮件订阅管理</li>-->
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="709" <?php echo chkPurview($a_flag,709);?>>
+						论坛整合管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="702" <?php echo chkPurview($a_flag,702);?>>
+						文章采集管理</li>
+                        <li><input name="UserPurview[]" type="checkbox" class="checkbox" value="710" <?php echo chkPurview($a_flag,710);?>>
+						职位采集管理</li>
+					</ul>
+				</div>
+				<div class="au" id="af8" style="display:">
+					<ul>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="801" <?php echo chkPurview($a_flag,801);?>>
+						清除系统缓存</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="802" <?php echo chkPurview($a_flag,802);?>>
+						前台日志管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="803" <?php echo chkPurview($a_flag,803);?>>
+						后台日志管理</li>
+						<li><input name="UserPurview[]" type="checkbox" class="checkbox" value="804" <?php echo chkPurview($a_flag,804);?>>
+						系统帮助管理</li>
+					</ul>
+				</div>
+		  </td>
+		</tr>
+<tr><td height="25" align="center" colspan="4"><input name="Submit" type="submit" class="inputs" value="<?php if($aid!=''){echo ' 修 改 ';}else{echo ' 添 加 ';}?>"></td></tr>
+</form>
+</table>
+<?php }elseif($do=="changepass"){ ?>
+<script language="javascript">
+<!--
+function fnRemoveBrank(strSource)
+{
+ return strSource.replace(/^\s*/,'').replace(/\s*$/,'');
+}
+String.prototype.lenB=function(){
+return this.replace(/[^\x00-\xff]/g,"**").length;
+}
+function Juge(theForm){
+  if (fnRemoveBrank(theForm.a_opass.value) == "")
+  {
+    alert("请输入原密码!");
+    theForm.a_opass.focus();
+    return (false);
+  } 
+  if (fnRemoveBrank(theForm.a_pass.value) == "")
+  {
+    alert("请输入新密码!");
+    theForm.a_pass.focus();
+    return (false);
+  }
+  if (fnRemoveBrank(theForm.a_rpass.value) == ""||fnRemoveBrank(theForm.a_pass.value)!=fnRemoveBrank(theForm.a_rpass.value))
+  {
+    alert("请输入确认密码!");
+    theForm.a_rpass.focus();
+    return (false);
+  }
+  
+}
+ //-->
+</script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savepass" method="post" onSubmit="return Juge(this)">
+<tr>
+    <th colspan=2 height=25>管理员修改密码</th>
+</tr>
+<tr><td width="120" height="25" align="right">原始密码：</td>
+<td><input name="a_opass" type="text" style="width:150px;" class="txt" value="" /></td>
+</tr>
+<tr>
+<td align="right">新密码：</td>
+<td><input name="a_pass" type="password" style="width:150px;" class="txt" value="" /></td>
+</tr>
+<tr><td height="25" align="right">确认密码：</td>
+<td><input name="a_rpass" type="password" style="width:150px;" class="txt" value="" /></td>
+</tr>
+<tr><td height="25" align="right">&nbsp;</td>
+<td><input name="Submit" type="submit" class="inputs" value=" 修 改 "></td></tr>
+</form>
+</table>
+<?php
+}else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="form" action="user_admin.php" method="post">
+<tr>
+    <th colspan=9 height=25>管理员列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height=25>编号</td>
+    <td width="15%">管理员账号</td>
+    <td width="10%">姓名</td>
+    <td width="20%">手机</td>
+    <td width="15%">QQ</td>
+    <td width="10%">所属站点</td>
+    <td width="10%">属性</td>
+    <td width="10%">操作</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25><?php echo $rs["a_id"];?></td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=add&aid=<?php echo $rs["a_id"];?>"><?php echo $rs["a_user"];?></a><?php }else{echo $rs["a_user"];}?></td>
+    <td><?php echo $rs["a_name"];?></td>
+    <td><?php echo $rs["a_mobile"];?></td>
+    <td><?php echo $rs["a_qq"];?></td>
+    <td><?php echo asite($rs["a_site"],1);?></td>
+    <td><?php if($rs["a_type"]=='manage'){echo "<font color='#FF0000'>超级管理员</font>";}elseif($rs["a_type"]=='submanage'){echo "普通管理员";}else{echo "分站管理员";}?></td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=add&aid=<?php echo $rs["a_id"];?>">编辑</a><?php }else{echo "<font color=\"#666666\">编辑</font>";}?> | <?php if($rs["a_user"]!=_getcookie('admin_name')&&aflags($admin_flags,3,1)){?><a href="javascript:ConfirmDel(<?php echo $rs["a_id"];?>,'<?php echo $rs["a_user"];?>');">删除</a><?php }else{echo "<font color=\"#666666\">删除</font>";}?></td>
+    <td><input type="checkbox" name="aid" value="<?php echo $rs["a_id"]; ?>" class="checkbox"<?php if($rs["a_user"]==_getcookie('admin_name')){ echo " disabled";}?> /></td>
+</tr>
+<?php 
+}
+?>
+<tr><td height="25" align="right" colspan="9"> <input type="hidden" name="aids" value="">
+    <?php if(aflags($admin_flags,3,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(1);" value="批量删除"><?php }?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function ConfirmDel(JOB_id,UserName)
+{
+   if(confirm("您确定要删除用户【"+UserName+"】吗？\n\n警告：此操作不可恢复，请慎重操作！"))
+     location.href="?do=del&aids="+JOB_id
+}
+function confirmX(num)
+{
+	var ids = document.getElementsByName("aid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form.aids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("aid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

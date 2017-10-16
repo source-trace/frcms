@@ -1,0 +1,276 @@
+<?php
+echo ahead("用户分组设置");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">用户分组设置</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><strong>提示信息：</strong>用户分组可设置个人、企业、院校及培训机构的用户分组类型及用户权限，设置为默认的用户组将初始化新注册的会员权限！</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><?php echo $sysgroupnamelist;?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+</table>
+<?php
+if($do=='modify'){?>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder mt6">
+<form action="?do=savemodify" method="post" name="form">
+  <tr>
+    <th height="22" colspan="4" align="center" ><?php echo $sysgroup[$typeid];?>用户组设置 </th>
+  </tr>
+  <tr>
+    <td width="23%">用户组名称：</td>
+    <td width="27%"><input name="Group_name" type="text" class="txt" value="<?php echo $g_name;?>" /></td>
+    <td width="22%">升级费用：</td>
+    <td width="28%"><input name="Group_outlay" type="text" class="txt" size="6" value="<?php echo $g_outlay;?>" />
+      元</td>
+  </tr>
+  <tr>
+    <td>服务期限：</td>
+    <td><input name="Group_term" type="text" size="6" class="txt" value="<?php echo $g_term;?>" alt="会员服务期限不得超出10年" /><?php echo asysunit($g_unit,'Group_unit');?></td>
+    <td>组图片：</td>
+    <td><input name="Group_images" type="text" size="15" class="txt" value="<?php echo $g_images;?>" />
+    <img src="../<?php echo $g_images;?>" width="15" height="15"></td>
+  </tr>
+  <?php if($typeid==1){?>
+<tr>
+    <th height="22" colspan="4" align="center" >权限相关 </th>
+  </tr>
+  <tr>
+    <td>可以使用职位收藏夹：</td>
+    <td>
+      <input name="Group_limit0" type="radio" class="checkbox" value="1" <?php if($g_limit[0]==1) echo "checked";?>>
+      是
+      <input name="Group_limit0" type="radio" class="checkbox" value="0" <?php if($g_limit[0]==0) echo "checked";?>>
+    否</td>
+    <td>职位收藏夹容量：</td>
+    <td><input name="Group_limit1" type="text" class="txt" value="<?php echo $g_limit[1];?>" size="6">
+    0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以接收面试通知：</td>
+    <td><input name="Group_limit2" type="radio" class="checkbox" value="1" <?php if($g_limit[2]==1) echo "checked";?>>
+是
+  <input name="Group_limit2" type="radio" class="checkbox" value="0" <?php if($g_limit[2]==0) echo "checked";?>>
+否</td>
+    <td>可接收面试通知数量：</td>
+    <td><input name="Group_limit3" type="text" class="txt" value="<?php echo $g_limit[3];?>" size="6">
+    0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以在线申请职位：</td>
+    <td><input name="Group_limit4" type="radio" class="checkbox" value="1" <?php if($g_limit[4]==1) echo "checked";?>>
+是
+  <input name="Group_limit4" type="radio" class="checkbox" value="0" <?php if($g_limit[4]==0) echo "checked";?>>
+否</td>
+    <td>可申请的职位数量：</td>
+    <td><input name="Group_limit5" type="text" class="txt" value="<?php echo $g_limit[5];?>" size="6">
+    0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以查看联系方式：</td>
+    <td><input name="Group_limit10" type="radio" class="checkbox" value="1" <?php if($g_limit[10]==1) echo "checked";?>>
+是
+  <input name="Group_limit10" type="radio" class="checkbox" value="0" <?php if($g_limit[10]==0) echo "checked";?>>
+否</td>
+    <td>可查看联系方式数量：</td>
+    <td><input name="Group_limit11" type="text" class="txt" value="<?php echo $g_limit[11];?>" size="6">
+    0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可填写简历数量：</td>
+    <td><input name="Group_limit6" type="text" class="txt" value="<?php echo $g_limit[6];?>" size="6">
+      0表示不限制</td>
+    <td>可填写求职信数量：</td>
+    <td><input name="Group_limit7" type="text" class="txt" value="<?php echo $g_limit[7];?>" size="6">
+0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以使用快速搜索：</td>
+    <td><input name="Group_limit8" type="radio" class="checkbox" value="1" <?php if($g_limit[8]==1) echo "checked";?>>
+是
+  <input name="Group_limit8" type="radio" class="checkbox" value="0" <?php if($g_limit[8]==0) echo "checked";?>>
+否</td>
+    <td>可以使用全能搜索：</td>
+    <td><input name="Group_limit9" type="radio" class="checkbox" value="1" <?php if($g_limit[9]==1) echo "checked";?>>
+是
+  <input name="Group_limit9" type="radio" class="checkbox" value="0" <?php if($g_limit[9]==0) echo "checked";?>>
+否</td>
+  </tr>
+  <tr>
+    <td>可以发送短信：</td>
+    <td><input name="Group_limit12" type="radio" class="checkbox" value="1" <?php if($g_limit[12]==1) echo "checked";?>>
+是
+  <input name="Group_limit12" type="radio" class="checkbox" value="0" <?php if($g_limit[12]==0) echo "checked";?>>
+否</td>
+    <td>可发送短信条数：</td>
+    <td><input name="Group_limit13" type="text" class="txt" value="<?php echo $g_limit[13];?>" size="6">
+      0表示不限制</td>
+  </tr>
+  <tr>
+    <th height="22" colspan="4" align="center" >积分相关 </th>
+  </tr>
+  
+  <tr>
+    <td>收藏职位增加积分：</td>
+    <td><input name="Group_integral0" type="text" class="txt" value="<?php echo $g_integral[0];?>" size="6">
+      个积分</td>
+    <td>外发简历增加积分：</td>
+    <td><input name="Group_integral1" type="text" class="txt" value="<?php echo $g_integral[1];?>" size="6">
+      个积分</td>
+  </tr>
+  <tr>
+    <td>申请职位增加积分：</td>
+    <td><input name="Group_integral2" type="text" class="txt" value="<?php echo $g_integral[2];?>" size="6">
+      个积分</td>
+    <td>增加简历增加积分：</td>
+    <td><input name="Group_integral3" type="text" class="txt" value="<?php echo $g_integral[3];?>" size="6">
+      个积分</td>
+  </tr>
+  <tr>
+    <td>增加求职信增加积分：</td>
+    <td><input name="Group_integral4" type="text" class="txt" value="<?php echo $g_integral[4];?>" size="6">
+      个积分</td>
+    <td>注册获得积分：</td>
+    <td><input name="Group_integral5" type="text" class="txt" value="<?php echo $g_integral[5];?>" size="6">
+      个积分</td>
+  </tr>
+  <tr>
+    <td>登陆增加积分：</td>
+    <td><input name="Group_integral6" type="text" class="txt" value="<?php echo $g_integral[6];?>" size="6">
+      个积分</td>
+    <td>介绍会员增加积分：</td>
+    <td><input name="Group_integral7" type="text" class="txt" value="<?php echo $g_integral[7];?>" size="6">
+      个积分</td>
+  </tr>
+  <?php }else{?>
+  <tr>
+    <th height="22" colspan="4" align="center" >权限相关 </th>
+  </tr>
+  <tr>
+    <td>可以使用职位库：</td>
+    <td><input name="Group_limit0" type="radio" class="checkbox" value="1" <?php if($g_limit[0]==1) echo "checked";?>>
+是
+  <input name="Group_limit0" type="radio" class="checkbox" value="0" <?php if($g_limit[0]==0) echo "checked";?>>
+否</td>
+    <td>企业职位库容量：</td>
+    <td><input name="Group_limit1" type="text" class="txt" value="<?php echo $g_limit[1];?>" size="6">
+      0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以使用人才库：</td>
+    <td><input name="Group_limit2" type="radio" class="checkbox" value="1" <?php if($g_limit[2]==1) echo "checked";?>>
+是
+  <input name="Group_limit2" type="radio" class="checkbox" value="0" <?php if($g_limit[2]==0) echo "checked";?>>
+否</td>
+    <td>企业人才库容量：</td>
+    <td><input name="Group_limit3" type="text" class="txt" value="<?php echo $g_limit[3];?>" size="6">
+      0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以发送面试邀请：</td>
+    <td><input name="Group_limit4" type="radio" class="checkbox" value="1" <?php if($g_limit[4]==1) echo "checked";?>>
+是
+  <input name="Group_limit4" type="radio" class="checkbox" value="0" <?php if($g_limit[4]==0) echo "checked";?>>
+否</td>
+    <td>可发送的面试邀请：</td>
+    <td><input name="Group_limit5" type="text" class="txt" value="<?php echo $g_limit[5];?>" size="6">
+      0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以使用回收站：</td>
+    <td><input name="Group_limit6" type="radio" class="checkbox" value="1" <?php if($g_limit[6]==1) echo "checked";?>>
+是
+  <input name="Group_limit6" type="radio" class="checkbox" value="0" <?php if($g_limit[6]==0) echo "checked";?>>
+否</td>
+    <td>回收站容量：</td>
+    <td><input name="Group_limit7" type="text" class="txt" value="<?php echo $g_limit[7];?>" size="6">
+      0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以查看联系方式：</td>
+    <td><input name="Group_limit8" type="radio" class="checkbox" value="1" <?php if($g_limit[8]==1) echo "checked";?>>
+是
+  <input name="Group_limit8" type="radio" class="checkbox" value="0" <?php if($g_limit[8]==0) echo "checked";?>>
+否</td>
+    <td>查看简历数量：</td>
+    <td><input name="Group_limit9" type="text" class="txt" value="<?php echo $g_limit[9];?>" size="6">
+      0表示不限制</td>
+  </tr>
+  <tr>
+    <td>可以使用快速搜索：</td>
+    <td><input name="Group_limit10" type="radio" class="checkbox" value="1" <?php if($g_limit[10]==1) echo "checked";?>>
+      是
+      <input name="Group_limit10" type="radio" class="checkbox" value="0" <?php if($g_limit[10]==0) echo "checked";?>>
+      否</td>
+    <td>可以使用全能搜索：</td>
+    <td><input name="Group_limit11" type="radio" class="checkbox" value="1" <?php if($g_limit[11]==1) echo "checked";?>>
+      是
+      <input name="Group_limit11" type="radio" class="checkbox" value="0" <?php if($g_limit[11]==0) echo "checked";?>>
+      否</td>
+  </tr>
+  <tr>
+    <td>可以发送邀请短信：</td>
+    <td><input name="Group_limit12" type="radio" class="checkbox" value="1" <?php if($g_limit[12]==1) echo "checked";?>>
+是
+  <input name="Group_limit12" type="radio" class="checkbox" value="0" <?php if($g_limit[12]==0) echo "checked";?>>
+否</td>
+    <td>可发送短信条数：</td>
+    <td><input name="Group_limit13" type="text" class="txt" value="<?php echo $g_limit[13];?>" size="6">
+      0表示不限制</td>
+  </tr>
+  <tr>
+    <th height="22" colspan="4" align="center" >积分相关 </th>
+  </tr>
+  <tr>
+    <td>发布职位增加积分：</td>
+    <td><input name="Group_integral0" type="text" class="txt" value="<?php echo $g_integral[0];?>" size="6">
+    个积分</td>
+    <td>放入人才库增加积分：</td>
+    <td><input name="Group_integral1" type="text" class="txt" value="<?php echo $g_integral[1];?>" size="6">
+      个积分</td>
+  </tr>
+  <tr>
+    <td>发送面试邀请增加积分：</td>
+    <td><input name="Group_integral2" type="text" class="txt" value="<?php echo $g_integral[2];?>" size="6">
+      个积分</td>
+	  <td>查看简历增加积分：</td>
+    <td><input name="Group_integral3" type="text" class="txt" value="<?php echo $g_integral[3];?>" size="6">
+      个积分</td>
+  </tr>
+  <tr>
+    <td>注册获得积分：</td>
+    <td><input name="Group_integral4" type="text" class="txt" value="<?php echo $g_integral[4];?>" size="6">
+      个积分</td>
+	  <td>登陆增加积分：</td>
+    <td><input name="Group_integral5" type="text" class="txt" value="<?php echo $g_integral[5];?>" size="6">
+      个积分</td>
+  </tr>
+  <tr>
+    <td>介绍企业增加积分：</td>
+    <td><input name="Group_integral6" type="text" class="txt" value="<?php echo $g_integral[6];?>" size="6">
+      个积分</td>
+	<td></td>
+	<td></td>
+  </tr>
+<?php }?>
+  <tr align="center">
+    <td colspan="4" class="tdpage"><input name="typeid" type="hidden" value="<?php echo $typeid;?>"><input name="gid" type="hidden" value="<?php echo $gid;?>">
+        <input name="Submit2" type="submit" class="inputs" value=" 提 交 ">
+        　
+        <input name="Submit3" type="button" class="inputs" value=" 返 回 " onclick="window.history.go(-1);">
+    </td>
+  </tr>
+  </form>
+</table>
+<?php
+}else{
+ echo $sysgrouplist;
+}
+echo acopy();
+?>

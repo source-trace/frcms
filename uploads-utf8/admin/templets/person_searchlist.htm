@@ -1,0 +1,184 @@
+<?php
+echo ahead("个人会员管理");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/sms.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <form action="person_searchlist.php" method="post">
+  <tr>
+    <th height="25">个人会员管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="person_searchlist.php">管理首页</a>&nbsp;|&nbsp;<a href="person_searchlist.php">人才管理</a>&nbsp;|&nbsp;<?php if(aflags($admin_flags,0,1)){?><a href="person_addresume.php">简历添加</a>&nbsp;|&nbsp;<?php }?><a href="person_resumelist.php">简历管理</a>&nbsp;|&nbsp;<a href="person_searchresume.php">人才查询</a>&nbsp;|&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>二级选项：</b><a href="?operate=0">待审人才</a> | <a href="?operate=1">已审人才</a> | <a href="?operate=2">精英人才</a> | <a href="?operate=3">待审照片</a> | <a href="?operate=4">已过期</a> | <a href="?operate=5">一周内到期</a> | <a href="?operate=6">30天内到期</a></td>
+  </tr>
+  <tr>
+      <td height=25 class="pl20"><b>服务选项：</b><?php echo $grouplist;?></td>
+    </tr>
+    <tr> 
+      <td height=25 class="pl20"><b>会员查询：</b> 
+          <input name="keyword" type="text" id="keyword" value="<?php echo $keyword;?>" size="20">
+          <select name="segment" size="1" id="segment">
+            <option value="m_login" <?php if($segment=="m_login") echo "selected";?>>会员帐号</option>
+            <option value="m_name" <?php if($segment=="m_name") echo "selected";?>>真实姓名</option>
+            <option value="m_email" <?php if($segment=="m_email") echo "selected";?>>邮箱地址</option>
+            <option value="m_tel" <?php if($segment=="m_tel") echo "selected";?>>联系电话</option>
+            <option value="m_mob" <?php if($segment=="m_mob") echo "selected";?>>手机号码</option>
+          </select>
+          <input name="Submit" type="submit" class="inputs" value="搜索">
+     &nbsp;<?php if(aflags($admin_flags,1,1)){?><a href="person_searchlist.php?do=reload">刷新账户状态</a> （刷新数据库，将“过期”个人用户转成默认用户）<?php }?></td>
+    </tr>
+    </form>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form2" action="person_searchlist.php" method="post">
+<tr>
+    <th colspan=11 height=25>个人会员列表（<a href="person_searchlist.php?segment=<?php echo $segment;?>&keyword=<?php echo $keyword;?>&operate=<?php echo $operate;?>&group=<?php echo $group;?>&order=1">最近注册</a> | <a href="person_searchlist.php?segment=<?php echo $segment;?>&keyword=<?php echo $keyword;?>&operate=<?php echo $operate;?>&group=<?php echo $group;?>&order=2">最近登陆</a> | <a href="person_searchlist.php?segment=<?php echo $segment;?>&keyword=<?php echo $keyword;?>&operate=<?php echo $operate;?>&group=<?php echo $group;?>&order=3">最近到期</a>）</th>
+</tr>
+<tr align="center"> 
+    <td width="5%"><b>编号</b></td>
+    <td width="15%"><b>会员|状态</b></td>
+    <td width="18%"><b>登录|注册时间</b></td>
+    <td width="6%"><b>照片</b></td>
+    <td width="13%"><b>联系电话</b></td>
+	<td width="14%"><b>服务|余额|消费</b></td>
+    <td width="10%"><b>登录|点击</b></td>
+	<td width="5%"><b>精英</b></td>
+	<td width="10%"><b>所属站点</b></td>
+    <td width="4%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php 
+echo $memberlist;
+?>
+<tr><td height="25" align="right" colspan="10">
+    <input type="hidden" name="members" value="">
+    <input type="hidden" name="keyword" value="<?php echo $keyword;?>"> 
+    <input type="hidden" name="segment" value="<?php echo $segment;?>">
+    <input type="hidden" name="page" value="<?php echo $page;?>">
+    <?php if(aflags($admin_flags,1,1)){?>
+    <input name="button" type="button" class="inputs" onClick="confirmX(1);" value="审核"> 
+    <input name="button" type="button" class="inputs" onClick="confirmX(2);" value="撤销审核">
+    <input name="button" type="button" class="inputs" onClick="confirmX(6);" value="照片审核">
+    <input name="button" type="button" class="inputs" onClick="confirmX(7);" value="撤销照片审核">
+    <input name="button" type="button" class="inputs" onClick="confirmX(3);" value="精英推荐">
+	<input name="button" type="button" class="inputs" onClick="confirmX(4);" value="撤销精英">
+    <?php }?>
+	<input name="button" type="button" class="inputs" onClick="confirmX(8);" value="邮件">
+    <?php if(aflags($admin_flags,3,1)){?>
+	<input name="button" type="button" class="inputs" onClick="confirmX(5);" value="删除">
+    <?php }?>
+</td></tr>
+<tr>
+<td height="25" align="center" colspan="10" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("member");
+	var check=false;
+	var allSel="";
+	var a=0;
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form2.members.value = allSel;
+				check=true;
+				a+=1
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		if(confirm("你确定要审核你所选择的个人账号吗？"))	
+		{
+			document.form2.action="person_searchlist.php?do=audit";
+			document.form2.submit();		
+		}
+	}
+	if(num==2)
+	{
+		if(confirm("你确定要撤销审核你所选择的个人账号吗？"))	
+		{
+			document.form2.action="person_searchlist.php?do=unaudit";
+			document.form2.submit();		
+		}
+	}
+	if(num==3)
+	{
+		if(confirm("你确定要推荐此人为精英人才吗？"))	
+		{
+			document.form2.action="person_searchlist.php?do=comm";
+			document.form2.submit();		
+		}
+	}
+	if(num==4)
+	{
+		if(confirm("你确定要撤销此人的精英人才状态吗？"))	
+		{
+			document.form2.action="person_searchlist.php?do=uncomm";
+			document.form2.submit();		
+		}
+	}
+	if(num==5)
+	{
+		if(confirm("警告:此操作将会删除包括个人账号在内,以及在此账号的所有相关信息!\n是否继续操作下去?"))	
+		{
+			document.form2.action="person_searchlist.php?do=del";
+			document.form2.submit();		
+		}
+	}
+	if(num==6)
+	{
+		if(confirm("你确定要审核你所选择的照片吗？"))	
+		{
+			document.form2.action="person_searchlist.php?do=picture";
+			document.form2.submit();		
+		}
+	}
+	if(num==7)
+	{
+		if(confirm("你确定要撤销审核你所选择的照片吗？"))	
+		{
+			document.form2.action="person_searchlist.php?do=unpicture";
+			document.form2.submit();		
+		}
+	}
+	if(num==8)
+	{
+		if(confirm("你确定要给选定的人才发送邮件吗？"))	
+		{
+			document.form2.action="person_searchlist.php?do=sendmail";
+			document.form2.submit();		
+		}
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("member");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+function chkreload() {
+    <?php echo "window.location='person_searchlist.php?segment=$segment&operate=$operate&group=$group&order=$order&keyword=$keyword&page=$page';";?>
+}
+</script>
+<?php echo acopy();?>

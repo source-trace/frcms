@@ -1,0 +1,207 @@
+<?php
+echo ahead("微招聘列表");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <form action="company_vhirelist.php" method="post">
+  <tr>
+    <th height="25">微招聘管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="company_vhirelist.php">管理首页</a>&nbsp;|&nbsp;<?php if(aflags($admin_flags,0,1)){?><a href="company_vhirelist.php?do=add">添加微招聘</a> | <?php }?><a href="?operate=0">待审微职位</a> | <a href="?operate=1">已审微职位</a> | <a href="?operate=2">已固顶职位</a>&nbsp;|&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+    <tr> 
+      <td height=25 class="pl20"><b>职位搜索：</b> 
+          <input name="keyword" type="text" id="keyword" value="<?php echo $keyword;?>" size="20">
+          <select name="segment" size="1" id="segment">
+            <option value="v_place" <?php if($segment=="v_place") echo "selected";?>>职位名称</option>
+            <option value="v_comname" <?php if($segment=="v_comname") echo "selected";?>>公司名称</option>
+          </select>
+          <input name="Submit" type="submit" class="inputs" value="搜索" /></td>
+    </tr>
+    </form>
+</table>
+<?php
+if($do=="add"){
+?>
+<script language="javascript" src="../js/calendar.js" type="text/javascript"></script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post">
+<input type="hidden" name="v_id" value="<?php echo $v_id;?>">
+<input type="hidden" name="keyword" value="<?php echo $keyword;?>"> 
+<input type="hidden" name="segment" value="<?php echo $segment;?>">
+<input type="hidden" name="operate" value="<?php echo $operate;?>">
+<input type="hidden" name="page" value="<?php echo $page;?>">
+<tr>
+    <th colspan=2 height=25><?php if($v_id!=''){echo '修改';}else{echo '添加';}?>微招聘</th>
+</tr>
+<tr><td width="80" height="25" align="right">招聘单位：</td>
+<td><input size="30" name="v_comname" class="txt" value="<?php echo $v_comname;?>" /></td></tr>
+<tr><td height="25" align="right">招聘岗位：</td>
+<td><input size="30" name="v_place" class="txt" value="<?php echo $v_place;?>" /></td></tr>
+<tr> <td height="25" align="right">招聘人数：</td>
+<td><input size="5" name="v_number" class="txt" value="<?php echo $v_number;?>" />人</td></tr>
+<tr><td height="25" align="right">应聘要求：</td>
+<td><input size="30" name="v_request" value="<?php echo $v_request;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">面试地址：</td>
+<td><input size="30" name="v_address" id="v_address" class="txt" value="<?php echo $v_address;?>" /></td></tr>
+<tr><td height="25" align="right">联系电话：</td>
+<td><input size="30" name="v_tel" id="v_tel" value="<?php echo $v_tel;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">联 系 人：</td>
+<td><input size="30" name="v_contact" id="v_contact" value="<?php echo $v_contact;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">有 效 期：</td>
+<td><select name="v_validity" id="v_validity">
+                <option value="3" <?php if($v_validity==3) echo " selected";?>>3天</option>
+                <option value="5"<?php if($v_validity==5) echo " selected";?>>5天</option>
+                <option value="10"<?php if($v_validity==10) echo " selected";?>>10天</option>
+                <option value="30"<?php if($v_validity==30) echo " selected";?>>30天</option>
+                <option value="180"<?php if($v_validity==180) echo " selected";?>>半年</option>
+                <option value="365"<?php if($v_validity==365) echo " selected";?>>一年</option>
+                <option value="9999"<?php if($v_validity==9999) echo " selected";?>>长期</option>
+                </select></td></tr>
+<?php if((aflags($admin_flags,2,1)&&$v_id!='')||(aflags($admin_flags,0,1)&&$v_id=='')){?><tr><td height="25" align="center" colspan="2"><input name="Submit" type="submit" class="inputs" value="<?php if($v_id!=''){echo ' 修 改 ';}else{echo ' 添 加 ';}?>"></td></tr><?php }?>
+</form>
+</table>
+<?php }else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form2" action="company_vhirelist.php" method="post">
+<tr>
+    <th colspan=9 height=25>微招聘列表</th>
+</tr>
+<tr align="center"> 
+  <td width="8%">编号</td>
+  <td width="65%">微招聘内容</td>
+  <td width="18%">发布时间|IP</td>
+  <td width="6%">状态</td>
+  <td width="3%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php 
+echo $hirelist;
+?>
+<tr><td height="25" align="right" colspan="9">
+    <input type="hidden" name="members" value="">
+    <input type="hidden" name="keyword" value="<?php echo $keyword;?>"> 
+    <input type="hidden" name="segment" value="<?php echo $segment;?>">
+    <input type="hidden" name="page" value="<?php echo $page;?>">
+    <?php if(aflags($admin_flags,1,1)){?>
+    <input name="button" type="button" class="inputs" id="button" onClick="confirmX(1);" value="审核职位">
+    <input name="button" type="button" class="inputs" id="button" onClick="confirmX(2);" value="撤销审核">
+    <input name="button" type="button" class="inputs" id="button" onClick="confirmX(3);" value="固顶职位">
+    <input name="button" type="button" class="inputs" id="button" onClick="confirmX(4);" value="撤销固顶">
+    <input name="button" type="button" class="inputs" id="button" onClick="confirmX(6);" value="刷新">
+    <?php }?>
+    <?php if(aflags($admin_flags,2,1)){?>
+    <input name="button" type="button" class="inputs" id="button" onClick="confirmX(7);" value="修改">
+    <?php }?>
+    <?php if(aflags($admin_flags,3,1)){?>
+    <input name="button" type="button" class="inputs" id="button" onClick="confirmX(5);" value="删除">
+    <?php }?>
+</td></tr>
+<tr>
+<td height="25" align="center" colspan="9" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("member");
+	var check=false;
+	var allSel="";
+	var a=0;
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form2.members.value = allSel;
+				check=true;
+				a+=1
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		if(confirm("你确定要审核你所选择的职位吗？"))	
+		{
+			document.form2.action="?do=audit";
+			document.form2.submit();		
+		}
+	}
+	if(num==2)
+	{
+		if(confirm("你确定要撤销审核你所选择的职位吗？"))	
+		{
+			document.form2.action="?do=unaudit";
+			document.form2.submit();		
+		}
+	}
+	if(num==3)
+	{
+		if(confirm("你确定要推荐你所选择的职位吗？"))	
+		{
+			document.form2.action="?do=comm";
+			document.form2.submit();		
+		}
+		
+	}
+	if(num==4)
+	{
+		if(confirm("你确定要撤销推荐你所选择的职位吗？"))	
+		{
+			document.form2.action="?do=uncomm";
+			document.form2.submit();		
+		}
+	}
+	if(num==5)
+	{
+		if(confirm("警告：此操作将会删除该职位！\n是否继续本操作？"))	
+		{
+			document.form2.action="?do=del";
+			document.form2.submit();		
+		}
+	}
+    if(num==6)
+	{
+		if(confirm("你确定要刷新你所选择的职位吗？"))	
+		{
+			document.form2.action="?do=refresh";
+			document.form2.submit();		
+		}
+	}
+    if(num==7)
+	{
+		if(a==1){
+			if(confirm("你确定要修改你所选择的招聘信息吗？"))	
+			{
+				document.form2.action="?do=add";
+				document.form2.submit();		
+			}
+		}else{
+		alert("同一时刻只能选择一个操作对象进行修改!")
+		return false;
+		}
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("member");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<?php echo acopy();?>

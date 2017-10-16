@@ -1,0 +1,216 @@
+/* CSS Document */
+body {margin:0; padding:0; border:0;background-color:#FFFFFF;overflow-x:hidden; word-break:break-all;}
+body,td,th {font-size: 12px;font-family:"微软雅黑","宋体",verdana,arial,helvetica,sans-serif;}
+form,img{padding:0px;margin:0px;border:0px;}
+/*鼠标提示框*/
+.TittableBorder{width:800px;solid; background-color:#BBBBBB;}
+td.Tit{ background-color:#FFFFFF;}
+a{color:#2679BF; text-decoration:none;}
+a:hover{color:#000000; text-decoration:underline;}
+li{list-style:none;}
+.submit{ margin-top:6px;height:28px; line-height:28px; width:115px; font-size:14px; color:#333; font-weight:bold; background:url(../skin/member/btn1.gif) bottom repeat-x; cursor:pointer; border:1px solid #e0e0e0; padding:0;}
+.leftmenutit{padding:5px; background:url(../skin/member/maintitbg.gif) repeat-x; line-height:normal;}
+.leftmenutit span{font-size:14px; font-weight:bold; color:#FFFFFF; padding-left:20px; margin:0;}
+
+.memtop{width:auto; height:50px; background:url(../skin/member/mhbg.gif) repeat-x;}
+.memmenu{ margin:0px; height:30px; background:#F2F2F2; border-bottom:1px #ABCEE2 solid; padding:0px 10px; line-height:30px;}
+.memmenu span{ font-size:12px; font-weight:normal; float:right}
+.memtophy{ font-size:14px; font-weight:bold; color:#FFFFFF; padding:16px 10px;}
+.memtophy span{ font-size:12px; font-weight:normal; float:right; padding-right:6px;}
+.memtophy span a{color:#FFFFFF;}
+.memtophy span a:hover{color:#FFFFFF; text-decoration:underline;}
+.memmain{width:100%;height:100%;margin:auto; background:#fff}
+
+.memleft{width:150px;height:100%; margin:0; background:#dee8f1; border-right:1px #ced3d7 solid; overflow:auto}
+.memmenul{border:1px #ced3d7 solid; margin:6px;margin-left:6px !important; margin-left:3px; background:#FFF;}
+.memmenutit{background: url(../skin/member/nav_titlebg.jpg) top repeat-x;height:28px; line-height:28px;font-weight:bold;color:#2679BF;cursor:pointer;}
+.memmenutit span {background: url(../skin/member/icon_arrow.jpg) 10px no-repeat;font-size:12px; font-weight:bold;padding-left:25px; margin:0;}
+.memmenul form{margin:0px; padding:0;}
+.memmenul ul{ border-bottom:1px #e1e6e9 solid;;margin:0px; padding:0; overflow:hidden}
+.memmenul ul li{float:left; width:100%;height:26px;line-height:26px;color:#333333;border-bottom:1px #f0f0f0 dashed;cursor:pointer;}
+
+.memmenul ul li a{padding-left:10px;display:block;color:#000000;text-decoration:none;}
+.memmenul ul li a:hover{display:block;color:#0264c7;background: url(../skin/member/nav_bg.jpg) bottom no-repeat;}
+
+/*.memright{float:left;margin:0;height:100%;}*/
+.memrightl{border:1px #ced3d7 solid; margin:6px;margin-left:6px !important; margin-left:3px; background:#FBFEFF;overflow:hidden !important; overflow: visible;}
+.memrighttit{padding-left:10px;background: url(../skin/member/maintitbg.gif) top repeat-x;height:25px; line-height:25px;font-weight:bold;color:#ffffff; border:1px #FFF solid;}
+.memrighttit span{ float:right;font-size:12px; font-weight:normal;padding-right:10px; margin:0;}
+.memrighttit span a{color:#FFF}
+.memrightbox{margin:6px;margin-left:6px !important; margin-left:3px;}
+	div.con{margin:0;width:800px; height:auto;}
+	div.con ul{margin:0 auto; height:auto;}
+	div.con ul hr{margin:0 20px 0 0; height:1px;}
+	div.con ul li.t{margin:20px auto auto auto; padding-left:20px; font-size:12px; font-weight:bold;}
+	div.con ul li.l{float:left;margin:0 auto; width:20%; text-align:right; min-height:30px; height:auto !important; height:30px; line-height:30px;}
+	div.con ul li.r{float:left;margin:0 auto; width:80%; min-height:30px; height:auto !important; height:30px; line-height:30px;}
+	div.con ul li span{color:#F00;}
+	div.con ul input{height:18px; line-height:18px; width:200px; padding:1px;}
+    div.con ul input.search_case{background:url(../skin/member/search_case.gif) right; width:240px; height:24px; line-height:20px;text-align:left; font-size:12px; color:#a1a1a1; cursor:pointer;border:1px #cad3d8 solid;}
+	div.con ul textarea{margin:0 8px 0 0;border:1px; padding:1px;}
+	div.con ul select{margin:0 8px 0 0;width:200px;}
+	div.con ul .t100{margin:0 8px 0 0;width:80px;}
+	div.con ul select.t{margin:0 8px 0 0;width:100px;}
+	div.con ul input[type="checkbox"]{height:20px; line-height:20px;width:20px;}
+	div.con ul input[type="radio"]{height:20px; line-height:20px;width:20px;}
+	div.con ul input[type="radio"].t{margin:0; height:20px; line-height:20px;width:20px;}
+	div.con ul input.submit{ margin-top:6px;height:28px; line-height:28px; width:115px; font-size:14px; color:#333; font-weight:bold; background:url(../skin/member/btn1.gif) bottom repeat-x; cursor:pointer; border:1px solid #e0e0e0; padding:0;}
+	div.msg{float:right; width:auto;border:1px #FF9900 solid; background-color:#FFFFE8; line-height:150%; display:none}
+	div.msg li{float:left;width:100%;line-height:26px;color:#333333;margin:0 4px;}
+.copy{ float:left; margin:0; width:100%;height:30px; line-height:30px; text-align:center;background:#dee8f1; border-top:1px #ced3d7 solid;}
+input[type=radio],input[type=checkbox]{cursor:pointer;}
+input.valid,select.valid,textarea.valid{border:1px solid green; background-color:#F3FAE7;padding:1px;}
+input.error { border: 1px solid red; background:#FFF3EE;}
+label.error {
+  background:url(../../skin/system/standard_msg_error.gif) no-repeat 0px 0px;
+  padding-left: 18px;
+  color: red;font-style: italic
+}
+label.success {
+  background:url(../../skin/system/standard_msg_ok.gif) no-repeat 0px 0px;
+  padding-left: 18px;
+}
+
+.memtab{border-left:1px #e1e6e9 solid;margin-bottom:6px;}
+.memtabhead{background: url(../skin/member/nav_titlebg.jpg) bottom repeat-x; font-weight:bold}
+.memtabhead td{ border:1px #e1e6e9 solid; border-bottom:none; border-left:none; height:20px; line-height:20px;}
+.memtabmain td{ border:1px #e1e6e9 solid; border-top:none; border-left:none; height:20px; line-height:20px;}
+.memtabpage{background: url(../skin/member/nav_titlebg.jpg) #f0f5f9 bottom repeat-x; height:30px;}
+.memtabpage td{border-right:1px #e1e6e9 solid;}
+.memtabdiv{ float:right}
+.memtabxg table{padding:2px;border-top:1px #e1e6e9 solid;border-left:1px #e1e6e9 solid;}
+
+.memdiv{border-left:1px #e1e6e9 solid;margin-bottom:6px;}
+.memdivhead{background: url(../skin/member/nav_titlebg.jpg) bottom repeat-x;}
+.memdivhead td{ border:1px #e1e6e9 solid; border-bottom:none; border-left:none; height:20px; line-height:20px;}
+.memdivmain td{ border:1px #e1e6e9 solid; border-top:none; border-left:none; height:18px; line-height:18px;}
+
+.memtabdel{border-left:1px #e1e6e9 solid;margin-top:1px;}
+/*.memtabdel td{border:none;}*/
+
+/*各项管理功能页面的提示内容*/
+.memts{margin-bottom:6px; border:1px #FF9900 solid; background-color:#FFFFE8; line-height:150%;}
+.memts li{list-style:none; margin:2px; padding:0px;}
+.memts li a{margin:0; padding:0px;}
+
+.hr{height:10px; background:#0C0;border:1px solid #090;}
+
+.tabm {float:left;width:100%;line-height:normal;}
+.tabm ul {float:left; width:auto;margin:0 20px;padding:10px 0px 0px 0px;list-style:none;}
+.tabm li {display:inline;margin:0;padding:0; cursor:pointer;}
+.tabm a {float:left;background:url(../skin/member/tableftm.gif) no-repeat left -54px;margin:0;padding:0 0 0 5px;text-decoration:none;font-size:14px;font-weight:bold;color:#FFFFFF; text-decoration:none;}
+.tabm a span {float:left;display:block;background:url(../skin/member/tabrightm.gif) no-repeat right -54px;padding:7px 15px 5px 10px;color:#FFF;font-size:14px;font-weight:bold;}
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+.tabm a span {float:none;}
+/* End IE5-Mac hack */
+.tabm a:hover span {color:#FFF}
+.tabm a:hover {background-position:0% -14px; text-decoration:none;}
+.tabm a:hover span {background-position:100% -14px;}
+.tabms a {background-position:0% -14px;}
+.tabms a span {background-position:100% -14px;}
+
+.mtable{margin-top:4px; margin-bottom:4px;}
+.mtable tr{background-color:expression((this.sectionRowIndex%2==0)?"#F1F8FC":"#FFFFFF")}
+.mtable td{ height:30px; padding-left:6px;}
+.mtables{margin-top:4px; margin-bottom:4px; padding:0 8px;}
+.mtables tr{background-color:expression((this.sectionRowIndex%2==0)?"#F1F8FC":"#FFFFFF")}
+.mtables td{ height:24px; padding-left:6px;}
+.inputs{border:1px #C7C8C9 solid; background:url(../skin/system/tit_bg.gif) center repeat-x; height:20px; padding:2px 4px 0 4px; font-size:12px;}
+.mtitle{ color:#FF0000; font-weight:bold; font-size:14px;}
+.tdcolor{ color:#FF0000;}
+
+/*登录窗口样式*/
+#mloginhead{margin:0 auto; padding-top:50px; width:810px; height:60px;}
+#mloginlogo{ float:left;width:180px;margin-left:10px;}
+#mloginnav{ float:right; padding-top:45px; padding-right:20px;}
+#mloginnav li{ float:left; list-style:none; padding:0 4px;}
+#mlogincenter{width:808px;margin:5px auto; border:0px #000000 solid;}
+#mlcl{float:left; height:259px;width:24px;background:url(../skin/member/mloginbg.gif) no-repeat;}
+#mlcc1{float:left; height:259px;width:470px; border:0px #000000 solid;background:url(../skin/member/mloginbg.gif) repeat-x left -266px;}
+#mlcc2{ float:left; height:259px; width:290px;border:0px #000000 solid; background:url(../skin/member/mloginbg.gif) repeat-x left -533px;}
+#mlcc2 li{ margin-left:10px;}
+#mlccr{ float:left; height:259px; width:24px;background:url(../skin/member/mloginbg.gif) no-repeat left -799px; }
+#mloginbottom{ width:810px;margin:5px auto; font-size:12px;}
+#mlcc1top{ margin:10px; padding-top:10px; height:123px; border-bottom:1px #FFFFFF dashed;}
+#mlcc1top span{ height:40px; color:#FFFFFF; font-size:14px; font-weight:bold;}
+#mlcc1top li{ padding-left:70px; padding-top:13px;}
+#mlcc1bottom{margin:10px; height:100px;}
+#mlcc1bottom span{color:#FFFFFF; font-size:14px; height:60px;font-weight:bold;}
+#mlcc1bottom li{list-style-type:disc; padding:2px 0; line-height:16px; color:#FFFFFF; margin-top:4px;}
+
+.bl1 {border:1px #99CCFF solid; text-align:left;}
+.f14b1 {font-size: 12px;font-weight: bold;color:#166AB6;padding:5px 0 5px 10px;
+	/*background:#b7dffe;*/
+	background:url(../skin/system/tit_bg.gif) #FFFFFF bottom repeat-x;
+}
+.pwdbg{ width:160px; height:16px; border:1px #CCCCCC solid; background:url(../skin/member/lock.gif) no-repeat right;}
+.loginbgs{ width:160px; height:16px; line-height:16px; border:1px #CCCCCC solid;}
+.veribgs{ width:100px; height:16px; line-height:16px; border:1px #CCCCCC solid;}
+.aboutus{ width:800px; margin:15px auto; text-align:center; border-top:1px #CCCCCC dashed; padding-top:10px;}
+.aboutus li{ width:100%; padding:5px 0;}
+.btnlink{ display:block;background:url(../skin/member/btn.gif) no-repeat; width:100px; height:35px; float:left; font-size:14px; color:#FFFFFF; font-weight:bold;text-align:center; margin:10px;}
+.btn{ width:250px; margin:0 auto;}
+.btnlink a{ display:block; color:#FFFFFF; padding:10px 0;}
+.btnlink a:hover{ display:block; color:#FFFFFF; text-decoration:none;  padding:10px 0;}
+
+/*个人登录首页样式定义*/
+.mpwarm{height:200px; float:left; border:1px #ABCEE2 solid; margin:0 auto; padding:4px;}
+.mpwarm span{ display:block; background:url(../skin/member/gonggao.gif) no-repeat left; padding:4px 0 2px 24px; color:#006633;  font-size:14px; font-weight:bold; border-bottom:1px #cccccc dashed;}
+.mpwarm li{padding:4px 0 2px 0px;}
+.mpli{background:url(../skin/member/icon.gif) no-repeat left; padding:4px 0 2px 0px; margin-left:10px;}
+.mpli a{ color:#FF6100;}
+.mpli a:hover{ color:#FF6100;}
+.mpmoney{ width:100%; float:left;border:1px #ABCEE2 solid; margin:6px 0 0 0; padding:4px;height:160px; overflow:hidden;}
+.mpmoney li{ padding:4px 0 2px 0px;}
+.mpmoney span{ display:block; background:url(../skin/member/money.gif) no-repeat left; padding:4px 0 2px 24px; color:#006633;  font-size:14px; font-weight:bold; border-bottom:1px #cccccc dashed;}
+.mpjob{width:56%; float:left;border:1px #ABCEE2 solid; margin:6px;float:left;}
+.mpcom{width:40%; float:left;border:1px #ABCEE2 solid; margin:6px 0 6px 1px; float:left;}
+.comlisttit {float:left; width:100%;background:url(../skin/member/List1.gif) 0 -4px no-repeat; margin:0; padding-left:10px;}
+.mtdiv{width:97%; float:left;border:1px #ABCEE2 solid; margin:6px;float:left;}
+.mtdiv li{ padding:4px 0 2px 0px;}
+.tdcolors{ font-weight:bold; font-size:15px;}
+.inputt{ height:18px;}
+.singupinfo{ width:98%;}
+.singupinfo ul li{ height:24px;}
+
+.sffocus {
+background: #FFFFCC; /*----for IE----*/
+border: 1px solid #7bd443;
+padding: 2px;
+}
+textarea:focus, input:focus {
+background: #FFFFCC; /*----for firefox......----*/
+border: 1px solid #7bd443;
+padding: 2px;
+}
+/*分页样式*/
+.page{width:auto;}
+.page span{border:#C4D8ED 1px solid; height:18px; line-height:18px; background-color:#EEF7FD; font-size:12px; color:#000;padding:0px 4px 0px 4px; margin:0 2px;}
+.page a{border:#C4D8ED 1px solid; height:18px; line-height:18px; background-color:#fff; font-size:12px;  color:#000;padding:0px 4px 0px 4px; margin:0 2px; text-decoration: none;}
+
+.imgareaselect-border1 {background: url(../skin/member/border-anim-v.gif) repeat-y left top;}
+.imgareaselect-border2 {background: url(../skin/member/border-anim-h.gif) repeat-x left top;}
+.imgareaselect-border3 {background: url(../skin/member/border-anim-v.gif) repeat-y right top;}
+.imgareaselect-border4 {background: url(../skin/member/border-anim-h.gif) repeat-x left bottom;}
+
+.imgareaselect-border1, .imgareaselect-border2,
+.imgareaselect-border3, .imgareaselect-border4 {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.imgareaselect-handle {
+    background-color: #fff;
+    border: solid 1px #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.imgareaselect-outer {
+    background-color: #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.imgareaselect-selection {  
+}

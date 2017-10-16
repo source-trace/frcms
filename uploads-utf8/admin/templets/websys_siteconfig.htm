@@ -1,0 +1,446 @@
+<?php
+echo ahead("网站信息配置");
+?>
+</head>
+<script language="javascript" src="../js/ajax.js"></script>
+<script language="javascript">
+var myajax;
+var newobj;
+function LoadUrl(surl){
+  newobj = document.getElementById('testresult');
+  myajax = new Ajax(newobj);
+  myajax.SendGet("websys_siteconfig.php?"+surl);
+}
+
+function opw(url,name, width, height) { //v2.0
+window.open(url,name,''+'width='+width+',height='+height+',scrollbars=yes'+'');
+}
+function show(str)
+{
+	for(i=0;i<=5;i++){
+		document.getElementById("mail"+i).style.display='none';
+	}
+	if(str==2){
+		for(i=0;i<=5;i++){
+			document.getElementById("mail"+i).style.display='';
+		}
+	}else if(str==3){
+		document.getElementById("mail0").style.display='';
+		document.getElementById("mail1").style.display='';
+	}
+}
+</script>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网站信息配置</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><strong>提示信息：</strong>行业分类直接与会员及会员发布的信息相关联。删除分类将同时删除相关联的所有信息，请谨慎操作！</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="#main1">网站信息</a>&nbsp;|&nbsp;<a href="#main2">网站选项</a>&nbsp;|&nbsp;<a href="#main3">SEO选项</a>&nbsp;|&nbsp;<a href="#main4">联系方式</a>&nbsp;|&nbsp;<a href="#main5">会员选项</a>&nbsp;|&nbsp;<a href="#main6">邮件选项</a> |&nbsp;<a href="#main7">留言本选项</a>&nbsp;|&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<table width="100%" border="0" align="center" cellspacing="1" cellpadding="2" class="tableBorder mt6">
+<form name="addform" action="?do=savedata" method="post">
+  <tr>
+    <th colspan="4">网站信息<a name="main1"></a></th>
+  </tr>
+  <tr>
+    <td width="20%" align="right">网站名称：</td>
+    <td colspan="3"><input type="text" name="s_sitename" class="txt" size="30" value="<?php echo $s_sitename;?>">
+    网站名称，将显示在导航和标题中</td>
+  </tr>
+  <tr>
+    <td align="right">网站地址：</td>
+    <td colspan="3"><input type="text" name="s_siteurl" class="txt" size="30" value="<?php echo $s_siteurl;?>">
+    请填写完整URL地址，包括http://</td>
+  </tr>
+  <tr>
+    <td align="right">网站LOGO地址：</td>
+    <td colspan="3"><input type="text" name="s_logourl" class="txt" size="30" value="<?php echo $s_logourl;?>"><input name="Submit" type="button" class="inputs" value="浏览上传" onClick="javascript:opw('../inc/job_up.php?fromForm=addform&fromEdit=s_logourl','logourl',420,165)" />
+    请填写完整LOGOURL地址</td>
+  </tr>
+  <tr>
+    <td align="right">版权信息：</td>
+    <td colspan="3"><textarea name="s_copyright" cols="60" rows="4" class="textarea"><?php echo $s_copyright;?></textarea>
+    支持HTML语法，常用代码：版权&copy; &amp;copy; 空格 &amp;nbsp; 换行  &lt;br/&gt;</td>
+  </tr>
+  <tr>
+    <td align="right">ICP备案证号：</td>
+    <td colspan="3"><input type="text" name="s_icp" class="txt" size="30" value="<?php echo $s_icp;?>">
+    填写 ICP 备案的信息，例如: 沪ICP备xxxxxxxx号</td>
+  </tr>
+  <tr>
+    <td align="right">第三方统计代码：</td>
+    <td colspan="3"><textarea name="s_count" cols="60" rows="4" class="textarea"><?php echo $s_count;?></textarea>
+    在第三方网站上注册并获得统计代码，并将统计代码粘贴在下面文本框中即可</td>
+  </tr>
+  <tr>
+    <td align="right"><font color=red>关闭网站访问：</font></td>
+    <td colspan="3"><input name="s_webstate0" type="checkbox" class=radio value="1"<?php if($s_webstate[0]==1) echo " checked";?>>
+           是 （选择为关闭）关闭后请编辑下边的关闭原因，将在网站关闭后友情提醒用户。</td>
+  </tr>
+  <tr>
+    <td align="right">关闭原因：</td>
+    <td colspan="3"><textarea name="s_webstate1" cols="60" rows="4" class="textarea"><?php echo $s_webstate[1];?></textarea>
+    请填写网站关闭的原因</td>
+  </tr>
+  <tr>
+    <th colspan="4">网站选项<a name="main2"></a></th>
+  </tr>
+  <tr>
+    <td align="right"><font color=red>安装目录：</font></td>
+    <td colspan="3"><input type="text" name="s_path" class="txt" size="20" value="<?php echo $s_path;?>">
+    系统安装目录，系统会自动获得正确的路径</td>
+  </tr>
+  <tr>
+    <td align="right">后台管理目录：</td>
+    <td colspan="3"><input type="text" name="s_admindir" class="txt" size="20" value="<?php echo $s_admindir;?>">
+    为了安全，您可以修改后台管理目录（默认为Admin）</td>
+  </tr>
+  <tr>
+    <td align="right">站点默认模板方案：</td>
+    <td colspan="3"><select name="s_template">
+                        <?php echo $templates;?>
+                    </select>
+    选择默认方案，网站模版方案位于/templates目录下</td>
+  </tr>
+  <tr>
+    <td align="right">站点默认风格：</td>
+    <td colspan="3"><select name="s_skin">
+                        <?php echo $skins;?>
+                    </select>
+    选择默认风格。用户在没有指定风格的时候，均使用默认风格</td>
+  </tr>
+  <tr>
+    <td align="right">站点默认编码：</td>
+    <td colspan="3"><select name="s_charset">
+                        <option value="gbk"<?php if($s_charset=="gbk") echo " selected";?>>简体中文 (gbk)</option>
+                        <option value="big5"<?php if($s_charset=="big5") echo " selected";?>>繁体中文 (big5)</option>
+                        <option value="utf-8"<?php if($s_charset=="utf-8") echo " selected";?>>UTF8编码 (utf-8)</option>
+                    </select>
+    选择与您使用的站点编码相同的设置，无特殊需要请不要随意更改</td>
+  </tr>
+  <tr>
+    <td align="right">允许游客查看联系方式：</td>
+    <td colspan="3"><input name="s_percontact" type="checkbox" class=radio value="1"<?php if($s_percontact==1) echo " checked";?>>个人联系方式开放<input name="s_comcontact" type="checkbox" class=radio id="s_comcontact" value="1"<?php if($s_comcontact==1) echo " checked";?>>企业联系方式开放
+    <span class="f00">选择将允许游客查看，会员扣费设置将失效。</span></td>
+  </tr>
+  <tr>
+    <td align="right">启用联系方式查看可选：</td>
+    <td colspan="3"><input name="s_seecontact" type="checkbox" class=radio value="1"<?php if($s_seecontact==1) echo " checked";?>>
+    选择此项将允许会员自主选择是否查看联系方式，允许游客查看联系方式后此项失效。</td>
+  </tr>
+  <tr>
+    <td align="right">是否开启手机短信通知：</td>
+    <td colspan="3"><input name="s_smssend0" type="checkbox" class="checkbox" value="1"<?php if($s_smssend[0]==1) echo " checked";?>>会员注册
+    <input name="s_smssend1" type="checkbox" class="checkbox" value="1"<?php if($s_smssend[1]==1) echo " checked";?>>找回密码
+    <input name="s_smssend2" type="checkbox" class="checkbox" value="1"<?php if($s_smssend[2]==1) echo " checked";?>>服务开通
+    <input name="s_smssend3" type="checkbox" class="checkbox" value="1"<?php if($s_smssend[3]==1) echo " checked";?>>邀请面试
+    <input name="s_smssend4" type="checkbox" class="checkbox" value="1"<?php if($s_smssend[4]==1) echo " checked";?>>简历投递
+    <input name="s_smssend5" type="checkbox" class="checkbox" value="1"<?php if($s_smssend[5]==1) echo " checked";?>>其他通知 选中为开启短信通知</td>
+  </tr>
+  <tr>
+    <td align="right">是否启用验证码：</td>
+    <td colspan="3"><input name="s_verifycode0" type="checkbox" class="checkbox" value="1"<?php if($s_verifycode[0]==1) echo " checked";?>>用户注册
+    <input name="s_verifycode1" type="checkbox" class="checkbox" value="1"<?php if($s_verifycode[1]==1) echo " checked";?>>用户登录
+    <input name="s_verifycode2" type="checkbox" class="checkbox" value="1"<?php if($s_verifycode[2]==1) echo " checked";?>>发表评论
+    <input name="s_verifycode3" type="checkbox" class="checkbox" value="1"<?php if($s_verifycode[3]==1) echo " checked";?>>签写留言
+    <input name="s_verifycode4" type="checkbox" class="checkbox" value="1"<?php if($s_verifycode[4]==1) echo " checked";?>>找回密码
+    <input name="s_verifycode5" type="checkbox" class="checkbox" value="1"<?php if($s_verifycode[5]==1) echo " checked";?>>管理员登录 选定为开启
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Cookie 路径：</td>
+    <td colspan="3"><input type="text" name="s_cookiepath" class="txt" size="20" value="<?php echo $s_cookiepath;?>">
+    注意:只有在特殊情况下才需要进行此设置，若您不能肯定，请填写“/”，输入错误的设置会导致站点无法正常登录</td>
+  </tr>
+  <tr>
+    <td align="right">Cookie 作用域：</td>
+    <td colspan="3"><input type="text" name="s_cookiedomain" class="txt" size="20" value="<?php echo $s_cookiedomain;?>">
+    注意:只有在特殊情况下才需要进行此设置，若您不能肯定，请留空，输入错误的设置会导致站点无法正常登录</td>
+  </tr>
+  <tr>
+    <th colspan="4">SEO选项<a name="main3"></a></th>
+  </tr>
+  <tr>
+    <td align="right">网站标题：</td>
+    <td colspan="3"><input type="text" name="s_sitetitle" class="txt" size="50" value="<?php echo $s_sitetitle;?>"></td>
+  </tr>
+  <tr>
+    <td align="right">网站META关键词：</td>
+    <td colspan="3"><textarea name="s_keywords" cols="60" rows="4" class="textarea"><?php echo $s_keywords;?></textarea>
+    针对搜索引擎设置的关键词，多个关键词请用,号分隔，关键字为汉字</td>
+  </tr>
+  <tr>
+    <td align="right">网站META网页描述：</td>
+    <td colspan="3"><textarea name="s_description" cols="60" rows="4" class="textarea"><?php echo $s_description;?></textarea>
+    针对搜索引擎设置的网页描述，多个描述请用,号分隔，描述为汉字</td>
+  </tr>
+  <tr>
+    <td align="right">其他头部信息:</td>
+    <td colspan="3"><textarea name="s_meta" cols="60" rows="4" class="textarea"><?php echo $s_meta;?></textarea>
+    请填写需要添加的其他META信息</td>
+  </tr>
+  <tr>
+    <td align="right">是否静态优化：</td>
+    <td colspan="3"><input name="s_createhtml" type=radio class="checkbox" value="0" checked> 
+          不启用模拟静态及生成
+<br>
+            <input name="s_createhtml" type=radio class="checkbox"   value="1"<?php if($s_createhtml==1) echo " checked";?>>
+开启生成HTML静态页面 开启本功能可以降低服务器负担，提高Web访问速度。<br>
+<input name="s_createhtml" type=radio class="checkbox"   value="2"<?php if($s_createhtml==2) echo " checked";?>>
+开启模拟静态化 开启本功能需要对Web服务器增加相应的 Rewrite 规则，且会轻微增加服务器负担。</span></td>
+  </tr>
+  <tr>
+    <td align="right">生成静态文件目录：</td>
+    <td colspan="3"><input type="text" name="s_htmlpath" class="txt" size="20" value="<?php echo $s_htmlpath;?>"></td>
+  </tr>
+  <tr>
+    <td align="right">首页静态文件类型：</td>
+    <td colspan="3"><select name="s_defaultext">
+            <OPTION value="html"<?php if($s_defaultext=="html") echo " selected";?>>.html</OPTION>
+            <OPTION value="htm"<?php if($s_defaultext=="htm") echo " selected";?>>.htm</OPTION>
+            <OPTION value="shtml"<?php if($s_defaultext=="shtml") echo " selected";?>>.shtml</OPTION>
+            <OPTION value="shtm"<?php if($s_defaultext=="shtm") echo " selected";?>>.shtm</OPTION>
+          </select></td>
+  </tr>
+  <tr>
+    <td align="right">启用定时生成：</td>
+    <td colspan="3"><input name="s_createtime" id="s_createtime" value="<?php echo $s_createtime;?>" size="10" maxLength=10>
+            分钟 <span class="f00">注：0为不自动生成</span> 为减轻服务器负担，请设置在10～30分钟之间。</td>
+  </tr>
+  <tr>
+    <td align="right">启用百度SiteMap：</td>
+    <td colspan="3"><input name="s_sitemap" type=radio class="checkbox" value="1" checked>
+		  	是
+            <input name="s_sitemap" type=radio class="checkbox" value="0"<?php if($s_sitemap==0) echo " checked";?>>
+            否 启用SiteMap会增加或者加快搜索引擎对您网站的收录。</td>
+  </tr>
+  <tr>
+    <td align="right">SiteMap更新周期：</td>
+    <td colspan="3"><input name="s_sitemaptime" id="s_sitemaptime" value="<?php echo $s_sitemaptime;?>" size="10" maxLength=10>
+            设置SiteMap缓存更新的时间，单位为小时。数值设置为1～24，建议设置为12小时。</td>
+  </tr>
+  <tr>
+    <th colspan="4">联系信息<a name="main4"></a></th>
+  </tr>
+  <tr>
+    <td align="right">管理员姓名：</td>
+    <td colspan="3"><input type="text" name="s_master" class="txt" size="30" value="<?php echo $s_master;?>">
+    填写管理员姓名</td>
+  </tr>
+  <tr>
+    <td align="right">管理员信箱：</td>
+    <td colspan="3"><input type="text" name="s_email" class="txt" size="30" value="<?php echo $s_email;?>">
+    填写站点管理员的邮箱地址</td>
+  </tr>
+  <tr>
+    <td align="right">客服专员：</td>
+    <td colspan="3"><input type="text" name="s_contact" class="txt" size="30" value="<?php echo $s_contact;?>">
+    填写客服专员姓名，显示在会员中心及联系方式页面</td>
+  </tr>
+  <tr>
+    <td align="right">网站联系地址：</td>
+    <td colspan="3"><input type="text" name="s_address" class="txt" size="30" value="<?php echo $s_address;?>">
+    填写联系地址，显示在底部网站版权位置及联系方式页面</td>
+  </tr>
+  <tr>
+    <td align="right">客户服务热线：</td>
+    <td colspan="3"><input type="text" name="s_phone" class="txt" size="30" value="<?php echo $s_phone;?>">
+    填写客服热线电话，显示在首页TOP及底部网站版权位置</td>
+  </tr>
+  <tr>
+    <td align="right">客户服务传真：</td>
+    <td colspan="3"><input type="text" name="s_fax" class="txt" size="30" value="<?php echo $s_fax;?>">
+    填写客服传真号码，显示在联系方式相关页面</td>
+  </tr>
+  <tr>
+    <td align="right">客户服务QQ：</td>
+    <td colspan="3"><input type="text" name="s_serviceqq" class="txt" size="30" value="<?php echo $s_serviceqq;?>">
+    填写客服QQ号码，显示在联系方式相关页面</td>
+  </tr>
+  <tr>
+    <th colspan="4">会员选项<a name="main5"></a></th>
+  </tr>
+  <tr>
+    <td align="right"><font color=red>同一IP注册间隔限制：</font></td>
+    <td colspan="3"><input name="s_regperiod" type="text" value="<?php echo $s_regperiod;?>" class="txt" size="10" />(小时，0为不限制)</td>
+  </tr>
+  <tr>
+    <td align="right"><font color=red>关闭个人会员注册：</font></td>
+    <td colspan="3"><input name="s_regperson0" type="checkbox" class=radio value="1"<?php if($s_regperson[0]==1) echo " checked";?>>选中为关闭　原因 <input name="s_regperson1" type="text" value="<?php echo $s_regperson[1];?>" class="txt" size=30></td>
+  </tr>
+  <tr>
+    <td width="20%" align="right">个人会员注册审核：</td>
+    <td width="30%"><input name="s_regperson2" type="checkbox" class="checkbox" value="1"<?php if($s_regperson[2]==1) echo " checked";?>>
+		  	是</td>
+    <td width="20%" align="right">个人照片审核：</td>
+    <td width="30%"><input name="s_regperson3" type="checkbox" class="checkbox" value="1"<?php if($s_regperson[3]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <td align="right">个人简历审核：</td>
+    <td><input name="s_regperson4" type="checkbox" class="checkbox" value="1"<?php if($s_regperson[4]==1) echo " checked";?>>
+		  	是</td>
+    <td align="right">个人会员注册通知邮件：</td>
+    <td><input name="s_regperson5" type="checkbox" class="checkbox" value="1"<?php if($s_regperson[5]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <td align="right"><font color=red>关闭企业会员注册：</font></td>
+    <td colspan="3"><input name="s_regcompany0" type="checkbox" class=radio value="1"<?php if($s_regcompany[0]==1) echo " checked";?>>选中为关闭　原因 <input name="s_regcompany1" type="text" value="<?php echo $s_regcompany[1];?>" class="txt" size=30></td>
+  </tr>
+  <tr>
+    <td align="right">企业会员注册审核：</td>
+    <td><input name="s_regcompany2" type="checkbox" class="checkbox" value="1"<?php if($s_regcompany[2]==1) echo " checked";?>>
+		  	是</td>
+    <td align="right">企业LOGO审核：</td>
+    <td><input name="s_regcompany3" type="checkbox" class="checkbox" value="1"<?php if($s_regcompany[3]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <td align="right">职位发布审核：</td>
+    <td><input name="s_regcompany4" type="checkbox" class="checkbox" value="1"<?php if($s_regcompany[4]==1) echo " checked";?>>
+		  	是</td>
+    <td align="right">企业会员注册通知邮件：</td>
+    <td><input name="s_regcompany5" type="checkbox" class="checkbox" value="1"<?php if($s_regcompany[5]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <td align="right"><font color=red>关闭院校会员注册：</font></td>
+    <td colspan="3"><input name="s_regschool0" type="checkbox" class=radio value="1"<?php if($s_regschool[0]==1) echo " checked";?>>选中为关闭　原因 <input name="s_regschool1" type="text" value="<?php echo $s_regschool[1];?>" class="txt" size=30></td>
+  </tr>
+  <tr>
+    <td align="right">院校会员注册审核：</td>
+    <td><input name="s_regschool2" type="checkbox" class="checkbox" value="1"<?php if($s_regschool[2]==1) echo " checked";?>>
+		  	是</td>
+    <td align="right">院校LOGO审核：</td>
+    <td><input name="s_regschool3" type="checkbox" class="checkbox" value="1"<?php if($s_regschool[3]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <td align="right">院校职位发布审核：</td>
+    <td><input name="s_regschool4" type="checkbox" class="checkbox" value="1"<?php if($s_regschool[4]==1) echo " checked";?>>
+		  	是</td>
+    <td align="right">院校会员注册通知邮件：</td>
+    <td><input name="s_regschool5" type="checkbox" class="checkbox" value="1"<?php if($s_regschool[5]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <td align="right"><font color=red>关闭培训会员注册：</font></td>
+    <td colspan="3"><input name="s_regtrain0" type="checkbox" class=radio value="1"<?php if($s_regtrain[0]==1) echo " checked";?>>选中为关闭　原因 <input name="s_regtrain1" type="text" value="<?php echo $s_regtrain[1];?>" class="txt" size=30></td>
+  </tr>
+  <tr>
+    <td align="right">培训会员注册审核：</td>
+    <td><input name="s_regtrain2" type="checkbox" class="checkbox" value="1"<?php if($s_regtrain[2]==1) echo " checked";?>>
+		  	是</td>
+    <td align="right">培训LOGO审核：</td>
+    <td><input name="s_regtrain3" type="checkbox" class="checkbox" value="1"<?php if($s_regtrain[3]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <td align="right">培训职位发布审核：</td>
+    <td><input name="s_regtrain4" type="checkbox" class="checkbox" value="1"<?php if($s_regtrain[4]==1) echo " checked";?>>
+		  	是</td>
+    <td align="right">培训会员注册通知邮件：</td>
+    <td><input name="s_regtrain5" type="checkbox" class="checkbox" value="1"<?php if($s_regtrain[5]==1) echo " checked";?>>
+		  	是</td>
+  </tr>
+  <tr>
+    <th colspan="4">邮件选项<a name="main6"></a></th>
+  </tr>
+  <tr>
+    <td align="right">邮件发送方式：</td>
+    <td colspan="3"><input name="s_mailobject" type=radio class="checkbox" onClick="show(1);" value="0" checked>
+通过 PHP mail函数的 sendmail 发送(通常为Unix/Linux 主机)<br>
+<input name="s_mailobject" type=radio class="checkbox" onClick="show(2);" value="1"<?php if($s_mailobject==1) echo " checked";?>>
+通过 SOCKET 连接 SMTP 服务器发送(支持 ESMTP 验证)<br>
+<input name="s_mailobject" type=radio class="checkbox" onClick="show(3);" value="2"<?php if($s_mailobject==2) echo " checked";?>>
+通过 PHP mail函数 SMTP 发送(仅 Windows 主机下有效, 不支持 ESMTP 验证)</td>
+  </tr>
+  <tr id="mail0" style="display:none">
+    <td align="right">SMTP 服务器：</td>
+    <td colspan="3"><input type="text" name="s_mailserver" class="txt" size="30" value="<?php echo $s_mailserver;?>">
+    设置 SMTP 服务器的地址</td>
+  </tr>
+  <tr id="mail1" style="display:none">
+    <td align="right">SMTP 端口：</td>
+    <td colspan="3"><input type="text" name="s_mailport" class="txt" size="30" value="<?php echo $s_mailport;?>">
+    设置 SMTP 服务器的端口，默认为 25</td>
+  </tr>
+  <tr id="mail2" style="display:none">
+    <td align="right">SMTP 服务器身份验证：</td>
+    <td colspan="3"><input name="s_mailvali" type=radio class="checkbox" value="1" checked>
+		  	是
+            <input name="s_mailvali" type=radio class="checkbox" value="0"<?php if($s_mailvali==0) echo " checked";?>>
+            否 如果 SMTP 服务器要求身份验证才可以发信，请选择“是”</td>
+  </tr>
+  <tr id="mail3" style="display:none">
+    <td align="right">发信人邮件地址:</td>
+    <td colspan="3"><input type="text" name="s_mailadd" class="txt" size="30" value="<?php echo $s_mailadd;?>">
+    如果需要验证, 必须为本服务器的邮件地址。</td>
+  </tr>
+  <tr id="mail4" style="display:none">
+    <td align="right">SMTP 身份验证用户名:</td>
+    <td colspan="3"><input type="text" name="s_username" class="txt" size="30" value="<?php echo $s_username;?>"></td>
+  </tr>
+  <tr id="mail5" style="display:none">
+    <td align="right">SMTP 身份验证密码:</td>
+    <td colspan="3"><input type="password" name="s_password" class="txt" size="30" value="<?php echo $s_password;?>"></td>
+  </tr>
+  <tr>
+    <td align="right">邮件头的分隔符:</td>
+    <td colspan="3"><input name="s_mailcrlf" type=radio class="checkbox" value="0" checked>
+使用 CRLF 作为分隔符(通常为 Windows 主机)<br>
+<input name="s_mailcrlf" type=radio class="checkbox"   value="1"<?php if($s_mailcrlf==1) echo " checked";?>>
+使用 LF 作为分隔符(通常为 Unix/Linux 主机)<br>
+<input name="s_mailcrlf" type=radio class="checkbox"   value="2"<?php if($s_mailcrlf==2) echo " checked";?>>
+使用 CR 作为分隔符(通常为 Mac 主机)</td>
+  </tr>
+  <tr>
+    <td align="right">测试发件人: </td>
+    <td colspan="3"><input type="text" name="s_testfrom" class="txt" size="30" value=""> <span id="testresult"></span></td>
+  </tr>
+  <tr>
+    <td align="right">测试收件人:</td>
+   <td colspan="3"><input type="text" name="s_testto" class="txt" size="30" value=""> <input name="test" type="button" id="test" onClick="LoadUrl('do=testmail&to='+s_testto.value+'&from='+s_testfrom.value);" value="测试邮件发送" class="inputs"></td>
+  </tr>
+  <tr>
+    <th colspan="4">留言评论选项<a name="main7"></a></th>
+  </tr>
+  <tr>
+    <td align="right">是否开启评论功能：</td>
+    <td colspan="3"><input name="s_comment" type=radio class="checkbox" value="1" checked>
+		  	是&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="s_comment" type=radio class="checkbox" value="0"<?php if($s_comment==0) echo " checked";?>>
+            否</td>
+  </tr>
+  <tr>
+    <td align="right">评论是否需要审核：</td>
+    <td colspan="3"><input name="s_commentcheck" type=radio class="checkbox" value="1" checked>
+		  	是&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="s_commentcheck" type=radio class="checkbox" value="0"<?php if($s_commentcheck==0) echo " checked";?>>
+            否</td>
+  </tr>
+  <tr>
+    <td align="right">是否允许游客留言：</td>
+    <td colspan="3"><input name="s_gbenablevisitor" type=radio class="checkbox" value="1" checked>
+		  	是&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="s_gbenablevisitor" type=radio class="checkbox" value="0"<?php if($s_gbenablevisitor==0) echo " checked";?>>
+            否</td>
+  </tr>
+  <tr>
+    <td align="right">要屏蔽的关键字：</td>
+    <td colspan="3"><textarea name="s_gbmanagerubbish" cols="60" rows="4" class="textarea"><?php echo $s_gbmanagerubbish;?></textarea></td>
+  </tr>
+  <tr>
+    <td colspan="4" align="right" class="tdpage"><input type="submit" name="submit" value=" 保 存 " class="inputs" /></td>
+    </tr>
+  </form>
+</table>
+<?php
+echo acopy();
+?>

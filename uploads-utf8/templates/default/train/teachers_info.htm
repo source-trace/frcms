@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">
+    <ul>
+      <li> </li>
+      <li> </li>
+      <li> </li>
+      <li> </li>
+	</ul>
+</div>
+</div>
+
+<div class="container">
+	<div class="schtop">
+		<div class="schname">{$m_name}<img src='http://127.0.0.1:8080/skin/system/group0.gif' alt='{$g_name}' /></div>
+		<div class="schurl" style="padding-left:120px;">{$m_url}</div>
+        </div>
+
+	</div>
+</div>
+
+
+<div class="container mtop">
+	
+		<div class="tras_left">
+        	<ul>
+			<li><a href="/train/train_view.php?tid={$m_id}">机构概况</a></li>
+			<li><a href="/train/teachers_info.php?tid={$m_id}">师资力量</a></li>
+			<li><a href="/train/achievement_info.php?tid={$m_id}">主要业绩</a></li>
+			<li><a href="/train/course_more.php?tid={$m_id}">培训课程</a></li>
+			<li><a href="/train/trainer_more.php?tid={$m_id}">培训师</a></li>
+			<li><a href="/train/contact.php?tid={$m_id}">联系方式</a></li>
+            </ul>
+		</div>
+	
+		<div class="tras_right sch_info">    
+    			<div class="tit"><span></span>师资力量</div>
+                <div class="con1">
+                 {$m_teachers}
+    			</div>
+    	</div>
+    
+</div>
+
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

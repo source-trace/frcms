@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">
+    <ul>
+      <li> </li>
+      <li> </li>
+      <li> </li>
+      <li> </li>
+	</ul>
+</div>
+</div>
+
+<div class="container">
+	<div class="schtop">
+		<div class="schname">{$m_name}<img src='/skin/system/group0.gif' alt='{$g_name}' /></div>
+		<div class="schurl" style="padding-left:120px;">{$m_url}</div>
+        </div>
+
+	</div>
+</div>
+
+
+<div class="container mtop">
+	
+		<div class="tras_left">
+        	<ul>
+			<li><a href="/train/train_view.php?tid={$m_id}">机构概况</a></li>
+			<li><a href="/train/teachers_info.php?tid={$m_id}">师资力量</a></li>
+			<li><a href="/train/achievement_info.php?tid={$m_id}">主要业绩</a></li>
+			<li><a href="/train/course_more.php?tid={$m_id}">培训课程</a></li>
+			<li><a href="/train/trainer_more.php?tid={$m_id}">培训师</a></li>
+			<li><a href="/train/contact.php?tid={$m_id}">联系方式</a></li>
+            </ul>
+		</div>
+	
+		<div class="tras_right sch_info">    
+    			<div class="tit"><span></span>培训师详细信息</div>
+                <div class="con1">
+               
+ 
+               <table border="0" cellspacing="1" cellpadding="4" width="100%" bgcolor="#cccccc">
+  <tbody>
+    <tr>
+      <td bgcolor="#eefaff" width="15%" align="right">姓名：</td>
+      <td bgcolor="#ffffff" width="25%">{$t_name}</td>
+      <td bgcolor="#eefaff" width="15%" align="right">性别：</td>
+      <td bgcolor="#ffffff" width="25%">{$t_sex}</td>
+      <td bgcolor="#ffffff" rowspan="5" width="20%" align="middle"><img src="{$t_photo}" width="90" height="120" /></td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">民族:</td>
+      <td bgcolor="#ffffff">{$t_nation}</td>
+      <td bgcolor="#eefaff" align="right">出生年月:</td>
+      <td bgcolor="#ffffff">{$t_birth}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">毕业院校:</td>
+      <td bgcolor="#ffffff">{$t_school} </td>
+      <td bgcolor="#eefaff" align="right">专业:</td>
+      <td bgcolor="#ffffff">{$t_nation}　</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">最高学历:</td>
+      <td bgcolor="#ffffff">{$t_edu}</td>
+      <td bgcolor="#eefaff" align="right">现有职称:</td>
+      <td bgcolor="#ffffff">{$t_jobtitle} </td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">工作单位:</td>
+      <td bgcolor="#ffffff">{$t_jcomname} <a href="/train/train_view.php?tid={$t_tid}" target="_blank">查看</a></td>
+      <td bgcolor="#eefaff" align="right">职务:</td>
+      <td bgcolor="#ffffff">{$t_position} </td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">所在地区:</td>
+      <td bgcolor="#ffffff" colspan="4">{$t_address} </td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" colspan="5">个人简介</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" colspan="5">{$t_introduce}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" colspan="5">重要成果</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" colspan="5">{$t_fruit}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" colspan="5">联系方式</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" colspan="5">地 址：{$t_address}<br />
+        邮   编：{$t_post}<br />
+        电 话：{$t_tel}<br />
+        传 真：　{$t_fax}<br />
+        E-mail：{$t_email}<br />
+        个人主页：<a href="{$t_url}">{$t_url}</a><br /></td>
+    </tr>
+  </tbody>
+</table>
+               
+               
+               
+               
+               
+               
+    			</div>
+    	</div>
+    
+</div>
+
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

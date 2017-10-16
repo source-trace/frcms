@@ -1,0 +1,166 @@
+<?php
+echo ahead("友情链接管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">友情链接管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="websys_links.php">管理首页</a> | <?php if(aflags($admin_flags,0,1)){?><a href="?do=add">添加链接</a> | <?php }?><a href="?state=0">未审核链接</a>&nbsp;|&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php if($do=="add"||$do=="edit"){ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post">
+<input type="hidden" name="lid" value="<?php echo $lid;?>">
+<tr>
+    <th class="tableHeaderText" colspan=2 height=25><?php if($lid!=''){echo '修改';}else{echo '添加';}?>友情链接</th>
+</tr>
+<tr><td width="80" height="25" align="right">链接类型：</td>
+<td><input type="radio" name="key" value="0" checked="checked" class="checkbox" onClick="lx01.style.display='';lx02.style.display='none'">
+        文字 
+        <input type="radio" name="key" value="1" <?php if($key==1) echo 'checked="checked"';?> class=" checkbox" onClick="lx02.style.display='';lx01.style.display='none'">
+        图片</td></tr>
+<tr id="lx01" <?php if($key==1) echo 'style="display:none;"';?>><td width="80" height="25" align="right">网站名称：</td>
+<td><input name="linkname" type="text" size="20" class="txt" value="<?php echo $linkname;?>" /></td></tr>
+<tr id="lx02" <?php if($key==0) echo 'style="display:none;"';?>>
+      <td width="80" height="25" align="right">图片地址：</td>
+      <td><input name="linknames" type="text" size="40" class="txt" value="<?php echo $linknames;?>">
+      <input name="upfile" type="button" class="inputs" onClick="javascript:opw('../inc/job_up.php?fromForm=addform&fromEdit=linknames','上传图片',420,165)" value="点击上传" /> 尺寸：88*31</td>
+    </tr>
+<tr> <td height="25" align="right">链接地址：</td>
+<td><input name="linkurl" type="text" size="40" value="<?php echo $linkurl;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">网站说明：</td>
+<td><input name="linksm" type="text" size="40" class="txt" value="<?php echo $linksm;?>" /></td></tr>
+<tr><td height="25" align="right">显示顺序：</td>
+<td><input name="order" type="text" size="10" class="txt" value="<?php echo $order;?>" /></td></tr>
+<tr><td height="25" align="right">审核状态：</td>
+<td><input type="radio" name="key1" value="0" checked="checked" class="checkbox">
+        未审 
+        <input type="radio" name="key1" value="1" <?php if($key1==1) echo 'checked="checked"';?> class=" checkbox">
+        已审</td></tr>
+<tr><td height="25" align="right">推荐状态：</td>
+<td><input type="radio" name="tj" value="0" checked="checked" class="checkbox">
+        未推荐 
+        <input type="radio" name="tj" value="1" <?php if($tj==1) echo 'checked="checked"';?> class=" checkbox">
+        推荐</td></tr>
+<tr><td height="25" align="center" colspan="2"><input name="Submit" type="submit" class="inputs" value="<?php if($lid!=''){echo ' 修 改 ';}else{echo ' 添 加 ';}?>"></td></tr>
+</form>
+</table>
+<?php
+}else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="form" action="websys_links.php" method="post">
+<tr>
+    <th colspan=8 height=25>友情链接列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height=25>编号</td>
+    <td width="15%">站点名称</td>
+    <td width="44%">站点说明</td>
+    <td width="5%">排序</td>
+    <td width="10%">状态</td>
+    <td width="10%">所属站点</td>
+    <td width="6%">操作</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center" onMouseOver="this.style.background='#FFFFCC'" onMouseOut="this.style.background='#EEF7FD'"> 
+    <td height=25><?php echo $rs["l_id"];?></td>
+    <td><a href="<?php echo $rs["l_url"];?>" target="_blank"><?php if($rs["l_key"]==0){echo $rs["l_name"];}else{echo '<img src="'.$rs["l_name"].'" width="88" height="31" border="0">';}?></a></td>
+    <td align="left" title="<?php echo $rs["l_sm"];?>"><?php echo sub_cnstrs($rs["l_sm"],28);?></td>
+	<td><?php echo $rs["l_order"];?></td>
+    <td><?php if($rs["l_key1"]==0){echo "<font color='#cccccc'>未审</font>";}else{echo "已审";}?> | <?php if($rs["l_tj"]==1){echo "推荐";}else{echo "<font color='#cccccc'>推荐</font>";}?></td>
+	<td><?php if(aflags($admin_flags,1,1)&&_getcookie('admin_type')!='sitemanage'){?><select name="site" id="site" style="width:80px;" size="1" onChange="javascript:window.location='?do=setsite&id=<?php echo $rs["l_id"];?>&site='+this.options[this.selectedIndex].value;">
+	<option value="0" selected="selected">主站</option>
+	<?php echo asite($rs["l_site"]);?>
+	</select>
+    <?php }else{echo asite($rs["l_site"],1);}?>
+    </td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&lid=<?php echo $rs["l_id"];?>">编辑</a><?php }else{echo "<font color=\"#666666\">编辑</font>";}?></td>
+    <td><input type="checkbox" name="lid" value="<?php echo $rs["l_id"]; ?>" class="checkbox" /></td>
+</tr>
+<?php 
+}
+?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="lids" value=""><?php if(aflags($admin_flags,1,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(1);" value="未审"> 
+      <input name="button" type="button" class="inputs" onClick="confirmX(2);" value="审核">
+      <input name="button" type="button" class="inputs" onClick="confirmX(3);" value="未推荐">
+      <input name="button" type="button" class="inputs" onClick="confirmX(4);" value="推荐">
+    <?php }
+    if(aflags($admin_flags,3,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(5);" value="删除"><?php }?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("lid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.lids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=unadui";
+		document.form.submit();		
+	}
+	if(num==2)
+	{
+		document.form.action="?do=adui";
+		document.form.submit();		
+	}
+	if(num==3)
+	{
+		document.form.action="?do=uncommand";
+		document.form.submit();		
+	}
+	if(num==4)
+	{
+		document.form.action="?do=command";
+		document.form.submit();		
+	}
+	if(num==5)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("lid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+function opw(url,name,width,height) 
+{
+	window.open(url,name,''+'width='+width+',height='+height+',scrollbars=yes'+'');
+}
+</script>

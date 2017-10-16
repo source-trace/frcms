@@ -1,0 +1,152 @@
+<?php
+echo ahead("猎头服务设置管理");
+if($do=="add"||$do=="edit"){
+?>
+<script LANGUAGE="JavaScript">
+function check()
+{
+if (document.form.title.value=="")
+{
+alert("请输入页面标题！")
+document.form.title.focus()
+document.form.title.select()
+return
+}
+
+document.form.submit()
+}
+</script>
+<script charset="utf-8" src="../freditor/kindeditor.js"></script>
+<script>
+	KE.show({id : 'content',width : "100%",height : "300px",resizeMode : 1,urlType : "absolute",
+		afterCreate : function(id) {
+			KE.event.ctrl(document, 13, function() {
+				KE.util.setData(id);
+				document.forms['addform'].submit();
+			});
+			KE.event.ctrl(KE.g[id].iframeDoc, 13, function() {
+				KE.util.setData(id);
+				document.forms['addform'].submit();
+			});
+		}
+	});
+</script>
+<?php
+}
+?>
+</head>
+<body><br />
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">猎头服务管理</th>
+  </tr>
+
+  <tr>
+    <td height="22"><strong>管理选项</strong>：<a href="hr_zw.php">管理首页</a> | <?php if(aflags($admin_flags,0,1)){?><a href="hr_zw.php?do=add">猎头职位添加</a> | <?php }?><a href="hr_zw.php">猎头职位管理</a> | <a href="hr.php">猎头服务设置</a> | <?php if(aflags($admin_flags,0,1)){?><a href="hr.php?do=add">添加猎头服务</a><?php }?> [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+ 
+</table>
+<?php
+if($do=="add"||$do=="edit"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post">
+<input type="hidden" name="cid" value="<?php echo $cid;?>">
+<tr>
+    <th colspan=2 height=25><?php if($aid!=''){echo '修改';}else{echo '添加';}?>猎头服务页面</th>
+</tr>
+<tr><td width="80" height="25" align="right">页面标题：</td>
+<td><input maxlength="100" size="50" name="title" class="txt" value="<?php echo $title;?>" /> <span class="f00">如：关于我们</span></td></tr>
+
+<tr> <td height="25" align="right">内容：</td>
+<td><textarea name="content" cols="60" rows="10" class="txt"><?php echo $content;?></textarea></td></tr>
+
+
+
+<tr><td height="25" align="right">显示顺序：</td>
+<td><input name="isorder" type="text" value="<?php echo $isorder;?>" class="txt" size="4" /> 数字越小越靠前</td></tr>
+<tr><td height="25" align="center" colspan="2"><input name="Submit" type="submit" onClick="check()" class="inputs" value="<?php if($aid!=''){echo ' 修 改 ';}else{echo ' 添 加 ';}?>"></td></tr>
+</form>
+</table>
+<?php }else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form" action="websys_common.php" method="post">
+<tr>
+    <th colspan=7 height=25>猎头服务页面管理</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="25%">页面标题</td> 
+
+    <td width="20%">最后修改时间</td>
+    
+    <td width="10%">操作</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25><?php echo $rs["c_id"];?></td>
+    <td align="left">&nbsp;<a href="../hr/hr.php?hrid=<?php echo $rs["c_id"];?>" target="_blank"><?php echo $rs["c_title"];?></a></td>
+   
+    <td><?php echo $rs["c_dateandtime"];?></td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&cid=<?php echo $rs["c_id"];?>">修改</a><?php }else{echo "<font color=\"#666666\">编辑</font>";}?></td>
+    <td><input type="checkbox" name="cid" value="<?php echo $rs["c_id"]; ?>" class="checkbox" /></td>
+</tr>
+<?php 
+}
+?>
+<?php if(aflags($admin_flags,3,1)){?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="cids" value="">
+    <input name="button" type="button" class="inputs" onClick="confirmX(1);" value=" 删除 "></td></tr>
+<?php }?>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("cid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.cids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("cid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

@@ -1,0 +1,84 @@
+<?php
+echo ahead("模板文件管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">模板文件管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>提示信息：</b>模版文件位于"/templates/"目录下，新制作的模版方案请直接上传至templates目录！</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="template_files.php?do=add">添加模板文件</a> | <a href="template_files.php">模板文件管理</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>当前目录：</b><?php echo $template_path;?> <?php if($template_path != $cfg['path'].'templates/'){echo '[<a href="?dir='.$prev_dir.'">返回上一级</a>]';}?></td>
+  </tr>
+</table>
+<?php
+if($do=="add"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+  <tr>
+    <th colspan="2">添加模版文件</th>
+  </tr>
+<form name="addform" method="post" action="?do=savedata&ofileid=<?php echo $fileid;?>">
+  <tr>
+    <td align="right" width="80">模版目录：</td>
+    <td><?php echo $template_path;?></td>
+  </tr>
+  <tr>
+    <td align="right">文件名：</td>
+    <td><input type="text" size="20" name="fileid" class="txt" value="<?php echo $fileid;?>"/>.htm 文件名由字母、数字、下划线组成，不支持中文。</td>
+  </tr>
+  <tr>
+    <td align="right">模版名称：</td>
+    <td><input name="name" type="text" size="20" class="txt" value="<?php echo $name;?>" /> 请输入定义的模版名称，支持中文。</td>
+  </tr>
+<tr>
+<td align="right">模版内容：</td>
+<td>
+<textarea name="content" style="width:98%;height:300px;"><?php echo $content;?></textarea>
+</td>
+</tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td><input type="hidden" name="dir" value="<?php echo $dir;?>"/>
+    <input name="submit2" type="submit" class="inputs" value=" 保 存 " />
+    <input name="submit" type="button" class="inputs" value=" 预 览 " />
+    <input name="submit" type="button" class="inputs" value=" 返 回 " onclick="window.history.go(-1);" />
+    <input name="Submit3" type="reset" class="inputs" value=" 重 置 " /></td>
+  </tr>
+</form>
+</table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=8 height=25>网站模版列表</th>
+</tr>
+<form name="addform" method="post" action="?do=savelist">
+<tr align="center"> 
+	<td width="25%" height="22">文件名</td>
+	<td width="20%">模版名称</td> 
+	<td width="10%">文件大小</td>
+    <td width="20%">修改时间</td>
+	<td width="10%">属性</td>
+	<td width="15%">操作选项</td>
+</tr>
+<?php echo $templatelist;?>
+<tr align="center"> 
+	<td height="22" colspan="6"><input type="hidden" name="dir" value="<?php echo $dir;?>"/>
+		<label>
+			<input type="submit" name="button" id="button" value="批量保存目录及文件名称" class="inputs">
+		</label></td>
+	</tr>
+</form>
+</table>
+<?php
+}
+echo acopy();
+?>

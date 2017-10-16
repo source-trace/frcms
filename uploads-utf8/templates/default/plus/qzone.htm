@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="keywords" content="{$cfg['keywords']}" />
+<meta name="description" content="{$cfg['description']}" />
+<title>完善会员资料-QQ号码登录-{$cfg['sitename']}</title>
+<link href="{$cfg['siteurl']}{$cfg['path']}css/{$cfg['skin']}/common.css" rel="stylesheet" type="text/css">
+<script src="{$cfg['path']}js/jquery-1.4.2.min.js" language="javascript"></script>
+<script src="{$cfg['path']}js/jquery.validate.min.js" language="javascript"></script>
+<script type="text/javascript">
+$.validator.methods.islogin=function(value, element) {    
+	var tel = /^([A-Za-z0-9_@.-]|[\u4e00-\u9fa5]){4,20}$/;
+	return tel.test(value);}
+$().ready(function() {
+	$("#register").validate({
+		success: function(label) {
+			label.text("输入正确!").addClass("success");
+		}, 
+		rules: {
+			login: {islogin: true,remote: {url: "{$cfg['path']}register.php?do=check",type: "post",dataType: "json", data: {login: function() {return $("#login").val();}}}},
+			email: {required: true,email: true,maxlength: 100,remote: {url: "{$cfg['path']}register.php?do=check",type: "post",dataType: "json", data: {email: function() {return $("#email").val();}}}},
+			mobile: {required: true,digits:true,rangelength:[10,12]}
+		},
+		messages: {
+			login: {
+				islogin:"用户名要求长度为4-20位(可用汉字、字母、数字、下划线;)",
+				remote:"用户用已被占用，请重新输入"
+			},
+			email: {
+				required: "E-mail地址为必填项",
+				email: "请填写有效的E-mail地址",
+				maxlength: "E-mail地址不得超出100个字符",
+				remote: "E-mail已被占用，请重新输入"
+			},
+			mobile: '请填写正确的手机或小灵通号码，以便接收短信通知'
+		}
+	});
+});
+</script>
+<script language="javascript"> 
+function show_t(id_num,maxs,num){
+	for(var i=1;i<=maxs;i++)
+	{
+		document.getElementById("mt"+id_num+i).className="tit_bg03"
+		document.getElementById("c"+id_num+i).style.display="none"
+	}
+	document.getElementById("mt"+id_num+num).className="tit_bg02";
+	document.getElementById("c"+id_num+num).style.display="block"
+}
+function check()
+{
+	if (document.loginform.login.value=="")
+	{
+		alert("请输入登录帐号");
+		document.loginform.login.focus;
+		return false;
+	}
+	if (document.loginform.pwd.value=="")
+	{
+		alert("请输入登录密码");
+		document.loginform.pwd.focus;
+		return false;
+	}
+}
+function fnRemoveBrank(strSource){
+ return strSource.replace(/^\s*/,'').replace(/\s*$/,'');
+}
+</script>
+<style type="text/css">
+<!--
+.tit_bg02{float:left;height:30px; padding:0 10px; width:auto;background:#c1e3fe; color:#000; text-align:center; cursor:pointer}
+.tit_bg03{float:left;height:30px; padding:0 10px; width:auto; background:#F5F5F5; font-size:12px; text-align:center;color:#000; cursor:pointer}
+-->
+</style>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 注册会员</div>
+</div>
+<div class="container">
+	<div class="passleft">
+		<div class="tit"><span></span>注册会员 </div>
+		<div class="con">
+                <div class="tit" style="background:none"><div id="mt01" class="tit_bg02" onclick="show_t(0,2,1);">完善账号信息</div><div id="mt02" class="tit_bg03" onclick="show_t(0,2,2);">已有账号？绑定我的账号</div></div>
+		<div class="con">
+        	<div id="c01"><table width="100%" border="0" cellspacing="0" cellpadding="4">
+            <form  name="register" id="register" action="?do=doreg" method="post">
+              <tr>
+                <td width="200" align="right"><img src="../../../plus/connect/img/connect_qq.gif" width="15" height="16" /></td>
+                <td>你将使用QQ账号<strong> {$nickname} </strong>注册本站.</td>
+              </tr>
+              <tr>
+                <td align="right"><span style="color:#F00">*</span> 用户名：</td>
+                <td><input name="login" type="text" id="login" value="{$nickname}" /></td>
+              </tr>
+              <tr>
+                <td align="right"><span style="color:#F00">*</span> 电子邮件：</td>
+                <td><input name="email" type="text" id="email" /></td>
+              </tr>
+              <tr>
+                <td align="right"><span style="color:#F00">*</span> 会员类型：</td>
+                <td><select name="typeid" id="typeid">
+                    <option value="1">个人会员</option>
+                    <option value="2">企业会员</option>
+                    <option value="3">院校会员</option>
+                    <option value="4">培训会员</option>
+					</select></td>
+              </tr>
+              <tr>
+                <td align="right"></td>
+                <td>在注册之前请您仔细阅读<a href="{$FR_系统目录}common.php?cid=8" target="_blank"><font color="#FF0000">{$FR_网站名称}服务条款</font></a>。</td>
+              </tr>
+              <tr>
+                <td align="right"></td>
+                <td><label for="submit"><input name="submit" type="submit" class="regsubmit" value="同意条款，完成注册" /></label></td>
+              </tr>
+              </form>
+            </table>
+            <script language = "JavaScript">
+			window.onload=function(){
+				document.register.login.value=fnRemoveBrank(document.register.login.value);
+			}
+			</script>
+          </div>
+            <div id="c02" style="display:none"><table width="100%" border="0" cellspacing="0" cellpadding="2">
+            <form name="loginform" action="?do=blogin" method="post" onsubmit="return check();">
+              <tr>
+                <td width="200" align="right"><img src="../../../plus/connect/img/connect_qq.gif" width="15" height="16" /></td>
+                <td>你将使用QQ账号<strong> {$nickname} </strong>绑定本站账号.</td>
+              </tr>
+              <tr>
+                <td align="right"><span style="color:#F00">*</span> 用户名：</td>
+                <td><input name="login" type="text" id="login" /></td>
+              </tr>
+              <tr>
+                <td align="right"><span style="color:#F00">*</span> 密　码：</td>
+                <td><input name="pwd" type="text" id="pwd" /></td>
+              </tr>
+              <tr>
+                <td align="right"></td>
+                <td><label for="submit"><input name="submit" type="submit" class="regsubmit" value="绑定账号" /></label></td>
+              </tr>
+              </form>
+            </table></div>
+        </div>
+		</div>
+    </div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

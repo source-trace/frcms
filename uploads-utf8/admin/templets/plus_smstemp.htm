@@ -1,0 +1,44 @@
+<?php
+echo ahead("网站短信模版设置");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">短信模版设置</th>
+  </tr>
+  <tr>
+  <td height="25" class="pl20"><b>管理选项：</b><a href="plus_sms.php?do=sendsms">群发短信</a> | <a href="plus_sms.php?r=1">发送成功记录</a> | <a href="plus_sms.php?r=0">发送失败记录</a> | <a href="plus_sms.php">全部记录</a> | <a href="plus_smstemp.php">短信模板设置</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan="7" height="25">短信模板列表</th>
+</tr>
+<form name="listform" action="?do=savedata" method="post">
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="25%">标识符/说明</td> 
+    <td width="60%">内容</td>
+    <td width="10%">操作</td>
+</tr>
+<?php echo $gblist;?>
+<tr>
+    <td colspan="5" height="25" style="text-align: center;"><input name="submit" type="submit" class="inputs" value="批量修改"></td>
+</tr>
+</form>
+<form name="listform" action="?do=adddata" method="post">
+<tr>
+    <th colspan="7" height="25">添加自定义模板</th>
+</tr>
+<tr align="center"> 
+    <td width="40" height="22">新增</td>
+    <td align="left">标识：<input maxlength="50" size="20" name="s_sign" class="txt" value="" /><br />说明：<input maxlength="50" size="20" name="s_info" class="txt" value="" /></td>
+    <td align="left"><textarea id="s_con" name="s_con" style="width:98%; height:40px; overflow:auto;"></textarea></td>
+    <td><input name="submit" type="submit" class="inputs" value="添加" /></td>
+</tr>
+</form>
+</table>
+<?php
+echo acopy();
+?>

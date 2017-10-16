@@ -1,0 +1,68 @@
+<?php
+echo ahead("专业分类设置");
+?>
+</head>
+<script language="javascript" type="text/javascript">
+function setid(){
+    strs1='';strs2='';strs3='';
+	if(!window.listform.tcount.value){
+		window.listform.tcount.value=1;
+    }
+    maxorder=window.listform.porder.value-1;
+	for(i=1;i<=window.listform.tcount.value;i++){
+        maxorder++;
+		strs1+='<input maxlength="50" size="30" name="pname[]" class="txt" value="" /><br><br>';
+        strs2+='<input maxlength="50" size="30" name="penname[]" class="txt" value="" /><br><br>';
+        strs3+='<input maxlength="10" size="4" name="porder[]" class="txt" value="'+maxorder+'" /><br><br>';
+	}
+    window.upid1.innerHTML=strs1;
+    window.upid2.innerHTML=strs2;
+    window.upid3.innerHTML=strs3;
+}
+</script>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">专业分类管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><strong>提示信息：</strong>专业分类直接与会员及会员发布的信息相关联。删除分类将同时删除相关联的所有信息，请谨慎操作！</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="websys_sysprofession.php">分类首页</a> | <a href="websys_sysprofession.php?do=createjs">生成专业分类JS文件</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="listform" action="?do=savedata&fid=<?php echo $fid;?>&level=<?php echo $level;?>" method="post">
+<tr>
+    <th colspan=5 height=25>专业分类列表</th>
+</tr>
+<tr align="center"> 
+    <td width="40" height="22">编号</td>
+    <td>中文名称</td>
+    <td>英文名称</td>
+    <td width="80">显示顺序</td>
+    <td width="80">操作</td>
+</tr>
+<?php echo $syslist;?>
+<?php if(aflags($admin_flags,2,1)){?>
+<tr>
+    <th colspan=5 height=25>批量新增分类（新增<input type="text" name="tcount" size="4" onBlur="setid();" value="1" class="txt">项，不新增请不要填写以下内容。)</th>
+</tr>
+<tr align="center"> 
+    <td width="40" height="22">新增<input type="hidden" name="porder" value="<?php echo $maxorder;?>" /></td>
+    <td align="left" id="upid1"><input maxlength="50" size="30" name="pname[]" class="txt" value="" /></td>
+    <td align="left" id="upid2"><input maxlength="50" size="30" name="penname[]" class="txt" value="" /></td>
+    <td width="80" id="upid3"><input maxlength="10" size="4" name="porder[]" class="txt" value="<?php echo $maxorder;?>" /></td>
+    <td>　</td>
+</tr>
+<tr>
+    <td colspan=5 height=25 class="tdpage"><input name="submit" type="submit" class="inputs" value="批量修改添加"> <input name="submit" type="button" class="inputs" value=" 返 回 " onclick="window.history.go(-1);" /></td>
+</tr>
+<?php }?>
+</form>
+</table>
+<?php
+echo acopy();
+?>

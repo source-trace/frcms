@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<title>相片人才信息-{$FR_网站标题}</title>
+<meta name="keywords" content="招聘,最新推荐人才,相片人才" />
+<meta name="description" content="{$FR_网站名称}为您提供最新相片人才信息" />
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+function confirmX(num){
+	var ids = document.getElementsByName("id");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			if (obj.checked==true){
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.checks.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1){
+		document.form.action="../member/index.php?a=search&mpage=company_interviewsend&show=1";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	if(num==2){
+		document.form.action="../member/index.php?do=myexpert&mpage=company_works&show=1";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("id");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 人才中心 >> 相片人才信息</div>
+</div>
+<div class="container">
+	<div class="moremain">
+		<div class="tit"><span></span>最新相片人才 | <a href="newresume.php">最新人才信息</a> | <a href="commondresume.php">最新精英人才</a></div>
+		<div class="con">
+        <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="moretab">
+          <form name="form" action="?numberss={$numbers}&taxiss={$taxiss}&page={$page}" method="post">
+          <tr class="moretabmain" align="center">
+			<td class="photoresumelist">
+            {$newresumelist}
+            </td>
+            </tr>
+            <tr class="moretabpage">
+              <td height="21" colspan="8"><div class="moretabdiv"><input type="hidden" name="checks" value="">每页显示<select name="numbers" size="1" style="z-index:0" onchange="javascript:window.location='{joinchar($strfilename)}numbers='+this.options[this.selectedIndex].value;">
+        <option value="16" {if $numbers==16}selected{/if}>16条</option>
+        <option value="40" {if $numbers==40}selected{/if}>40条</option>
+        <option value="80" {if $numbers==100}selected{/if}>80条</option>
+        </select>
+        <select name="taxis" size="1" onchange="javascript:window.location='{joinchar($strfilename)}taxis='+this.options[this.selectedIndex].value;">
+        <option value="1" {if $taxis==1}selected{/if}>按更新时间降序</option>
+        <option value="2" {if $taxis==2}selected{/if}>按更新时间升序</option>
+        <option value="3" {if $taxis==3}selected{/if}>按关注度排序</option>
+        </select>  </div>{$getpageinfo['pagecode']}</td>
+            </tr>
+            </form>
+          </table>
+      </div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

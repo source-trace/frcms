@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<title>{xreplace($r_position)}－{$FR_网站标题}</title>
+<meta name="keywords" content="{$FR_真实姓名}，个人简历，{xreplace($r_position)}" />
+<meta name="description" content="{deletehtml($r_appraise)}{xreplace($r_position)}" />
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<script src="{$cfg['path']}js/jquery.js" language="javascript"></script>
+<script src="{$cfg['path']}js/artDialog.min.js" language="javascript"></script>
+<script language="JavaScript">
+<!--
+function check(myform,rid){
+    if ($("#login").val() == ""){alert("请输入登录帐号!");$("#login").focus();return (false);}
+    if ($("#pwd").val() == ""){alert("请输入登录密码!");$("#pwd").focus();return (false);}
+    $('#contact').hide().after("<div id='ztmsg'>正在登录，请稍后……<div>");
+    $.ajax({type: "POST",url: "{$cfg[path]}login.php?do=login&t=ajax",data: "login="+$("#login").val()+"&pwd="+$("#pwd").val(),
+        success: function(msg){
+            $('#ztmsg').remove();
+            var msgs;
+            msgs=msg.split(":");
+            if(msgs[0]!='succeed'){
+                $.dialog({id: 'alertdiv',content: msgs[1],yesFn:true});
+                $('#contact').show();
+            }else{
+                Contact(rid,0);
+            }
+        }
+    });
+}
+function Contact(resumeid,issee){
+    $.ajax({
+      type: "get",
+      url: "{$FR_系统目录}inc/contacts.php?resumeid="+escape(resumeid)+ "&issee="+escape(issee)+ "&t=" + new Date().getTime(),      
+      success: function(data, textStatus){
+        $('#contact').html(data).show();
+      }   
+  });
+} 
+//-->
+</script>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 查看个人简历</div>
+</div>
+<div class="container">
+	<div class="pers_left">
+		<div class="pers_jobs">
+			<div class="tit"><span></span>人才搜索</div>
+			<div class="con">{$FR_人才搜索}</div>
+		</div>
+		<div class="pers_hotjob">
+			<div class="tit"><span></span>推荐人才</div>
+			<div class="con">{$FR_推荐人才列表}</div>
+		</div>
+	</div>
+	<div class="pers_right">
+		<div class="pers_info">
+			<div class="tit"><span>简历编号：{$r_id} 更新日期：{$r_adddate} 查看次数：{$r_visitnum}</span>个人简历</div>
+			<div class="con">
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+              	<tr>
+			      <td width="140" colspan="7" bgcolor="#FFFFFF"><strong>基本资料</strong></td>
+		        </tr>
+			    <tr>
+			      <td width="140" rowspan="7" align="center" valign="middle" bgcolor="#FFFEFB"><img src="{$m_logo}" width="100" height="120" /></td>
+			      <td width="80" align="right" bgcolor="#FFFEFB">姓　　名：</td>
+			      <td width="100" bgcolor="#FFFEFB">{$r_name}</td>
+			      <td width="80" align="right" bgcolor="#FFFEFB">性　　别：</td>
+			      <td width="100" bgcolor="#FFFEFB">{hiresex($r_sex)}</td>
+			      <td width="80" align="right" bgcolor="#FFFEFB">出生年月：</td>
+			      <td bgcolor="#FFFEFB">{$r_birth}</td>
+		        </tr>
+			    <tr>
+			      <td align="right" bgcolor="#FFFEFB">婚姻状况：</td>
+			      <td bgcolor="#FFFEFB">{$r_marriage}</td>
+			      <td align="right" bgcolor="#FFFEFB">政治面貌：</td>
+			      <td bgcolor="#FFFEFB">{$r_polity}</td>
+			      <td align="right" bgcolor="#FFFEFB">民　　族：</td>
+			      <td bgcolor="#FFFEFB">{$r_nation}</td>
+		        </tr>
+			    <tr>
+			      <td align="right" bgcolor="#FFFEFB">身　　高：</td>
+			      <td bgcolor="#FFFEFB">{$r_height}</td>
+			      <td align="right" bgcolor="#FFFEFB">体　　重：</td>
+			      <td bgcolor="#FFFEFB">{$r_weight}</td>
+			      <td align="right" bgcolor="#FFFEFB">最高学历：</td>
+			      <td bgcolor="#FFFEFB">{hireedu($r_edu)}</td>
+		        </tr>
+			    <tr>
+			      <td align="right" bgcolor="#FFFEFB">所学专业：</td>
+			      <td bgcolor="#FFFEFB">{$r_zhicheng}</td>
+			      <td align="right" bgcolor="#FFFEFB">毕业学校：</td>
+			      <td colspan="3" bgcolor="#FFFEFB">{$r_school}</td>
+		        </tr>
+			    <tr>
+			      <td align="right" bgcolor="#FFFEFB">毕业时间：</td>
+			      <td bgcolor="#FFFEFB">{$r_graduate}</td>
+			      <td align="right" bgcolor="#FFFEFB">特长概括：</td>
+			      <td colspan="3" bgcolor="#FFFEFB">{$r_sumup}</td>
+		        </tr>
+			    <tr>
+			      <td align="right" bgcolor="#FFFEFB">户　　籍：</td>
+			      <td colspan="5" bgcolor="#FFFEFB">{xreplace($r_hukou)}</td>
+		        </tr>
+			    <tr>
+			      <td align="right" bgcolor="#FFFEFB">现所在地：</td>
+			      <td colspan="5" bgcolor="#FFFEFB">{xreplace($r_seat)}</td>
+		        </tr>
+		      </table>
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>自我评价</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB">{$r_appraise}</td>
+		        </tr>
+		      </table>
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td colspan="6" bgcolor="#FFFFFF"><strong>求职意向</strong></td>
+		        </tr>
+			    <tr>
+			      <td width="80" align="right" bgcolor="#FFFEFB">职位性质：</td>
+			      <td width="100" bgcolor="#FFFEFB">{hiretype($r_jobtype)}</td>
+			      <td width="80" align="right" bgcolor="#FFFEFB">到岗时间：</td>
+			      <td width="100" bgcolor="#FFFEFB">{memberworkdate($r_workdate)}</td>
+			      <td width="80" align="right" bgcolor="#FFFEFB">月薪要求：</td>
+			      <td bgcolor="#FFFEFB">{hirepay($r_pay)} {if $r_stay==1}要求提供住宿{/if}</td>
+		        </tr>
+                <tr>
+			      <td align="right" bgcolor="#FFFEFB">求职状态：</td>
+			      <td colspan="5" bgcolor="#FFFEFB"><font color="red">{$m_qzstate}</font></td>
+		        </tr>
+                <tr>
+			      <td align="right" bgcolor="#FFFEFB">意向岗位：</td>
+			      <td colspan="5" bgcolor="#FFFEFB">{xreplace($r_position)}</td>
+		        </tr>
+                <tr>
+			      <td align="right" bgcolor="#FFFEFB">意向行业：</td>
+			      <td colspan="5" bgcolor="#FFFEFB">{xreplace($r_trade)}</td>
+		        </tr>
+                <tr>
+			      <td align="right" bgcolor="#FFFEFB">工作地区：</td>
+			      <td colspan="5" bgcolor="#FFFEFB">{xreplace($r_workadd)}</td>
+		        </tr>
+			    <tr>
+			      <td align="right" bgcolor="#FFFEFB">其他要求：</td>
+			      <td colspan="5" bgcolor="#FFFEFB">{$r_request}</td>
+		        </tr>
+		      </table>
+              {if is_array($edudb)}
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>教育</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB"><table width="100%" border="0" align="center" cellpadding="4" cellspacing="1" >
+		            <tr>
+			            <td width="8%"><font color="#00007f"><strong>学历</strong></font></td>
+			            <td width="20%"><font color="#00007f"><strong>学校名称</strong></font></td>
+			            <td width="15%"><font color="#00007f"><strong>专业</strong></font></td>
+			            <td width="20%"><font color="#00007f"><strong>时间范围</strong></font></td>
+			            <td width="37%"><font color="#00007f"><strong>专业描述</strong></font></td>
+	                </tr>
+			          {loop $edudb $rs}
+			          <tr>
+			            <td>{$rs['e_edue']}</td>
+			            <td>{$rs['e_school']}</td>
+			            <td>{xreplace($rs['e_profession'],1,1)}</td>
+			            <td>{$rs['e_startyear']}年{$rs['e_startmonth']}月-{if $rs['e_endyear']==0}至今{else}{$rs['e_endyear']}年{$rs['e_endmonth']}月{/if}</td>
+			            <td>{$rs['e_detail']}</td>
+		              </tr>
+			          {/loop}
+	              </table></td>
+		        </tr>
+		      </table>
+              {/if}
+              {if is_array($trainingdb)}
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>培训</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB">
+                  {loop $trainingdb $rs}
+     	 <table cellspacing="1" cellpadding="4" width="100%" align="center" border="0">
+		  <tr>
+			<td style='PADDING-LEFT: 13px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px' colspan="4" bgcolor='#E9F4FA'><font color="#00007f"><strong>{$rs['t_startyear']}年{$rs['t_startmonth']}月-{if $rs['t_endyear']==0}至今{else}{$rs['t_endyear']}年{$rs['t_endmonth']}月{/if} 　培训课程：{$rs['t_course']} </strong></font></td>
+		  </tr>
+		  <tr>
+			<td width="12%" align="right">培训机构：</td>
+			<td width="38%">{$rs['t_train']}</td>
+			<td width="12%" align="right">培训地点：</td>
+			<td width="38%">{$rs['t_address']}</td>
+		  </tr>
+		  
+		  <tr>
+			<td align='right'>获得证书：</td>
+			<td colspan="3" >{$rs['t_certificate']}</td>
+		  </tr>
+		  <tr>
+			<td align='right'>培训描述：</td>
+			<td colspan="3">{$rs['t_detail']}</td>
+		  </tr>
+		</table>
+         {/loop}
+         </td>
+		        </tr>
+		      </table>
+              {/if}
+              {if is_array($langdb)}
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>语言</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB"><table width="100%" border="0" align="center" cellpadding="4" cellspacing="1">
+			        <tr>
+			          <td width="50%"><font color="#00007f"><strong>外语语种</strong></font></td>
+			          <td width="50%"><font color="#00007f"><strong>掌握程度</strong></font></td>
+		            </tr>
+			        {loop $langdb $rs}
+			        <tr>
+			          <td>{$rs['l_name']}</td>
+			          <td>{$rs['l_master']}</td>
+		            </tr>
+			        {/loop}
+		          </table></td>
+		        </tr>
+		      </table>
+              {/if}
+              {if is_array($workdb)}
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>工作经验</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB">
+                  {loop $workdb $rs}
+                    <table cellspacing="1" cellpadding="4" width="100%" align="center" border="0" style="BORDER:1px solid;">
+                      <tr>
+                        <td style='PADDING-LEFT: 13px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px' colspan="4" bgcolor='#E9F4FA'><font color="#00007f"><strong>{$rs['w_startyear']}年{$rs['w_startmonth']}月-{if $rs['w_endyear']==0}至今{else}{$rs['w_endyear']}年{$rs['w_endmonth']}月{/if}
+                          ：{$rs['w_comname']} </strong></font></td>
+                      </tr>
+                      <tr>
+                        <td width="12%" align="right">公司性质：</td>
+                        <td width="38%">{$rs['w_ecoclass']}</td>
+                        <td width="12%" align="right">所属行业：</td>
+                        <td width="38%">{$rs['w_trade']}</td>
+                      </tr>
+                      <tr>
+                        <td align="right">所在部门：</td>
+                        <td>{$rs['w_dept']}</td>
+                        <td align='right'>担任职务：</td>
+                        <td>{$rs['w_place']}</td>
+                      </tr>
+                      <tr>
+                        <td align='right'>工作描述：</td>
+                        <td colspan="3" >{$rs['w_introduce']}</td>
+                      </tr>
+                      <tr>
+                        <td align='right'>离职原因：</td>
+                        <td colspan="3">{$rs['w_leftreason']}</td>
+                      </tr>
+                    </table>
+                    {/loop}
+                    </td>
+		        </tr>
+		      </table>
+              {/if}
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>技能专长</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB">{$r_ability}</td>
+		        </tr>
+		      </table>
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>相关证书</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB">{getmemberpic($r_member,0,5,21,138,106)}</td>
+		        </tr>
+		      </table>
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>我的职场风采</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB">{getmemberpic($r_member,0,5,22,138,106)}</td>
+		        </tr>
+		      </table>
+			  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#F4EEE3">
+			    <tr>
+			      <td bgcolor="#FFFFFF"><strong>联系方式</strong></td>
+		        </tr>
+			    <tr>
+			      <td bgcolor="#FFFEFB">
+                  {if $g_hide==1}
+                    <span style="font-size: 14px; font-weight: bold; color: #ff0000;">您好，该会员所在组无法显示联系方式,请点击发送面试邀请通知面试！</span>
+                    {else}
+                    <div id="contact" class="comcontact"><img src="{$cfg['path']}skin/system/loing.gif" />数据读取中，请稍后...</div>
+					<script language="javascript">{Contact({$rid},0);}</script>
+                    {/if}
+                    </td>
+		        </tr>
+		      </table>
+              <div class="membercz"><input name="Submit4" type="button" class="inputcl" value="发送面试邀请" onclick="window.location='{$FR_网站网址}{$FR_系统目录}member/index.php?a=resume&mpage=company_interviewsend&show=1&checks={$r_id}'" />　　<input name="Submit22" type="button" class="inputcl" value="放入人才库" onclick="window.location='{$FR_网站网址}{$FR_系统目录}member/index.php?do=myexpert&mpage=company_myexpert&show=1&checks={$r_id}'" /></div>
+			  <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="mt10">
+			    <tr>
+			      <td align="center"><input type="button" name="Submit3" value="打印简历" onclick="window.print();" />
+			        
+			        <input type="button" name="Submit3" value="关闭窗口" onclick="window.close();" /></td>
+		        </tr>
+		      </table>
+            </div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+{$FR_搜索弹出层}
+</body>
+</html>
+<script language="javascript" src="{$FR_系统目录}Js/searchjs.js"></script>

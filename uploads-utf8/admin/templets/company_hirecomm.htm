@@ -1,0 +1,104 @@
+<?php
+echo ahead("推荐企业招聘职位");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/calendar.js"></script>
+<script language="JavaScript">
+<!--
+function IsDate(DateString , Dilimeter) 
+{ 
+if (DateString==null) return false; 
+if (Dilimeter=='' || Dilimeter==null) 
+Dilimeter = '-'; 
+var tempy=''; 
+var tempm=''; 
+var tempd=''; 
+var tempArray; 
+if (DateString.length<8 && DateString.length>10) 
+return false;  
+tempArray = DateString.split(Dilimeter); 
+if (tempArray.length!=3) 
+return false; 
+if (tempArray[0].length==4) 
+{ 
+tempy = tempArray[0]; 
+tempd = tempArray[2]; 
+} 
+else 
+{ 
+tempy = tempArray[2]; 
+tempd = tempArray[1]; 
+} 
+tempm = tempArray[1]; 
+var tDateString = tempy + '/'+tempm + '/'+tempd+' 8:0:0';//加八小时是因为我们处于东八区 
+var tempDate = new Date(tDateString); 
+if (isNaN(tempDate)) 
+return false; 
+if (((tempDate.getUTCFullYear()).toString()==tempy) && (tempDate.getMonth()==parseInt(tempm)-1) && (tempDate.getDate()==parseInt(tempd))) 
+{ 
+return true; 
+} 
+else 
+{ 
+return false; 
+} 
+} 
+function Juge(theForm)
+{
+  if (!IsDate(theForm.startdate.value == ""))
+  {
+    alert("请正确填写开始时间!");
+    theForm.startdate.focus();
+    return (false);
+  }
+  if (!IsDate(theForm.enddate.value == ""))
+  {
+    alert("请正确填写结束时间!");
+    theForm.enddate.focus();
+    return (false);
+  }
+}
+function show1()
+{
+	consume.style.display="";
+}
+function show2()
+{
+	consume.style.display="none";
+}
+//-->
+</script>
+</head>
+<body>
+ <table width="100%" border="0" cellpadding="2" cellspacing="1"  align="center"  class="tableBorder">
+    <tr>
+      <th height=25 colspan="4">企业招聘职位推荐</th>
+    </tr>
+      <?php echo $commstr;?>
+      <form name="form1" method="post" action="company_hirecomm.php?do=savedata&<?php echo $s;?>" onSubmit="return Juge(this)">
+      <tr>
+        <td height="25" align="right">设置推荐时限：</td>
+        <td height="25" colspan="3"><input name="startdate" type="text" size="10" id=startdate value="<?php echo date('Y-m-d');?>" onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)"> 至 <input name="enddate" type="text" size="10" id=enddate value="<?php echo date('Y-m-d',strtotime(date('Y-m-d')."+1 month"));?>" onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)"></td>
+      </tr>
+      <tr>
+        <td height="25" align="right">是否扣费：</td>
+        <td height="25" colspan="3"><input name="free" type="radio" class="checkbox" onClick="show1()" value="1">
+        是
+        <input name="free" type="radio" class="checkbox" onClick="show2()" value="0" checked>
+        否（此操作是否扣费）</td>
+      </tr>
+      <tr id=consume style="display:none">
+      <td height="25" align="right">扣除金额：</td>
+      <td colspan="3"><input name="balances" type="text" size="8" value="0">注意：职位所属企业余额不足时，职位将推荐失败并自动跳过！</td>
+    </tr>
+      <tr>
+      <td height="25">&nbsp;</td>
+        <td height="25" colspan="3"><input name="members" type="hidden" id="members" value="<?php echo $members;?>"><input name="Submit" type="submit" class="inputs" value="提 交">
+        &nbsp;
+        <input name="Submit" type="reset" class="inputs" id="Submit" value="重 置">
+        &nbsp;
+        <input name="Submit" type="button" class="inputs" id="Submit" onClick="window.location='company_hirelist.php?<?php echo $s;?>';" value="返 回"></td>
+      </tr>
+    </form>
+  </table>
+<?php echo acopy();?>

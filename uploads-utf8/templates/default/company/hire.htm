@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$m_name}招聘{$h_place}，招聘{$h_place}，{$c_keywords}" />
+<meta name="description" content="{$m_name}招聘{$h_place}，{$c_description}" />
+<title>招聘{$h_place}-{$m_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<script src="{$cfg['path']}js/jquery.js" language="javascript"></script>
+<script src="{$cfg['path']}js/artDialog.min.js" language="javascript"></script>
+<script language="JavaScript">
+<!--
+function check(myform,comid,hid){
+    if ($("#login").val() == ""){alert("请输入登录帐号!");$("#login").focus();return (false);}
+    if ($("#pwd").val() == ""){alert("请输入登录密码!");$("#pwd").focus();return (false);}
+    $.ajax({type: "POST",url: "{$cfg[path]}login.php?do=login&t=ajax",data: "login="+$("#login").val()+"&pwd="+$("#pwd").val(),
+        success: function(msg){
+            var msgs;
+            msgs=msg.split(":");
+            if(msgs[0]!='succeed'){
+                $.dialog({id: 'alertdiv',content: msgs[1],yesFn:true});
+            }else{
+                Contact(comid,hid,0);
+            }
+        }
+    });
+}
+function Contact(companyid,hireid,issee){
+    $.ajax({
+      type: "get",
+      url: "{$FR_系统目录}inc/contacts.php?companyid="+escape(companyid)+ "&hireid="+escape(hireid)+ "&issee="+escape(issee)+ "&t=" + new Date().getTime(),      
+      success: function(data, textStatus){
+        $('#hirecontact').html(data);
+      }   
+  });
+} 
+//-->
+</script>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">
+    	<li><a href="/more/newhire.php"><b>找工作</b></a></li>
+		<li><a href="/more/newhire.php">最新职位</a></li>
+		<li><a href="/more/commondhire.php">推荐职位</a></li>
+		<li><a href="/html/hr/hr_zp.html">猎头职位</a></li>
+		<li><a href="/more/newresume.php"><b>招人才</b></a></li>
+		<li><a href="/more/newresume.php">最新人才</a></li>
+		<li><a href="/more/commondresume.php">推荐人才</a></li>
+		<li><a href="/more/photoresume.php">相片人才</a></li>
+		<li><a href="/html/besthr/index.html">高级人才</a></li>
+		<li><a href="/html/sideline/index.html">兼职人才</a></li>
+		<li><a href="#"><b>职场</b></a></li>
+		<li><a href="#">人事动态</a></li>
+		<li><a href="#">薪酬福利</a></li>
+		<li><a href="#">绩效考核</a></li>
+		<li><a href="#">职场测试</a></li>
+		<li><a href="#">创业培训</a></li>
+		<li><a href="#">疑难解答</a></li>
+    </div>
+</div>
+<div class="container">
+	<div class="coms_left">
+		<div class="coms_jobs">
+			<div class="tit"><span></span>招聘职位</div>
+			<div class="con">{getcomhirelist($m_id,0)}</div>
+		</div>
+		<div class="coms_hotjob">
+			<div class="tit"><span></span>热招职位</div>
+			<div class="con">{gethirelist(10,1,'1|0|1|0|0|0|0|0|0|0|0|0|0|0',1,0,0,1,0,0,0,'h_visitcount desc','_blank',0,6,15,3)}</div>
+		</div>
+        <div class="coms_hotjob">
+        	<div class="tit"><span></span>友情提示：</div>
+        	<div class="con">
+				<li>1、一般情况下，招聘单位不希望求职者直接主动电话联系，所以我们建议您通过{$FR_网站名称}申请职位，投递您的简历。</li>
+				<li>2、招聘单位以任何名义收取求职者的押金、报名费、存档费、服装费、保证金等均属违法行为，请求职者注意规避。</li>
+			</div>
+        </div>
+	</div>
+	<div class="coms_right">
+		<div class="coms_info">
+			<div class="tit"><span><a href="{$FR_系统目录}company/company.php?comid={$h_comid}" target=_blank>查看公司详细介绍</a></span>企业名称:{$m_name}　{$m_group}</div>
+			<div class="con"><div class="cominfo">
+				<li><b>所属行业：</b>{$m_trade}</li>
+				<li><b>所在地区：</b>{$m_seat}</li>
+				<li><b>公司性质：</b>{$m_ecoclass}</li>
+				<li><b>成立日期：</b>{$m_founddate}</li>
+				<li><b>注册资金：</b>{$m_fund}万元</li>
+				<li><b>公司规模：</b>{$m_workers}</li>
+                </div>
+                <div class="comrz">
+                	<li class="comrzfw">{$g_name}</li>
+                    <li class="comrzzz">{$m_confirm}</li>
+                </div>
+			</div>
+		</div>
+		<div class="hire_info">
+			<div class="tit"><span>职位编号：{$h_id} <a href="{$FR_系统目录}company/hires.php?comid={$h_comid}" target=_blank>查看全部职位</a></span>职位名称:{$h_place}</div>
+			<div class="con">
+				<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="hiretab">
+					  <tr>
+						<td width="70" align="right">招聘类别：</td>
+						<td> {hiretype($h_type)}</td>
+						<td width="70" align="right">招聘部门：</td>
+						<td> {$h_dept}</td>
+						<td width="70" align="right">发布日期：</td>
+						<td>{dtime(strtotime($h_adddate),3)}</td>
+						<td align="right">截止日期：</td>
+						<td>{$h_enddate}</td>
+					  </tr>
+					  <tr>
+						<td align="right">工作经验：</td>
+						<td>{hireexperience($h_experience)}</td>
+						<td align="right">学历要求：</td>
+						<td> {hireedu($h_edu)}</td>
+						<td align="right">性别要求：</td>
+						<td>{hiresex($h_sex)}</td>
+						<td align="right">年龄要求：</td>
+						<td>{if $h_age1!=0}{$h_age1}{/if}
+						{if $h_age2!=0}～{$h_age2}{/if}</td>
+					  </tr>
+					  <tr>
+						<td align="right">招聘人数：</td>
+						<td>{hirenumber($h_number)}</td>
+						<td align="right">薪资待遇：</td>
+						<td colspan="5">{hirepay($h_pay)}</td>
+					  </tr>
+                      <tr>
+						<td align="right">专业要求：</td>
+						<td colspan="7">{xreplace($h_profession)}</td>
+					  </tr>
+                      <tr>
+						<td align="right">工作地点：</td>
+						<td colspan="7">{xreplace($h_workadd)}</td>
+					  </tr>
+					</table>
+			    <dl>
+					<dt>职位描述：</dt>
+						<dd> {$h_introduce}</dd>
+				 	<dt class="hirecontact">联系方式：</dt>
+				 		<!--{if $end>=0}-->
+                            <dd>
+                                <!--{if $g_hide==1}-->
+                                <span style="font-size: 14px; font-weight: bold; color: #ff0000;">您好，该企业会员所在组无法显示联系方式,请点击发送应聘意向投递简历！</span>
+                                <!--{else}-->
+                                <span id="hirecontact"><img src="{$cfg['path']}skin/system/loing.gif" />数据读取中，请稍后...</span>
+    							<script language="javascript">{Contact({$h_comid},{$h_id},0);}</script>
+                                <!--{/if}-->
+                            </dd>
+                            <!--{else}-->
+                            <dd><span style="font-size: 14px; font-weight: bold; color: #ff0000;">该职位招聘已结束！</span></dd>
+                            <!--{/if}-->
+				</dl>
+				<!--{if $end>=0}-->
+                    <li class="membercz"><input name="Submit4" type="button" class="inputcl" value="发送应聘意向" onclick="window.location='{$FR_网站网址}{$FR_系统目录}member/index.php?a=hire&mpage=person_resumesend&show=3&checks={$h_id}'" />　　<input name="Submit22" type="button" class="inputcl" value="放入收藏夹" onclick="window.location='{$FR_网站网址}{$FR_系统目录}member/index.php?do=favorite&mpage=person_favoriteadd&show=3&checks={$h_id}'" /></li>
+					<li><strong><font color='#ff0000' style="font-size:14px" face="黑体">注：</font></strong>如果您对以上职位感兴趣，请直接在该职位下进行“<font color="#ff6600"><strong>发送应聘意向</strong></font>”、“<font color="#ff6600"><strong>放入收藏夹</strong></font>”等操作。</li>
+                    <!--{/if}-->
+                    <DIV class="news_wangzhai"><SCRIPT language=javascript src="/js/wangzhai.js"></SCRIPT></DIV>
+			</div>
+		</div>
+        <div class="hire_infolike">
+        	<div class="tit"><span>相关职位列表含上述职位<a href="#">[TOP]</a></span>相关职位</div>
+			<div class="con">
+            {gethirelist(10,1,'1|1|1|1|0|1|1|0|0|0|0|0|0|1',1,0,0,1,0,0,0,'h_adddate desc','_blank',$h_position,6,15,3)}
+            </div>
+        </div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

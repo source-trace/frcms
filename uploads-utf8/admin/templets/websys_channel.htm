@@ -1,0 +1,465 @@
+<?php
+echo ahead("系统频道管理");
+?>
+<script language="javascript">
+function show(a){
+		if (a==0)
+		{
+			document.getElementById('div2').style.display="none"
+			document.getElementById('div1').style.display="none"
+			document.getElementById('ff').innerHTML="<font color=red>*</font>"
+		}else
+		{
+			document.getElementById('div2').style.display=""
+			document.getElementById('div1').style.display=""
+			document.getElementById('ff').innerHTML=""
+		}
+}
+function check(){
+	if(document.addform.name.value=="")
+	{
+		alert("对不起频道名称不能为空！");
+		return false;
+	}
+	if(document.addform.channeltype[0].checked){
+		
+		if(document.addform.linkurl.value==""){
+			alert("外部连接地址不能为空！");
+			return false;
+		}
+	}else{
+		if(document.addform.channeldir.value==""){
+			alert("频道目录不能为空！");
+			return false;
+			}
+		if(document.addform.shortname.value==""){
+			alert("项目名称不能为空！");
+			return false;	
+			}
+		if(document.addform.itemunit.value==""){
+			alert("项目单位不能为空！");
+			return false;	
+			}
+		  }
+	return true;
+}
+</script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">频道管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="websys_channel.php">频道管理首页</a>&nbsp;|&nbsp;<a href="websys_channel.php?do=add">添加频道</a>&nbsp;|&nbsp;<a href="websys_channel.php?do=order">频道排序</a>&nbsp;|&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php
+if($do=="add"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post" onSubmit="return check();">
+<tr>
+    <th height=25 colspan="2">频道添加</th>
+  </tr>
+  <tr> 
+    <td width="26%"><b>频道名称:</b></td>
+    <td width="74%"><input type="hidden" name="id" value="<?php echo $id;?>">
+      <label>
+        <input name="name" type="text" id="name" value="<?php echo $name;?>">
+        </label>    
+      <font color=red>*</font></td>
+  </tr>
+  <tr>
+    <td><b>频道说明:</b><br>
+	鼠标移至频道名称上时将显示设定的说明文字（不支持HTML）	</td>
+    <td><label>
+      <textarea name="readme" cols="30" rows="3" id="readme"><?php echo $readme;?></textarea>
+    </label></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><label><input name="channeltype" type="radio" class="checkbox" onClick="show(0)" value="2" <?php if($channeltype!=2&&$id!=''){ echo "disabled=\"disabled\"";}else{echo ' checked';}?>>
+      <b>外部频道</b></label>　
+            外部频道指链接到本系统以外的地址中。当此频道准备链接到网站中的其他系统时，请使用这种方式。
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="34%" height="45" align="right">外部频道的链接地址：</td>
+                <td width="35%"><label>
+                <?php if($channeltype!=2&&$id!=''){}else{?><input name="linkurl" type="text" id="linkurl" value="<?php echo $linkurl;?>" size="40"><?php }?>
+				</label></td>
+                <td width="31%">
+				<div id="ff" >
+                <font color=red>*</font>
+				</div></td>
+              </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+	<?php if($id!=''){
+    	if($channeltype==0){?>
+        <input name="channeltype" type="radio" class="checkbox" onClick="show(1)" value="0" checked>
+		<b>系统频道　</b>系统内部频道指的是在本系统现有功能模块（新闻、文章、图片等）频道。
+         <?php }elseif($channeltype==1){?>
+         <input name="channeltype" type="radio" class="checkbox" onClick="show(1)" value="1" checked>
+         <?php }
+    }else{?>
+    <input name="channeltype" type="radio" class="checkbox" onClick="show(1)" value="1">
+    <b>内部频道　</b>系统内部频道指的是在本系统现有功能模块（新闻、文章、图片等）基础上添加新的频道，新频道具备和所使用功能模块完全相同的功能。例如，添加一个名为“网络学院”的新频道，新频道使用“文章”模块的功能，则新添加的“网络学院”频道具有原文章频道的所有功能。
+    <?php }?>
+	<div id="div2" style="display:<?php if($channeltype!=2&&$id!=''){}else{echo 'none';}?>">
+      <table width="100%" border="0" cellpadding="2" cellspacing="1">
+        <tr>
+          <td width="37%" height="30"><b>频道使用的功能模块：</b></td>
+          <td width="63%"><label>
+		  <?php if($channeltype!=2&&$id!=''){?>
+            <select name="moduletype" id="moduletype" disabled="disabled">
+              <option value="1" <?php if($moduletype==1) echo "selected";?>>求职</option>
+			  <option value="2" <?php if($moduletype==2) echo "selected";?>>招聘</option>
+			  <option value="3" <?php if($moduletype==3) echo "selected";?>>院校</option>
+			  <option value="4" <?php if($moduletype==4) echo "selected";?>>猎头</option>
+			  <option value="5" <?php if($moduletype==5) echo "selected";?>>培训</option>
+			  <option value="6" <?php if($moduletype==6) echo "selected";?>>留言</option>
+			  <option value="7" <?php if($moduletype==7) echo "selected";?>>测评</option>
+			  <option value="8" <?php if($moduletype==8) echo "selected";?>>派遣</option>
+			  <option value="9" <?php if($moduletype==9) echo "selected";?>>下载</option>
+			  <option value="10" <?php if($moduletype==10) echo "selected";?>>文章</option>
+			  <option value="11" <?php if($moduletype==11) echo "selected";?>>论坛</option>
+			  <option value="12" <?php if($moduletype==12) echo "selected";?>>视频招聘</option>
+			  <option value="13" <?php if($moduletype==13) echo "selected";?>>视频简历</option>
+			  <option value="14" <?php if($moduletype==14) echo "selected";?>>帮助</option>
+			  <option value="15" <?php if($moduletype==15) echo "selected";?>>分站</option>
+            </select>
+			<?php }else{?>
+            <select name="moduletype" id="moduletype">
+              <option value="10">文章</option>
+            </select>
+			<?php }?>
+			<font color=red>*</font></label></td>
+        </tr>
+        <tr>
+          <td><b>频道目录：</b>（频道英文名）<font color="#FF0000">只能是英文，不能带空格或“\”、“/”等符号。</font><BR>
+            样例：News或Article或Soft</td>
+          <td><label>
+          <?php if($channeltype!=2&&$id!=''){?>
+            <input name="channeldir" type="text" id="channeldir" size="20" disabled="disabled" value="<?php echo $channeldir;?>">
+			<?php }else{?>
+			<input name="channeldir" type="text" id="channeldir" size="20">
+			<?php }?>
+          </label>
+            <font color="#FF0000">注：请慎重填写，一但填写不得修改．</font></td>
+        </tr>
+        <tr>
+          <td><b>项目名称：</b><BR>
+            例如：频道名称为“网络学院”，其项目名称为“文章”或“教程”</td>
+          <td><input name="shortname" type="text" id="shortname" value="<?php echo $shortname;?>" size="20">
+            <font color=red>*</font></td>
+        </tr>
+        <tr>
+          <td><b>项目单位：</b><BR>
+            例如：“篇”、“条”、“个”</td>
+          <td><input name="itemunit" type="text" id="itemunit" value="<?php echo $itemunit;?>" size="10">
+            <font color=red>*</font></td>
+        </tr>
+      </table>
+	  </div>&nbsp;</td>
+  </tr>
+<tr>
+<td height="1" colspan="2">&nbsp;
+<div id="div1" style="display:<?php if($channeltype!=2&&$id!=''){}else{echo 'none';}?>">
+<table width="100%" border="0" cellspacing="1" cellpadding="2">
+  <tr>
+    <td width="26%"><b>频道META关键词：</b><BR>
+      针对搜索引擎设置的关键词<BR>
+      例如：在文本框填写<BR>
+      “网站,门户,新闻,快讯”<BR>
+      多个关键词请用,号分隔</td>
+    <td width="74%"><label>
+      <textarea name="keywords" cols="70" rows="5" id="keywords"><?php echo $keywords;?></textarea>
+    </label></td>
+  </tr>
+    <tr>
+    <td><b>频道META网页描述：</b><BR>
+      针对搜索引擎设置的网页描述<BR>
+      例如：在文本框填写<BR>
+      “网站,门户,新闻,快讯”<BR>
+      多个描述请用,号分隔</td>
+    <td><label>
+    <textarea name="description" cols="70" rows="5" id="description"><?php echo $description;?></textarea>
+    </label></td>
+  </tr>
+</table>
+</div></td>
+</tr>
+  <tr>
+    <td><b>打开方式：</b></td>
+    <td><label>
+    <input name="opentype" type="radio" class="checkbox" value="0" <?php if($opentype==0){echo 'checked';}?>>
+    在原窗口打开　　　
+    <input name="opentype" type="radio" class="checkbox" value="1" <?php if($opentype==1){echo 'checked';}?>>
+在新窗口打开</label></td>
+  </tr>
+    <tr>
+        <td><b>是否导航中显示：</b></td>
+        <td><label>
+    <input name="shownav" type="radio" class="checkbox" value="0" <?php if($shownav==0){echo 'checked';}?>>
+    否　　　
+    <input name="shownav" type="radio" class="checkbox" value="1" <?php if($shownav==1){echo 'checked';}?>>
+	是</label></td>
+      </tr>
+  <tr>
+    <td><b>禁用本频道：</b></td>
+    <td>
+     <input name="disabled" type="radio" class="checkbox" value="1" <?php if($disabled==1){echo 'checked';}?>>
+     是　　　
+      <input name="disabled" type="radio" class="checkbox" value="0" <?php if($disabled==0){echo 'checked';}?>>
+      否</td></tr>
+  <tr>
+    <td colspan="2">&nbsp;
+	<div id="cs" style="display:<?php if($channeltype==2||$moduletype==6||$moduletype==14||$id==''){echo 'none';}?>">
+	<table width="100%" border="0" cellpadding="2" cellspacing="1">
+      <tr>
+        <td width="26%"><b>生成HTML方式：</b><BR>
+          以后在每一次更改生成方式前，你最好先删除所有以前生成的文件，然后在保存频道参数后再重新生成所有文件。</td>
+        <td width="74%"><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><input name="createhtml" type="radio" class="checkbox" value="0" checked>
+              不生成</td>
+          </tr>
+          <tr>
+            <td><input name="createhtml" type="radio" class="checkbox" value="1"  <?php if($createhtml==1){echo 'checked';}?>>
+			全部生成</td>
+          </tr>
+          <tr>
+            <td><input name="createhtml" type="radio" class="checkbox" value="2" <?php if($createhtml==2){echo 'checked';}?>>
+			只生成内容页，首页</td>
+          </tr>
+        </table></td>
+        </tr>
+      <tr>
+        <td colspan="2" bgcolor="#FFFFFF"><b>以下参数仅当“生成HTML方式”设为后二者时才有效。
+<br>
+请谨慎选择！以后在每一次更改以下参数前，你最好先删除所有以前生成的文件，然后在保存参数设置后再重新生成所有文件。</b></td>
+        </tr>
+      <tr>
+        <td><b>栏目列表文件的存放位置：</b></td>
+        <td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><input name="listfiletype" type="radio" class="checkbox" value="0" <?php if($listfiletype==0){echo 'checked';}?>>
+              列表文件统一保存在指定的“List”文件夹中<br>
+              
+              　　例：Article/List/List_236.html（栏目首页）<BR>　
+              　　 Article/List/List_236_2.html（第二页）</td>
+          </tr>
+          <tr>
+            <td><input name="ListFileType" type="radio" class="checkbox" value="1" <?php if($listfiletype==1){echo 'checked';}?>>
+              列表文件统一保存在频道文件夹中<br>
+              　　例：Article/List_236.html（栏目首页）<BR>
+              　
+              　　 Article/List_236_2.html（第二页）</td>
+          </tr>
+          <tr>
+            <td><input name="ListFileType" type="radio" class="checkbox" value="2" <?php if($listfiletype==2){echo 'checked';}?>>
+              列表文件统一保存在频道文件夹中（继承模拟静态页面目录地址）<br>
+              　　例：Article/List-236.html（栏目首页）<BR>
+              　
+              　　 Article/List-236-2.html（第二页）</td>
+          </tr>
+        </table></td>
+      </tr>
+	  <tr>
+	  		<td><b>内容页文件的存放位置：</b></td>
+            <td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><input name="structuretype" type="radio" class="checkbox" value="0" <?php if($structuretype==0){echo 'checked';}?>>
+              频道/HTML/文件（直接放在指定的“HTML”文件夹中）<br>
+              
+              　　例：Article/HTML/1368.html</td>
+          </tr>
+          <tr>
+            <td><input name="structuretype" type="radio" class="checkbox" value="1" <?php if($structuretype==1){echo 'checked';}?>>
+              频道/月份/文件（直接按月份保存，每月一个目录）<br>
+              　　例：Article/200408/1368.html</td>
+          </tr>
+          <tr>
+            <td><input name="structuretype" type="radio" class="checkbox" value="2" <?php if($structuretype==2){echo 'checked';}?>>
+              频道/文件（直接保存到频道目录继承模拟静态页面目录地址）<br>
+              　　例：Article/Article-1358-1.html</td>
+          </tr>
+        </table></td>
+	  </tr>
+      <tr>
+        <td><b>内容页文件的命名方式：</b></td>
+        <td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><input name="filenametype" type="radio" class="checkbox" value="0" <?php if($filenametype==0){echo 'checked';}?>>
+              文章ID.html　　例：1358.html</td>
+          </tr>
+          <tr>
+            <td><input name="filenametype" type="radio" class="checkbox" value="1" <?php if($filenametype==1){echo 'checked';}?>>
+              更新时间.html　　例：20040828112308.html</td>
+          </tr>
+          <tr>
+            <td><input name="filenametype" type="radio" class="checkbox" value="2" <?php if($filenametype==2){echo 'checked';}?>>
+              频道英文名_文章ID.html　　例：Article_1358.html</td>
+          </tr>
+          <tr>
+            <td><input name="filenametype" type="radio" class="checkbox" value="3" <?php if($filenametype==3){echo 'checked';}?>>
+              频道英文名_更新时间.html　　例：Article_20040828112308.html</td>
+          </tr>
+          <tr>
+            <td><input name="filenametype" type="radio" class="checkbox" value="4" <?php if($filenametype==4){echo 'checked';}?>>
+              文件名-ID-分页.html（继承模拟静态页面名称命名方式）<br>
+　　例：Article-1358.html（栏目首页）<BR>
+　
+              　　 Article-1358-2.html（第二页）</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><b>页面文件扩展名：</b></td>
+        <td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><input name="fileext" type="radio" class="checkbox" value="0" <?php if($fileext==0){echo 'checked';}?>>
+              .html　　
+              <input name="fileext" type="radio" class="checkbox" value="1" <?php if($fileext==1){echo 'checked';}?>>
+			.htm　　
+			<input name="fileext" type="radio" class="checkbox" value="2" <?php if($fileext==2){echo 'checked';}?>>
+            .shtml　　
+            <input name="fileext" type="radio" class="checkbox" value="3" <?php if($fileext==3){echo 'checked';}?>>
+            .shtm　　
+            </td>
+          </tr>
+        </table></td>
+      </tr>
+    </table>
+	</div>
+	</td>
+    </tr>
+  <tr>
+    <td height="30" colspan="2" align="center">
+	<input name="Submit1" type="submit" class="inputs" id="Submit1" value="确认提交">　
+      <input name="Submit2" type="reset" class="inputs" value="重新填写">
+    
+	</td>
+  </tr>
+</form></table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form" action="websys_channel.php" method="post">
+<tr>
+    <th colspan=11 height=25>频道管理</th>
+</tr>
+<tr align="center"> 
+    <td width="6%" height="22">频道ID</td>
+    <td width="10%">频道名称</td> 
+    <td width="8%">打开方式</td>
+    <td width="8%">频道类型</td>
+    <td width="20%">频道目录/链接地址</td>
+    <td width="8%">项目名称</td>
+    <td width="8%">功能模块</td>
+    <td width="8%">生成HTML</td>
+    <td width="8%">频道状态</td>
+    <td width="4%">排序</td>
+    <td width="12%">操作</td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25><?php echo $rs["c_id"];?></td>
+    <td><?php echo $rs["c_name"];?></td>
+    <td><?php if($rs['c_opentype']==0){echo '原窗口';}else{echo "新窗口";}?></td>
+    <td><?php
+    switch($rs['c_channeltype']){
+        case 0:echo "<font color=green>系统频道</font>";break;
+        case 1:echo "<font color=blue>内部频道</font>";break;
+        case 2:echo "<font color=red>外部频道</font>";break;
+    }
+    ?></td>
+    <td align="left"><?php if($rs['c_linkurl']){echo "地址：$rs[c_linkurl]";}else{echo "目录：$rs[c_channeldir]";}?></td>
+    <td><?php echo $rs["c_shortname"];?></td>
+    <td><?php
+    switch($rs['c_moduletype']){
+        case 1:echo "求职";break;
+        case 2:echo "招聘";break;
+        case 3:echo "院校";break;
+        case 4:echo "猎头";break;
+        case 5:echo "培训";break;
+        case 6:echo "留言";break;
+        case 7:echo "测评";break;
+        case 8:echo "派遣";break;
+        case 9:echo "下载";break;
+        case 10:echo "文章";break;
+        case 11:echo "论坛";break;
+        case 12:echo "视频招聘";break;
+        case 13:echo "视频简历";break;
+        case 14:echo "帮助";break;
+        case 15:echo "分站";break;
+        default:echo "未知";
+    }
+    ?></td>
+    <td><?php if($rs['c_createhtml']){echo "<font color=green>√</font>";}else{echo "<font color=red>×</font>";}?></td>
+    <td><?php if(!$rs['c_disabled']){echo "<font color=green>√</font>";}else{echo "<font color=red>×</font>";}?></td>
+    <td><?php if($do=='order'){echo "<input type=\"hidden\" name=\"id[]\" value=\"$rs[c_id]\"><input name=\"order[]\" type=\"text\" size=\"2\" value=\"$rs[c_order]\">";}else{echo $rs['c_order'];}?></td>
+    <td><a href="websys_channel.php?do=add&id=<?php echo $rs['c_id'];?>">修改</a>&nbsp;
+    <?php
+    if($rs['c_disabled']){echo "<a href=websys_channel.php?do=start&id=$rs[c_id]>开启</a>&nbsp;";}else{echo "<a href=websys_channel.php?do=stop&id=$rs[c_id]>禁用</a>&nbsp;";}
+    if($rs['c_channeltype']!=0) echo "<a href=websys_channel.php?do=del&id=$rs[c_id]>删除</a>&nbsp;";
+    ?></td>
+</tr>
+<?php }
+ if($do=='order'){?>
+<tr>
+    <th colspan=11 height=25><input type="button" name="ss" class="inputs" value="保存排序" onClick="this.form.action='?do=saveorder';this.form.submit();"></th>
+</tr>
+<?php }?>
+</form>
+</table>
+<?php } ?>
+<?php echo acopy();?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("cid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids(i);
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form.cids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("cid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids(i);
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

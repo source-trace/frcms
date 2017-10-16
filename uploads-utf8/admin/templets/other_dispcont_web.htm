@@ -1,0 +1,44 @@
+<?php
+echo ahead("系统运行日志");
+?>
+<script language="javascript" type="text/javascript">
+function show(id){
+	if(document.getElementById(id).style.display=='none'){document.getElementById(id).style.display='block';}
+	else{document.getElementById(id).style.display='none';}
+}
+</script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">系统运行日志</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>提示信息：</b></td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20">后台日志记录后台管理员登录、管理员对信息及会员进行管理操作的日常记录！</td>
+  </tr>
+    <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="?type=sql">数据库错误</a>&nbsp;|&nbsp;<a href="?type=smtp">Mail发送错误</a>&nbsp;|&nbsp; <?php if(aflags($admin_flags,3,1)){?><a href="?do=del&type=sql">清除数据库错误</a>&nbsp;|&nbsp;<a href="?do=del&type=smtp">清除Mail发送错误</a>&nbsp;|&nbsp;<?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=7 height=25>系统运行日志列表</th>
+</tr>
+<tr align="center"> 
+    <td width="7%" height="22">类型</td>
+    <td width="10%">用户名</td>
+    <td width="15%">时间</td>
+    <td width="12%">IP</td>
+    <td width="19%">文件</td>
+    <td width="18%">查询</td>
+    <td width="19%">内容</td>
+</tr>
+<?php echo $gblist;?>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</table>
+<?php
+echo acopy();
+?>

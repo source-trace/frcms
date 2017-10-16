@@ -1,0 +1,131 @@
+<?php
+echo ahead("静态文件生成");
+?>
+<script language="javascript">
+function cPage(StrAction,Strcid,Strsid,Strnum){
+	document.getElementById('createresult').src="files_createresult.php?do="+StrAction+"&channelid="+Strcid+"&sortid="+Strsid+"&num="+Strnum;
+} 
+</script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">HTML文件生成</th>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">请按以下频道进行操作 <font color="ff0000">注:执行生成操作后请勿关闭窗口</font>&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">网站首页：<input name="button" type="button" class="inputs" onclick="cPage('index',0,0);" value="生成首页" /> <input name="button" type="button" class="inputs" onClick="cPage('allindex',0,0);" value="生成全部频道首页" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">列表页面：<select name="clid" onchange="javascript:window.location='?do=nlist&cid='+this.options[this.selectedIndex].value;">
+	<option value="0">全部频道</option>
+    <?php echo $channellist;?>
+    </select> 按栏目<select name="slid">
+	<option value="0">全部栏目</option>
+    <?php echo $newssortlist;?>
+    </select> <input name="button" type="button" class="inputs" onclick="cPage('newslist',clid.options[clid.selectedIndex].value,slid.options[slid.selectedIndex].value,0);" value="批量生成" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">招聘内容：<select name="ccid">
+    <option value="1">企业介绍</option>
+    <option value="2">职位列表</option>
+    <option value="3">职位信息</option>
+    <option value="4">企业形象</option>
+    </select> 按数量<select name="dcid">
+	<option value="0">最新全部</option>
+    <option value="10">10条</option>
+    <option value="50">50条</option>
+    <option value="100">100条</option>
+    <option value="500">500条</option>
+    </select> <input name="button" type="button" class="inputs" onclick="cPage('companypage',ccid.options[ccid.selectedIndex].value,0,dcid.options[dcid.selectedIndex].value);" value="批量生成" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">求职内容：<select name="cpid">
+    <option value="1">个人简历</option>
+    <option value="2">形象展示</option>
+    </select> 按数量<select name="dpid">
+	<option value="0">最新全部</option>
+    <option value="10">10条</option>
+    <option value="50">50条</option>
+    <option value="100">100条</option>
+    <option value="500">500条</option>
+    </select> <input name="button" type="button" class="inputs" onclick="cPage('personpage',cpid.options[cpid.selectedIndex].value,0,dpid.options[dpid.selectedIndex].value);" value="批量生成" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">资讯内容：<select name="cid" onchange="javascript:window.location='?do=nlist&cid='+this.options[this.selectedIndex].value;">
+	<option value="0">全部频道</option>
+    <?php echo $channellist;?>
+    </select> 按栏目<select name="sid">
+	<option value="0">全部栏目</option>
+    <?php echo $newssortlist;?>
+    </select> 按数量<select name="did">
+	<option value="0">最新全部</option>
+    <option value="10">10条</option>
+    <option value="50">50条</option>
+    <option value="100">100条</option>
+    <option value="500">500条</option>
+    </select> <input name="button" type="button" class="inputs" onclick="cPage('newspage',cid.options[cid.selectedIndex].value,sid.options[sid.selectedIndex].value,did.options[did.selectedIndex].value);" value="批量生成" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">猎头内容：<select name="chid">
+    <option value="1">服务介绍</option>
+    <option value="2">职位页面</option>
+    <option value="3">职位列表</option>
+    </select> <input name="button" type="button" class="inputs" onclick="cPage('hrpage',chid.options[chid.selectedIndex].value,0,0);" value="批量生成" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">院校内容：<select name="csid">
+    <option value="1">院校介绍</option>
+    <option value="2">教授介绍</option>
+    <option value="3">毕业生介绍</option>
+    <option value="4">招生简章</option>
+    <option value="5">专业介绍</option>
+    </select> 按数量<select name="dsid">
+	<option value="0">最新全部</option>
+    <option value="10">10条</option>
+    <option value="50">50条</option>
+    <option value="100">100条</option>
+    <option value="500">500条</option>
+    </select> <input name="button" type="button" class="inputs" onclick="cPage('schoolpage',csid.options[csid.selectedIndex].value,0,dsid.options[dsid.selectedIndex].value);" value="批量生成" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">培训内容：<select name="ctid">
+    <option value="1">机构介绍</option>
+    <option value="2">课程介绍</option>
+    <option value="3">讲师介绍</option>
+    <!--<option value="1">机构列表</option>
+    <option value="2">机构介绍</option>
+    <option value="3">课程列表</option>
+    <option value="4">课程介绍</option>
+    <option value="5">讲师列表</option>
+    <option value="6">讲师介绍</option>
+    <option value="7">师资力量</option>
+    <option value="8">主要业绩</option>
+    <option value="9">联系方式</option>
+    <option value="10">机构展示</option>
+    <option value="11">电子地图</option>-->
+    </select> 按数量<select name="dtid">
+	<option value="0">最新全部</option>
+    <option value="10">10条</option>
+    <option value="50">50条</option>
+    <option value="100">100条</option>
+    <option value="500">500条</option>
+    </select> <input name="button" type="button" class="inputs" onclick="cPage('trainpage',ctid.options[ctid.selectedIndex].value,0,dtid.options[dtid.selectedIndex].value);" value="批量生成" /></td>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">通用页面：<input name="button" type="button" class="inputs" onclick="cPage('common',0,0);" value="生成通用页面" /></td>
+  </tr>
+</table>
+<table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">文件生成结果</th>
+  </tr>
+<tr align="center"> 
+    <td height="221"><iframe id="createresult" name="createresult" src="files_createresult.php" width="98%" height="200" frameborder="0" scrolling="auto" style="margin:2px;"></iframe></td>
+  </tr>
+</table>
+<?php
+echo acopy();
+?>

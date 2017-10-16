@@ -1,0 +1,110 @@
+<?php
+echo ahead("论坛整合管理");
+?>
+</head>
+<body>
+<form action="?do=config" method="post" name="form">
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+    <tr>
+        <th colspan="2" height="25">论坛整合管理</th>
+    </tr>
+     <tr>
+        <td colspan="2" height="25">开启论坛整合时设置本页内容，一般情况下请不要修改，修改前请备份 api/api_config.php 文件，以防止修改错误导致站点无法运行</td>
+    </tr>
+    <tr>
+      <td width="160" height="25" align="right">是否开启论坛整合:</td>
+      <td><input name="a_center" type="radio" class="checkbox" value="0" checked>
+		  	否
+            <input name="a_center" type="radio" class="checkbox" value="1"<?php if(FR_API) echo " checked";?>>
+            是<br />如果选择“是”开启整合，请正确设置一下各项内容，设置不正确可能会导致程序无法运行</td>
+    </tr>
+    <tr>
+      <td width="160" height="25" align="right">选择要整合的用户中心:</td>
+      <td><input name="a_api" type="radio" class="checkbox" value="uc" onclick="if (this.checked){a1.style.display='';a2.style.display='none';}" checked>
+		  	UCenter
+            <input name="a_api" type="radio" class="checkbox" value="pw" onclick="if (this.checked){a2.style.display='';a1.style.display='none';}"<?php if(FR_API=='pw') echo " checked";?>>
+            phpWind 论坛</td>
+    </tr>
+    <tbody id="a1"<?php if(FR_API!='uc') echo " style=\"display: none;\"";?>>
+    <tr>
+      <td width="160" height="25" align="right">UCenter 应用 ID:</td>
+      <td><input name="uc_APPID" type="text" size="30" value="<?php echo $uc_APPID;?>" /><br />该值为当前站点在 UCenter 的应用 ID，一般情况请不要改动</td>
+    </tr>
+	<tr>
+	  <td align="right">UCenter 通信密钥:</td>
+	  <td><input name="uc_KEY" type="text" size="30" value="<?php echo $uc_KEY;?>" /><br />通信密钥用于在 UCenter 和 人才网 之间传输信息的加密，可包含任何字母及数字，请在 UCenter 与 人才网 设置完全相同的通讯密钥，以确保两套系统能够正常通信</td>
+    </tr>
+    <tr>
+    <td height="25" align="right">UCenter 访问地址:</td>
+    <td><input name="uc_API" type="text" size="30" value="<?php echo $uc_API;?>" /><br />如果你的 UCenter 访问地址发生了改变，请修改此项。不正确的设置可能导致站点功能异常，请小心修改。
+    格式: http://www.sitename.com/uc_server (最后不要加'/')</td></tr>
+    <tr>
+        <td height="25" align="right">UCenter IP 地址:</td>
+    <td><input name="uc_IP" type="text" size="30" value="<?php echo $uc_IP;?>" /><br />如果你的服务器无法通过域名访问 UCenter，可以输入 UCenter 服务器的 IP 地址')</td></tr>
+    <tr>
+	  <td align="right">UCenter 数据库服务器:</td>
+	  <td><input name="uc_DBHOST" type="text" size="30" value="<?php echo $uc_DBHOST;?>" /><br />可以是本地也可以是远程数据库服务器，如果 MySQL 端口不是默认的 3306，请填写如下形式：127.0.0.1:6033</td>
+    </tr>
+    <tr>
+	  <td align="right">UCenter 数据库用户名:</td>
+	  <td><input name="uc_DBUSER" type="text" size="30" value="<?php echo $uc_DBUSER;?>" /></td>
+    </tr>
+    <tr>
+	  <td align="right">UCenter 数据库密码:</td>
+	  <td><input name="uc_DBPW" type="text" size="30" value="<?php echo $uc_DBPW;?>" /></td>
+    </tr>
+    <tr>
+	  <td align="right">UCenter 数据库名:</td>
+	  <td><input name="uc_DBNAME" type="text" size="30" value="<?php echo $uc_DBNAME;?>" /></td>
+    </tr>
+    <tr>
+	  <td align="right">UCenter 表前缀:</td>
+	  <td><input name="uc_DBTABLEPRE" type="text" size="30" value="<?php echo $uc_DBTABLEPRE;?>" /></td>
+    </tr>
+    </tbody>
+    <tbody id="a2"<?php if(FR_API!='pw') echo " style=\"display: none;\"";?>>
+    <tr>
+      <td width="160" height="25" align="right">phpWind 应用 ID:</td>
+      <td><input name="pw_APPID" type="text" size="30" value="<?php echo $pw_APPID;?>" /><br />该值为当前站点在 phpWind 的应用 ID，一般情况请不要改动</td>
+    </tr>
+	<tr>
+	  <td align="right">phpWind 通信密钥:</td>
+	  <td><input name="pw_KEY" type="text" size="30" value="<?php echo $pw_KEY;?>" /><br />通信密钥用于在 phpWind 和 人才网 之间传输信息的加密，可包含任何字母及数字，请在 phpWind 与 人才网 设置完全相同的通讯密钥，以确保两套系统能够正常通信</td>
+    </tr>
+    <tr>
+    <td height="25" align="right">phpWind 访问地址:</td>
+    <td><input name="pw_API" type="text" size="30" value="<?php echo $pw_API;?>" /><br />如果你的 phpWind 访问地址发生了改变，请修改此项。不正确的设置可能导致站点功能异常，请小心修改。
+    格式: http://www.sitename.com (最后不要加'/')</td></tr>
+    <tr>
+        <td height="25" align="right">phpWind IP 地址:</td>
+    <td><input name="pw_IP" type="text" size="30" value="<?php echo $pw_IP;?>" /><br />如果你的服务器无法通过域名访问 phpWind，可以输入 phpWind 服务器的 IP 地址')</td></tr>
+    <tr>
+	  <td align="right">phpWind 数据库服务器:</td>
+	  <td><input name="pw_DBHOST" type="text" size="30" value="<?php echo $pw_DBHOST;?>" /><br />可以是本地也可以是远程数据库服务器，如果 MySQL 端口不是默认的 3306，请填写如下形式：127.0.0.1:6033</td>
+    </tr>
+    <tr>
+	  <td align="right">phpWind 数据库用户名:</td>
+	  <td><input name="pw_DBUSER" type="text" size="30" value="<?php echo $pw_DBUSER;?>" /></td>
+    </tr>
+    <tr>
+	  <td align="right">phpWind 数据库密码:</td>
+	  <td><input name="pw_DBPW" type="text" size="30" value="<?php echo $pw_DBPW;?>" /></td>
+    </tr>
+    <tr>
+	  <td align="right">phpWind 数据库名:</td>
+	  <td><input name="pw_DBNAME" type="text" size="30" value="<?php echo $pw_DBNAME;?>" /></td>
+    </tr>
+    <tr>
+	  <td align="right">phpWind 表前缀:</td>
+	  <td><input name="pw_DBTABLEPRE" type="text" size="30" value="<?php echo $pw_DBTABLEPRE;?>" /></td>
+    </tr>
+    </tbody>
+    <?php if(aflags($admin_flags,1,1)){?><tr><td height="25" align="right">&nbsp;</td>
+    <td><input name="submit1" type="submit" class="inputs" value=" 提交 " />
+    </td></tr>
+    <?php }?>
+</table>
+</form>
+<?php
+echo acopy();
+?>

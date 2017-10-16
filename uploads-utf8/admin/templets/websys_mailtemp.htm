@@ -1,0 +1,53 @@
+<?php
+echo ahead("网站邮件模版设置");
+if($do=="m"){
+?>
+<script charset="utf-8" src="../freditor/kindeditor.js"></script>
+<script>
+	KE.show({id : 'm_con',width : "100%",height : "300px",resizeMode : 1,urlType : "domain",
+		afterCreate : function(id) {
+			KE.event.ctrl(document, 13, function() {
+				KE.util.setData(id);
+				document.forms['form'].submit();
+			});
+			KE.event.ctrl(KE.g[id].iframeDoc, 13, function() {
+				KE.util.setData(id);
+				document.forms['form'].submit();
+			});
+		}
+	});
+function insertText(labelstr)
+{
+	KE.insertHtml("m_con", labelstr);
+}
+</script>
+<?php }?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网站邮件模版设置</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>提示信息：</b></td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20">系统通过标识符对邮件模板进行调用，请直接修改邮件标题及邮件模板即可。</td>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=7 height=25>邮件模板列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="42%">邮件标题</td> 
+    <td width="18%">标识符</td>
+    <td width="25%">邮件说明</td>
+    <td width="10%">操作</td>
+</tr>
+<?php echo $gblist;?>
+</table>
+<?php
+echo acopy();
+?>

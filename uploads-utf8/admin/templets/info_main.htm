@@ -1,0 +1,285 @@
+<?php
+echo ahead($cname."管理");
+?>
+<script type="text/javascript">
+function show()
+{
+	if (document.getElementById("ispic").checked==true)
+	{document.getElementById("pic").style.display="block";}
+	else
+	{document.getElementById("pic").style.display="none";}
+}
+function opw(url,name,width,height) 
+{
+	window.open(url,name,''+'width='+width+',height='+height+',scrollbars=yes'+'');
+}
+</script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25"><?php echo $cname;?>管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><?php if(aflags($admin_flags,0,1)){?><a href="info_main.php?do=add&cid=<?php echo $cid;?>&cname=<?php echo $cname;?>">添加<?php echo $cname;?></a> | <?php }?><a href="info_main.php?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>"><?php echo $cname;?>管理</a> | <?php if(aflags($admin_flags,1,1)){?><a href="info_sort.php?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>#type">添加栏目分类</a> | <a href="info_sort.php?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>">栏目分类管理</a> | <?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+  <tr><form name="searchForm" action="?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>" method="post">
+    <td height=25 class="pl20"><b>操作选项：</b>搜索关键字：<input name="keywords" type="text" class="txt" value="<?php echo $keywords;?>">&nbsp;所属类别：<select name="sid" size="1">
+<option value="" selected="selected">所有栏目</option>
+<?php echo anewssort($cid,$sid);?>
+</select> <input name="submit" type="submit" class="inputs" id=submit value="立刻查找"></td></form>
+  </tr>
+</table>
+<?php
+if($do=="add"||$do=="edit"){
+?>
+<script charset="utf-8" src="../freditor/kindeditor.js"></script>
+<script>
+	KE.show({id : 'content',width : "100%",height : "300px",resizeMode : 1,allowFileManager : true,
+		afterCreate : function(id) {
+			KE.event.ctrl(document, 13, function() {
+				KE.util.setData(id);
+				document.forms['addform'].submit();
+			});
+			KE.event.ctrl(KE.g[id].iframeDoc, 13, function() {
+				KE.util.setData(id);
+				document.forms['addform'].submit();
+			});
+		}
+	});
+function inserttocon(labelstr)
+{
+	KE.insertHtml("content", "<img border=\"0\" src=\""+labelstr+"\" />");
+}
+String.prototype.lenB=function(){
+return this.replace(/[^\x00-\xff]/g,"**").length;
+}
+function check()
+{
+	if(document.addform.title.value==""){
+		alert("请输入资讯标题!");
+		document.addform.title.focus();
+		return (false);
+	}
+	if(document.addform.sid.value==""){
+		alert("请选择资讯类别!");
+		return (false);
+	}
+	if(document.addform.overview.value!=""){
+		if ((document.addform.overview.value).lenB()>=400){
+			alert("资讯简介太长了，要求不多于200个字符!");
+			document.addform.overview.focus();
+			return (false);
+		}
+	}
+	if (document.addform.content.value=="") {   
+        alert("请输入资讯内容！");
+        return false; 
+	}   
+}
+</script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post" onSubmit="return check();">
+<input type="hidden" name="nid" value="<?php echo $nid;?>">
+<input type="hidden" name="cid" value="<?php echo $cid;?>">
+<input type="hidden" name="cname" value="<?php echo $cname;?>">
+<tr>
+    <th colspan=2 height=25><?php if($nid!=''){echo '修改';}else{echo '添加';}?><?php echo $cname;?></th>
+</tr>
+<tr><td width="80" height="25" align="right">资讯标题：</td>
+<td><select name="sorttit">
+		<option value="" selected="selected"></option>
+        <option value="[组图]" <?php if($sorttit=="[组图]") echo 'selected="selected"';?>>[组图]</option>
+        <option value="[推荐]" <?php if($sorttit=="[推荐]") echo 'selected="selected"';?>>[推荐]</option>
+        <option value="[注意]" <?php if($sorttit=="[注意]") echo 'selected="selected"';?>>[注意]</option>
+      </select>
+      <input maxlength="100" size="50" name="title" class="txt" value="<?php echo $title;?>" />
+      <select name="color">
+	   <option value='' selected>颜色</option> 
+			<option value='#000000' style='background-color:#000000' <?php if($color=="#000000") echo 'selected="selected"';?>></option> 
+			<option value='#008000' style='background-color:#008000' <?php if($color=="#008000") echo 'selected="selected"';?>></option> 
+			<option value='#800000' style='background-color:#800000' <?php if($color=="#800000") echo 'selected="selected"';?>></option> 
+			<option value='#808000' style='background-color:#808000' <?php if($color=="#808000") echo 'selected="selected"';?>></option> 
+			<option value='#0000FF' style='background-color:#0000FF' <?php if($color=="#0000FF") echo 'selected="selected"';?>></option> 
+			<option value='#FF0000' style='background-color:#FF0000' <?php if($color=="#FF0000") echo 'selected="selected"';?>></option> 
+       </select>
+</td>
+</tr>
+<tr>
+    <td height="25" align="right">资讯栏目：</td>
+    <td>
+    <select name="sid" size="1">
+    <option value="" selected="selected">请选择栏目</option>
+    <?php echo anewssort($cid,$sid);?>
+    </select>
+    </td>
+</tr>
+<tr>
+    <td height="25" align="right">资讯属性：</td>
+    <td><input name="iscomm" type="checkbox" class="checkbox" value="1" <?php if($iscomm=="1") echo 'checked="checked"';?> />小类推荐
+    <input name="ishome" type="checkbox" class="checkbox" value="1" <?php if($ishome=="1") echo 'checked="checked"';?> />首页推荐
+    <input name="ispic" type="checkbox" class="checkbox" id="ispic" onClick="javascript:show();" value="1" <?php if($ispic=="1") echo 'checked="checked"';?> />图片资讯（必须上传图片）</td>
+</tr>
+<tr id="pic" <?php if($ispic==0) echo 'style="display:none;"';?>>
+    <td align="right">资讯图片：</td>
+    <td><input name="pic" type="text" id="pic" value="<?php echo $pic;?>" size="40" readonly/> 
+    <input name="upfile" type="button" class="inputs" onClick="javascript:opw('../inc/job_up.php?fromForm=addform&fromEdit=pic','adpic',420,165)" value="上传图片" />
+	<font color='blue'>【<font color="green" onclick="inserttocon(document.addform.pic.value);" style="cursor:pointer;">将图片插入到内容中</font>】</font></td>
+</tr>
+<tr>
+    <td height="25" align="right">资讯作者：</td>
+    <td><input size="40" name="author" value="<?php echo $author;?>" class="txt" />
+    <font color='blue'><=【<font color="green" onclick="document.addform.author.value='未知'" style="cursor:pointer;">未知</font>】</font>
+    </td>
+</tr>
+<tr>
+    <td height="25" align="right">资讯来源：</td>
+    <td><input size="40" name="from" value="<?php echo $from;?>" class="txt" />
+    <font color='blue'><=【<font color='green' onclick="document.addform.from.value='互联网'" style="cursor:pointer;">互联网</font>】</font></td>
+</tr>
+<tr>
+    <td height="25" align="right">添加时间：</td>
+    <td><input size="40" name="addtime" value="<?php echo $addtime;?>" class="txt" />
+    <font color='blue'><=【<font color='green' onclick="document.addform.addtime.value='<?php echo $now;?>'" style="cursor:pointer;"><?php echo $now;?></font>】</font></td>
+</tr>
+<tr>
+    <td height="25" align="right">SEO关键词：</td>
+    <td><input size="40" name="keywords" value="<?php echo $keywords;?>" class="txt" />
+    多个关键词用“,”好分隔</td>
+</tr>
+<tr>
+    <td height="25" align="right">SEO描述：</td>
+    <td><textarea name="description" cols="60" rows="4" class="textarea"><?php echo $description;?></textarea></td>
+</tr>
+<tr>
+    <td height="25" align="right">资讯概况：</td>
+    <td><textarea name="overview" cols="60" rows="4" class="textarea"><?php echo $overview;?></textarea>
+    只限200个字符</td>
+</tr>
+<tr>
+    <td height="25" align="right">资讯内容：</td>
+    <td><textarea name="content" cols="60" rows="10" class="txt"><?php echo $content;?></textarea></td>
+</tr>
+  <tr>
+    <td align="right">责任编辑：</td>
+    <td><input type="text" name="editor" value="<?php echo $editor;?>" /> <font color='blue'><=【<font color='green' onclick="document.addform.editor.value='<?php echo $admin_name;?>'" style="cursor:pointer;"><?php echo $admin_name;?></font>】</font></td>
+  </tr>
+<tr>
+	<td height="25" align="center" colspan="2"><input name="Submit" type="submit" class="inputs" value="<?php if($nid!=''){echo ' 修改资讯 ';}else{echo ' 添加资讯 ';}?>"></td>
+</tr>
+</form>
+</table>
+<?php }else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form" action="?" method="post">
+<tr>
+    <th colspan=7 height=25><?php echo $cname;?>列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="40%">标题</td> 
+    <td width="14%">所属栏目</td>
+    <td width="18%">发布日期</td>
+    <td width="12%">推荐状态</td>
+    <td width="6%">操作</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25><?php echo $rs["n_id"];?></td>
+    <td align="left"><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&cid=<?php echo $cid;?>&cname=<?php echo $cname;?>&nid=<?php echo $rs["n_id"];?>"><?php echo '<font color="'.$rs["n_color"].'">'.$rs["n_sorttit"].$rs["n_title"].'</font>';?></a><?php }else{?><a href="#"><?php echo '<font color="'.$rs["n_color"].'">'.$rs["n_sorttit"].$rs["n_title"].'</font>';?></a><?php }?></td>
+    <td><a href="info_main.php?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>&sid=<?php echo $rs["s_id"];?>"><?php echo $rs["s_name"];?></a></td>
+    <td><?php echo $rs["n_addtime"];?></td>
+    <td><?php if($rs["n_iscomm"]==1){echo "<img src=\"images/gold.png\" alt=\"栏目推荐\" width=\"16\" height=\"16\" border=\"0\" align=\"absmiddle\">";}else{echo "<img src=\"images/gold1.png\" width=\"16\" height=\"16\" border=\"0\" align=\"absmiddle\">";}?> <?php if($rs["n_ishome"]==1){echo "<img src=\"images/house.png\" alt=\"首页推荐\" width=\"16\" height=\"16\" border=\"0\" align=\"absmiddle\">";}else{echo "<img src=\"images/house1.png\" alt=\"首页未推荐\" width=\"16\" height=\"16\" border=\"0\" align=\"absmiddle\">";}?> <?php if($rs["n_ispic"]==1){echo "<img src=\"images/picture.png\" width=\"16\" height=\"16\" border=\"0\" align=\"absmiddle\">";}else{echo "<img src=\"images/picture1.png\" width=\"16\" height=\"16\" border=\"0\" align=\"absmiddle\">";}?></td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&cid=<?php echo $cid;?>&cname=<?php echo $cname;?>&nid=<?php echo $rs["n_id"];?>"><img src="images/white_edit.png" alt="编辑" width="16" height="16" border="0" align="absmiddle"></a> 
+    <?php }
+    if(aflags($admin_flags,3,1)){?><a href="?do=del&cid=<?php echo $cid;?>&cname=<?php echo $cname;?>&nids=<?php echo $rs["n_id"];?>"><img src="images/white_delete.png" alt="删除" width="16" height="16" border="0" align="absmiddle"></a>
+    <?php }?>&nbsp;</td>
+    <td><input type="checkbox" name="nid" value="<?php echo $rs["n_id"]; ?>" class="checkbox" /></td>
+</tr>
+<?php 
+}
+?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="nids" value="">
+<input type="hidden" name="cid" value="<?php echo $cid;?>">
+<input type="hidden" name="cname" value="<?php echo $cname;?>">
+    <input type="hidden" name="lids" value=""><?php if(aflags($admin_flags,1,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(1);" value="分类推荐"> 
+      <input name="button" type="button" class="inputs" onClick="confirmX(2);" value="取消分类推荐">
+      <input name="button" type="button" class="inputs" onClick="confirmX(3);" value="首页推荐">
+      <input name="button" type="button" class="inputs" onClick="confirmX(4);" value="取消首页推荐">
+      <?php }
+      if(aflags($admin_flags,3,1)){?>
+      <input name="button" type="button" class="inputs" onClick="confirmX(5);" value=" 删除 ">
+      <?php }?></td></tr>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("nid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.nids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=comm";
+		document.form.submit();		
+	}
+	if(num==2)
+	{
+		document.form.action="?do=uncomm";
+		document.form.submit();		
+	}
+	if(num==3)
+	{
+		document.form.action="?do=home";
+		document.form.submit();		
+	}
+	if(num==4)
+	{
+		document.form.action="?do=unhome";
+		document.form.submit();		
+	}
+	if(num==5)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("nid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>在线报名-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<!--<script>alert("您已经提交了报名[比例裁剪]课程的信息，管理员会在第一时间通过电话确认您的报名信息！");window.close();</script>-->
+<body>
+<style>
+body {
+    background:#FFFFFF;
+}
+
+</style>
+<script src="/js/jquery-1.4.2.min.js" language="javascript"></script>
+<script src="/js/jquery.validate.min.js" language="javascript"></script>
+
+<script type="text/javascript"> 
+
+$.validator.methods.istel=function(value, element) {    
+	var tel = /^[0-9\s+.-]+$/;
+	return this.optional(element) || (tel.test(value));
+	}
+
+$().ready(function() {
+	$("#form1").validate({
+		success: function(label) {
+			label.text("输入正确!").addClass("success");
+		}, 
+		rules: {
+			company: {required: true},
+			contact: {required: true},
+			tel: {istel: true},			
+			fax: {required: true},
+			email:{email: true},
+			address: {required: true},
+			post: {required: true},
+			num: {number: true}
+		},
+		messages: {
+			company: '请输入报名单位',
+			contact: '请输入联系人',		
+			tel: {istel:"联系电话格式如：029-85460076"},
+			fax: '请输入传真号码',	
+			address: "请输入地址",
+			email: "请输入正确的电子信箱",
+			post: '请输入邮编',
+			num: '请输入正确数字'
+			
+		}
+	});
+});
+ 
+
+</script>
+
+<table width="800" border="0" align="center" cellpadding="3" cellspacing="1" bgcolor="#CCCCCC" style="margin-top:10px;">
+<form name="form1" id="form1" action="signup.php?action=save" method="post" >
+  <tr>
+    <td width="15%" align="right" bgcolor="#EEFAFF">课程名称:</td>
+    <td bgcolor="#FFFFFF">{$ctit}<input name="courseid" type="hidden" value="{$cid}" />
+    <input name="course" type="hidden" value="{$ctit}" /><input name="tid" type="hidden" value="{$tid}" />
+    </td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">报名单位:</td>
+    <td bgcolor="#FFFFFF"><input name="company" type="text" id="company" size="40"  /> 
+      <span id="Scompany" class="fontred">*若是个人请输入个人报名 </span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">联 系 人:</td>
+    <td bgcolor="#FFFFFF"><input name="contact" type="text" id="contact" size="30" /> 
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="Scontact" class="fontred">*请输入您的大名</span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">联系电话:</td>
+    <td bgcolor="#FFFFFF"><input name="tel" type="text" id="tel" size="30"  />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="Stel" class="fontred"> *请输入您的联系电话 如：0310-6254178,多个联系方式请用，分开 </span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">传&nbsp;&nbsp;&nbsp; 真:</td>
+    <td bgcolor="#FFFFFF"><input name="fax" type="text" id="fax" size="30"  /> 
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="sfax"></span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">电子邮件:</td>
+    <td bgcolor="#FFFFFF"><input name="email" type="text" id="email" size="40" /> 
+      <span id="emails" class="fontred">*请输入正确的email地址 </span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">联系地址:</td>
+    <td bgcolor="#FFFFFF"><input name="address" type="text" id="address" size="40"  />
+      <span id="Saddress" class="fontred">*请输入您的联系地址</span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">邮&nbsp;&nbsp;&nbsp; 编:</td>
+    <td bgcolor="#FFFFFF"><input name="post" type="text" id="post" size="6"  />&nbsp;<span id="Spost"></span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">报名人数:</td>
+    <td bgcolor="#FFFFFF"><input name="num" type="text" id="num" value="1" size="6"  /> 
+      人 <span id="snum" class="fontred">*请输入数字 </span></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#EEFAFF">付款方式:<br /></td>
+    <td bgcolor="#FFFFFF">
+    <select name="paytype" id="paytype">
+      <option value="1">邮政付款</option>
+      <option value="2">在线支付</option>
+      <option value="3">银行转帐</option>
+      <option value="4">公对公转帐</option>
+    </select>    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="Submit" class="inputs" value="提交报名信息" /></td>
+  </tr>
+  </form>
+</table>
+</body>
+</html>

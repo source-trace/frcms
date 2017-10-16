@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>资讯搜索中心-{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">{getarticletype($cid,0)}</div>
+</div>
+<div class="container">
+	<div class="news_searchleft">
+		<div class="news_searchmain">
+			<div class="tit"><span></span>资讯搜索结果</div>
+			<div class="con">{getarticlesearch(-1,0)}
+            {$searchlist}
+            <br />
+            <div style="float:left;margin:10px 0 0 0; width:auto; text-align:center;padding:4px;">{$getpageinfo['pagecode']}</div>
+            </div>
+        </div>
+	</div>
+    <div class="news_searchright">
+		<div class="newshmain">
+			<div class="tit"><span></span>推荐文章</div>
+			<div class="con">{$FR_推荐文章}</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+{$FR_搜索弹出层}
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 会员操作帮助</div>
+</div>
+<div class="container">
+	<div class="aboutleft">
+		<div class="tit"><span></span>帮助导航</div>
+		<div class="con">{$helpnav}</div>
+	</div>
+	<div class="about">
+		<div class="tit"><span></span>会员操作帮助信息</div>
+		<div class="con">
+            <div class="helpsearch">
+            <li>
+            <script>
+            function checkForm(){
+                if(document.search.keywords.value=="请输入关键字"||document.search.keywords.value==""){
+                    alert("关键字为空，请输入关键字！");
+                    return false;
+                }
+            }
+            </script>
+            <form name="search" action=""  method="get" onsubmit="return checkForm()">
+            帮助关键词：<input name="keywords" type="text" onclick="if(document.search.keywords.value=='请输入关键字'){document.search.keywords.value='';}" value="请输入关键字" size="20" />
+            <select name='searchtype'>
+            <option value="1" >按标题找</option>
+            <option value="2" >按内容找</option>
+            </select>
+            <input type="submit" name="Submit" value="找答案" class="inputs">
+            </form>
+            </li>
+            </div>
+            <div class="helpmain">{$helpmain}</div>
+        </div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

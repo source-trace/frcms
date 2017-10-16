@@ -1,0 +1,107 @@
+<?php
+echo ahead("网站评论管理");
+?>
+<script language="javascript" type="text/javascript">
+function show(id){
+	if(document.getElementById(id).style.display=='none'){document.getElementById(id).style.display='block';}
+	else{document.getElementById(id).style.display='none';}
+}
+</script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网站评论管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>提示信息：</b></td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20">用户发表评论时，网站清洁机器人将自动将包含网址、电话、邮箱等的评论内容在前台屏蔽！<br />
+如果此条评论内容允许在前台显示，则设置前台显示即可。</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="websys_comment.php">网站全部评论</a> | <a href="websys_comment.php?p=1">已审评论管理</a> | <a href="websys_comment.php?p=0">屏蔽评论管理</a> | <a href="websys_comment.php?p=2">机器人屏蔽评论管理</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form" action="?" method="post">
+<tr>
+    <th colspan=7 height=25>网站评论列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="12%">评论人</td>
+    <td width="37%">被评文章</td>
+    <td width="18%">评论时间</td>
+    <td width="15%">用户IP</td>
+    <td width="8%">状态</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php echo $gblist;?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="cids" value="">
+<input type="hidden" name="p" value="<?php echo $p;?>">
+    <?php if(aflags($admin_flags,1,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(1);" value="审核"> 
+      <input name="button" type="button" class="inputs" onClick="confirmX(2);" value="屏蔽">
+      <?php }
+      if(aflags($admin_flags,3,1)){?>
+      <input name="button" type="button" class="inputs" onClick="confirmX(3);" value=" 删除 ">
+      <?php }?></td></tr>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("cid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form.cids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=comm";
+		document.form.submit();		
+	}
+	if(num==2)
+	{
+		document.form.action="?do=uncomm";
+		document.form.submit();		
+	}
+	if(num==3)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("cid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

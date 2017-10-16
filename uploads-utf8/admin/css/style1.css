@@ -1,0 +1,135 @@
+@charset "utf-8";
+html {
+	SCROLLBAR-FACE-COLOR: #2372b7; 
+	SCROLLBAR-HIGHLIGHT-COLOR: #1d61a8; 
+	SCROLLBAR-SHADOW-COLOR: #1d61a8; 
+	SCROLLBAR-3DLIGHT-COLOR: #1d61a8; 
+	SCROLLBAR-ARROW-COLOR: #ffffff; 
+	SCROLLBAR-TRACK-COLOR: #1d61a8; 
+	SCROLLBAR-DARKSHADOW-COLOR: #1d61a8;}
+body ,th,td{font:normal 12px verdana,arial,helvetica,sans-serif;}
+body {line-height: 150%;background:#C4D8ED;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;margin-left: 0px;}
+.tablebg{background:#C4D8ED;}
+tr {background:#EEF7FD;}
+td {height:18px;line-height:20px;font-size:12px;border:1px solid #fff;color:#1d61a8;padding:2px;}
+textarea, input, select{padding:2px;border:1px solid;border-color:#666 #ccc #ccc #666;background:#ffffff;color:#000;}
+input[type=radio],input[type=checkbox]{cursor:pointer;border:none;background:none;vertical-align:middle;}
+input.valid,select.valid,textarea.valid{border:1px dotted green; background-color:#F3FAE7;padding:1px;}
+input.error { border: 1px dotted red; background:#FFF3EE;}
+label.error {background:url(../../skin/system/standard_msg_error.gif) no-repeat 0px 0px;padding-left: 18px;color: red;}
+label.success {background:url(../../skin/system/standard_msg_ok.gif) no-repeat 0px 0px;padding-left: 18px;}
+.txt, select, .vmiddle {vertical-align:middle;}
+.txt:hover, .txt:focus, textarea:hover, textarea:focus{border-color:#1d61a8;background:#F5F9FD;}
+.radio, .checkbox{border:none;background:none;vertical-align:middle;}
+.checkbox{height:14px;}
+.textarea{overflow:auto;background:#fff;line-height:1.3; width:380px; font-size:12px;}
+.memmenul{border:1px #ABCEE2 solid; margin:4px;}
+.memmenul form{margin:0px; padding:0;}
+.leftmenutit {padding:5px; background-color:#03398F;line-height:normal;}
+.leftmenutit span {font-size:14px; font-weight:bold; color:#FFFFFF; padding-left:20px; margin:0;}
+span {FONT-SIZE: 12px;POSITION: static}
+br {width:100%;height:10px;line-height:10px;}
+/*文字颜色样式*/
+.fff{color:#fff;}
+.ff0{color:#ff0;}
+.0f0{color:#0f0;}
+.f0f{color:#f0f;}
+.0ff{color:#0ff;}
+.f00{color:#f00;}
+.00f{color:#00f;}
+
+/* 网站链接总的CSS定义:可定义内容为链接字体颜色、样式等 */
+a {text-decoration: none;} /* 链接无下划线,有为underline */ 
+a:link {COLOR: #000000;TEXT-DECORATION: none} /* 未访问的链接 */
+a:visited {COLOR: #000000;TEXT-DECORATION: none} /* 已访问的链接 */
+a:hover {color: #ff6600;text-decoration: none;} /* 鼠标在链接上 */ 
+a:active {color: #000000;text-decoration: none;} /* 点击激活链接 */
+
+.tableBorder {WIDTH: 98%;word-break:break-all;margin-top: 6px;}
+th {height:22px;line-height:22px;background:#fff;color:#1d61a8;font-weight:bold;border:1px solid #fff;padding-left:20px;text-align:left;}
+.top {width:100%;height:89px;background:url(../images/mhbg.gif) #1d61a8;}
+.logo {float:left;width:320px;font-size:18px;font-weight:bold;color:#FFFFFF;padding:16px 10px;overflow:hidden;}
+.topdl {width:auto;height:20px;background-color:#2e98da;FILTER: alpha(opacity=80);margin:10px 10px 0 10px;float:left;color:#FFFFFF;border:1px #2680c4 solid;padding:2px 10px;text-align:left;}
+.topdl li{width:auto;float:left;overflow:hidden;list-style:none;}
+.topdl li marquee{margin:0;padding:0;}
+.topdl li a{color:#FFFFFF;}
+.tabm {clear: both; width:1010px;overflow:hidden;line-height:normal;}
+.tabm ul {float:left;width:auto;margin:0 20px !important;margin:0 20px 0 10px;padding:4px 0px 0px 0px;list-style:none;}
+.tabm li {display:inline;margin:0;padding:0;cursor:pointer;}
+.tabm a {float:left;background:url(../images/tableftm.gif) no-repeat left -54px;margin:0;padding:0 0 0 5px;text-decoration:none;font-size:14px;font-weight:bold;color:#FFFFFF;text-decoration:none;}
+.tabm a span {float:left;display:block;background:url(../images/tabrightm.gif) no-repeat right -54px;padding:7px 15px 5px 10px;color:#FFF;font-size:14px;font-weight:bold;}
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+.tabm a span {float:none;}
+/* End IE5-Mac hack */
+.tabm a:hover span {color:#FFF}
+.tabm a:hover {background-position:0% -14px;text-decoration:none;}
+.tabm a:hover span {background-position:100% -14px;}
+.tabms a {background-position:0% -14px;}
+.tabms a span {background-position:100% -14px;}
+
+.leftiframe {margin:0;padding:0;width:100%;height:456px!important;height:95%;border:none inherit;background:#081250;}
+.leftmenu_title {padding:0；}
+.leftmenu_title span {font-size:14px;font-weight:bold;color:#FFFFFF;padding-left:20px;margin:0;}
+.menu {PADDING-RIGHT: 0px;PADDING-LEFT: 0px;FILTER: alpha(opacity=100);PADDING-BOTTOM: 10px;COLOR: #fff;PADDING-TOP:10px;POSITION: relative;}
+#menubar {background:#2372b7;FLOAT: left;}
+#menubar UL {LIST-STYLE-TYPE: none;MARGIN:0px; padding:0;}
+#menubar UL LI {FLOAT: left;MARGIN-LEFT: 0px;}
+#menubar A {WIDTH: 110px;MARGIN: 0px;DISPLAY: block;PADDING-left:20px;*PADDING-left:20px!important;*PADDING-left:20px;FONT-SIZE: 12px;FLOAT: left;COLOR: #fff;PADDING-TOP: 5px;HEIGHT: 20px;TEXT-ALIGN: left;TEXT-DECORATION: none}
+#menubar A:hover {WIDTH: 110px;MARGIN: 0px;DISPLAY: block;PADDING-left:20px;*PADDING-left:20px!important;*PADDING-left:20px;FONT-SIZE: 12px;BACKGROUND:#2e98da;FILTER: alpha(opacity=80);FLOAT: left;color:#FFFFFF;PADDING-TOP: 4px;BORDER-BOTTOM: #fff 1px solid;HEIGHT: 20px;TEXT-ALIGN: left;TEXT-DECORATION: none}
+.mindex td {height:24px;line-height:20px;background: #1d61a8;font-size:12px;border:none;color:#135294;padding:0px;}
+.styles{width:auto;height:10px;float:right;}
+.styles li{width:10px;height:6px;margin:1px;cursor:pointer;line-height:10px;}
+.styles li img{padding:1px;border:solid 1px #FFFFFF;}
+
+.bgc{ /* 管理后台左边菜单背景颜色 */
+background-color: #1d61a8;
+}
+.asm{ /* 管理后台左边菜单定义 */
+width:158px; margin:0 3px;}
+.asms{background:url(../images/title_bg_quit.gif);font-weight:bold;height:25px;padding:4px 0 0 10px;}
+.ys {/* 顶1px */margin-top:1px;}
+.asmd{margin-top:1px;background:url(../images/title_bg_d.gif);font-weight:bold;height:25px;padding:4px 0 0 10px;color:#215dc6;position: relative;}
+.asmd a:link,.asmd a:visited{color:#215dc6;text-decoration:none;}
+.asmd a:hover,.asmd a:active{color:#428eff;text-decoration:none;}
+.asmu{margin-top:1px;background:url(../images/title_bg_u.gif);font-weight:bold;height:25px;padding:4px 0 0 10px;color:#215dc6;position: relative;}
+.asmu a:link,.asmu a:visited{color:#215dc6;text-decoration:none;}
+.asmu a:hover,.asmu a:active{color:#428eff;text-decoration:none;}
+.asmc{padding:4px 0 0 15px;float:left;display:none;border:1px #FFFFFF solid;border-top:none;background-color:#d6dff7;}
+.asmc ul {margin:0;height:20px;line-height:20px;}
+.asma{padding:2px 0 0 15px;float:left;border:1px #FFFFFF solid;border-top:none;background-color:#d6dff7;}
+.asma ul {margin:0;height:20px;line-height:20px;}
+.asmm{margin-top:1px;background:url(../images/admin_left_9.gif);font-weight:bold;height:25px;padding:4px 0 0 10px;color:#215dc6;position: relative;}
+/*后台管理左导航菜单定义结束*/
+.inputs{width:auto;border:1px #bcccf8 solid;background:url(../../skin/System/tit_bg.gif) center repeat-x;height:20px;padding:2px 0px 0 0px;font-size:12px;color:#000;cursor:pointer;}
+.sffocus {
+background: #FFFFCC; /*----for IE----*/
+color:#000;
+}
+textarea:focus, input:focus {
+background: #FFFFCC; /*----for firefox......----*/
+color:#000;
+}
+.fshow {border: 2px solid #2372b7;background-color: #EEF7FD;padding: 2px;width: 360px;line-height:160%;}
+.pl20{padding-left:20px;text-align:left;}
+.mt6{ margin-top:6px;}
+/*分页样式*/
+.page{width:auto;}
+.page span{border:#C4D8ED 1px solid; background-color:#EEF7FD; font-size:12px; color:#000; line-height:150%; padding:2px 4px; margin:4px;}
+.page a{border:#C4D8ED 1px solid; background-color:#fff; font-size:12px;  color:#000; line-height:150%; padding:2px 4px; margin:4px; text-decoration: none;}
+.tdpage{height:22px;line-height:22px;background:#fafafa;border:1px solid #fff;padding-right:20px;text-align:center;}
+/*标签编辑样式*/
+.label{background-color:#EEF7FD;word-break:break-all;padding:0 6px 6px 6px; margin:6px;}
+.label fieldset{padding:0px;margin:0px;}
+.label form{padding:0px;margin:0px;border:0px;}
+.label li{float:left;overflow:hidden;list-style:none;line-height:24px; margin-top:4px;}
+.label li.left{width:20%; text-align:right;}
+.label li.right{width:80%;}
+.label div.labelb{width:100%; text-align:center; height:24px; line-height:24px;}
+
+.au { margin:4ox 0;padding:4px 4px 0 4px;width:96%;border-bottom:1px #fff solid;}
+.aub {font-weight:bold;}
+.au ul {}
+.au ul li{float:left;height:25px; font-size:12px;color:#000; width:158px;}
+
+.managecenter{margin: 5px;}
+.welcome{line-height: 300px; font-size: 30px; text-align: center;}

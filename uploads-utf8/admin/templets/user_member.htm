@@ -1,0 +1,152 @@
+<?php
+echo ahead("用户资料管理");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/sms.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <form action="user_member.php" method="post">
+  <tr>
+    <th height="25">用户资料管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="user_member.php">管理首页</a>&nbsp;|&nbsp;<a href="company_searchlist.php?do=add">企业添加</a>&nbsp;|&nbsp;<a href="company_hirelist.php?do=add">职位添加</a>&nbsp;|&nbsp;<?php echo $sysgroupnamelist;?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+      <td height=25 class="pl20"><b>服务选项：</b><?php echo $grouplist;?></td>
+    </tr>
+    <tr> 
+      <td height=25 class="pl20"><b>会员查询：</b> 
+          <input name="keyword" type="text" id="keyword" value="<?php echo $keyword;?>" size="20">
+          <select name="segment" size="1" id="segment">
+            <option value="m_login" <?php if($segment=="m_login") echo "selected";?>>会员帐号</option>
+            <option value="m_name" <?php if($segment=="m_name") echo "selected";?>>会员名称</option>
+            <option value="m_email" <?php if($segment=="m_email") echo "selected";?>>邮箱地址</option>
+            <option value="m_tel" <?php if($segment=="m_tel") echo "selected";?>>联系电话</option>
+            <option value="m_mob" <?php if($segment=="m_mob") echo "selected";?>>手机号码</option>
+          </select>
+          <input name="Submit" type="submit" class="inputs" value="搜索">
+     </td>
+    </tr>
+    </form>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form2" action="company_searchlist.php" method="post">
+<tr>
+    <th colspan=11 height=25>会员列表（<a href="?segment=<?php echo $segment;?>&keyword=<?php echo $keyword;?>&operate=<?php echo $operate;?>&group=<?php echo $group;?>&order=1">最近注册</a> | <a href="?segment=<?php echo $segment;?>&keyword=<?php echo $keyword;?>&operate=<?php echo $operate;?>&group=<?php echo $group;?>&order=2">最近登陆</a> | <a href="?segment=<?php echo $segment;?>&keyword=<?php echo $keyword;?>&operate=<?php echo $operate;?>&group=<?php echo $group;?>&order=3">最近到期</a>）</th>
+</tr>
+<tr align="center"> 
+    <td width="5%"><b>编号</b></td>
+    <td width="22%"><b>会员名|状态|名称</b></td>
+    <td width="20%"><b>登录|注册时间</b></td>
+    <td width="12%"><b>类型|用户组</b></td>
+    <td width="15%"><b>联系方式</b></td>
+    <td width="8%"><b>余额|积分</b></td>
+    <td width="14%"><b>登录次数|登录IP</b></td>
+    <td width="4%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php 
+echo $memberlist;
+?>
+<tr><td height="25" align="right" colspan="8">
+    <input type="hidden" name="members" value="">
+    <input type="hidden" name="keyword" value="<?php echo $keyword;?>"> 
+    <input type="hidden" name="segment" value="<?php echo $segment;?>">
+    <input type="hidden" name="page" value="<?php echo $page;?>">
+    <?php if(aflags($admin_flags,1,1)){?>
+    <input name="button" type="button" class="inputs" onClick="confirmX(1)" value="审核" /> 
+    <input name="button" type="button" class="inputs" onClick="confirmX(2)" value="撤消审核" /> 
+    <input name="button" type="button" class="inputs" onClick="confirmX(3)" value="邮件" />
+    <input name="button" type="button" class="inputs" onClick="confirmX(4)" value="密码恢复为123456" /> 
+    <?php }
+      if(aflags($admin_flags,3,1)){?>
+    <input name="button" type="button" class="inputs" onClick="confirmX(5)" value="删除" />
+    <?php }?>
+</td></tr>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("member");
+	var check=false;
+	var allSel="";
+	var a=0;
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form2.members.value = allSel;
+				check=true;
+				a+=1
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		if(confirm("你确定要审核你所选择的会员吗？"))	
+		{
+			document.form2.action="user_member.php?do=audit";
+			document.form2.submit();		
+		}
+	}
+	if(num==2)
+	{
+		if(confirm("你确定要撤销审核你所选择的会员吗？"))	
+		{
+			document.form2.action="user_member.php?do=unaudit";
+			document.form2.submit();		
+		}
+	}
+	if(num==3)
+	{
+		if(confirm("你确定要发送系统邮件给所选择的会员吗？"))	
+		{
+			document.form2.action="user_member.php?do=sendmail";
+			document.form2.submit();		
+		}
+	}
+	if(num==4)
+	{
+		if(confirm("你确定要恢复会员密码为123456吗？"))	
+		{
+			document.form2.action="user_member.php?do=pwd";
+			document.form2.submit();		
+		}
+	}
+	if(num==5)
+	{
+		if(confirm("警告：此操作将会删除该会员的信息及该会员发布的所有相关信息！\n是否继续本操作？"))	
+		{
+			document.form2.action="user_member.php?do=del";
+			document.form2.submit();		
+		}
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("member");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+function chkreload() {
+    <?php echo "window.location='user_member.php?segment=$segment&keyword=$keyword&operate=$operate&group=$group&page=$page';";?>
+}
+</script>
+<?php echo acopy();?>

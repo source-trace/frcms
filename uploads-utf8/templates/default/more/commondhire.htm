@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<meta name="keywords" content="{$TitProvinceName},{$TitPosionName},推荐招聘,最新VIP招聘职位,{$TitProvinceName}企业招聘职位" />
+<meta name="description" content="{$FR_网站名称}为您提供{$TitProvinceName}{$TitPosionName}推荐热招职位" />
+<title>{$TitProvinceName}{$TitPosionName}推荐热招职位-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+function confirmX(num){
+	var ids = document.getElementsByName("hid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			if (obj.checked==true){
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.checks.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1){
+		document.form.action="../member/index.php?a=hire&mpage=person_resumesend&show=3";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	if(num==2){
+		document.form.action="../member/index.php?do=favorite&mpage=person_favoriteadd&show=3";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("hid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> {$TitProvinceName}{$TitPosionName}推荐热招职位</div>
+</div>
+<div class="container">
+	<div class="moretop">
+		<div class="tit"><span></span>快速查询职位</div>
+		<div class="con">
+            {if $workadd!=''}
+                {if strlen($workadd)>4}
+                    {php $widl=intval(substr($workadd,0,4));}
+                    {if strlen($workadd)>9}
+                        {php $widr=substr($workadd,0,9);}
+                    {else}
+                        {php $widr=$workadd;}
+                    {/if}
+                    {php $wid=$widr;}
+                {else}
+                    {php $widl=intval($workadd);}
+                    {php $wid=$widl;}
+                {/if}
+            {else}
+                {php $wid=0;}
+            {/if}
+        	<div style="width:100%; height:30px; line-height:30px; font-size:14px;">
+            <b><a href="?position={$position}">选择地区</a>{if $wid==0} > 全国{php $wtemp="全国";}
+            {/if}
+            {if $widl!=''} > <a href="commondhire.php?position={$position}&workadd={$widl}">{CSysName($widl,'provinceandcity','p')}</a>
+            {php $wtemp.=CSysName($widl,'provinceandcity','p');}
+            {/if}
+            {if $widr!=''}
+             > {CSysName($widr,'provinceandcity','p')}
+             {php $wtemp.=CSysName($widr,'provinceandcity','p');}
+             {/if}
+            </b></div>
+            <div class=provincelist>{GetProvinceList("commondhire.php?position=$position",100,"p_order asc","",$wid)}</div>
+            <!--{if $position!=''}-->
+                <!--{if strlen($position)>4}-->
+                    <!--{php $pidl=intval(substr($position,0,4));}-->
+                    <!--{php $pidr=intval(substr($position,-4));}-->
+                    <!--{php $pid=$pidl;}-->
+                <!--{else}-->
+                    <!--{php $pidl=intval($position);}-->
+                    <!--{php $pid=$pidl;}-->
+                <!--{/if}-->
+            <!--{else}-->
+                <!--{php $pid=0;}-->
+            <!--{/if}-->
+            <div style="width:100%; height:30px; line-height:30px; font-size:14px;"><b><a href="commondhire.php?workadd={$workadd}">选择职位</a>
+            {if $pid==0} > 请选择{/if}
+            {if $pidl!=''} > <a href="commondhire.php?workadd={$workadd}&position={$pidl}">{CSysName($pidl,'position','p')}</a>
+            {php $ptemp=CSysName($pidl,'position','p');}
+            {/if}
+            {if $pidr!=''}
+            > {CSysName($pidr,'position','p')}
+            {php $ptemp.=CSysName($pidr,'position','p');}
+            {/if}
+            </b></div>
+            <div class=poistionlist>{GetPoistionList("commondhire.php?workadd=$workadd",100,"p_order asc","",$pid)}</div>
+		</div>
+	</div>
+	<div class="moremain">
+		<div class="tit"><span></span>推荐热招职位 | <a href="newhire.php">最新企业招聘</a> | <a href="vipcom.php">品牌企业招聘</a></div>
+		<div class="con"><table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="moretab">
+          <form name="form" action="?" method="post">
+            <tr class="moretabhead" align="center">
+              <td width="15%" height="21">职位名称</td>
+              <td width="24%">单位名称</td>
+              <td width="18%">工作地点</td>
+              <td width="8%">招聘人数</td>
+              <td width="10%">更新时间</td>
+              <td width="10%">截至时间</td>
+              <td width="10%">操作</td>
+              <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+            </tr>
+            {$newhirelist}
+            <tr class="moretabpage">
+              <td height="21" colspan="8"><div class="moretabdiv"><input type="hidden" name="checks" value=""><input name="Input2" type="button" value="申请选中的职位" class="inputs" onClick="confirmX(1);" /> 
+            <input name="Input3" type="button" value="放入收藏夹" class="inputs" onClick="confirmX(2);" /> </div>{$getpageinfo['pagecode']}</td>
+            </tr>
+            </form>
+          </table>
+      </div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

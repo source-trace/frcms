@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"><ul>
+        <?php 
+            foreach($rsdb as $key=>$rs){
+			$lon=($rs['c_id']==$id)?"_on":"";
+            echo "<li><a href='".$cfg['path']."hr/hr.php?id=".$rs['c_id']."'>".$rs['c_title']."</a></li>";
+            }
+			echo "<li><a href='".$cfg['path']."hr/hr_hirelist.php'>高端职位列表</a></li>";
+            ?>
+</ul></div>
+</div>
+<div class="container">
+	<div class="news_left">
+		<div class="newshmain">
+			<div class="tit"><span></span>会员登录 Sign in</div>
+			<div class="con">
+             <?php if(_getcookie('user_login')!=""){ 
+             echo "欢迎"._getcookie('user_login')."登录。<br />";
+             echo "上次登录IP为："._getcookie('user_loginip')."<br />";
+             //echo "上次登录时间："._getcookie('user_logindate')."<br />";
+             
+              if(_getcookie('user_type')=='pmember'){
+        echo "<ul>";
+        echo "<li><a href=\"".$cfg['path']."member\">会员中心</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?do=refresh\">刷新简历</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?mpage=person_resume&show=1\">修改简历</a></li>";
+        echo "<li><a href=\"".$cfg['path']."member/?mpage=person_interview&show=2\">面试通知</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?mpage=person_searchhire&show=3\">查询职位</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?mpage=person_info&show=0\">修改资料</a></li>";
+        echo "</ul>";
+    }else{
+        echo "<ul>";
+        echo "<li><a href=\"".$cfg['path']."member\">会员中心</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?mpage=company_pwd&show=4\">修改密码</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?mpage=company_info&show=0\">修改资料</a></li>";
+        echo "<li><a href=\"".$cfg['path']."member/?mpage=company_works&show=1\">应聘简历</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?mpage=company_hirelist&show=1\">职位管理</a>&nbsp;&nbsp;<a href=\"".$cfg['path']."member/?mpage=company_onlinepay&show=0\">充值管理</a></li>";
+        echo "</ul>";
+    }
+             
+             
+             
+             
+             
+             ?>
+             <?php }else{ ?>
+           <script language="JavaScript"> 
+function fnRemoveBrank(strSource)
+{
+ return strSource.replace(/^\s*/,'').replace(/\s*$/,'');
+}
+function check(myform)
+{
+	if(fnRemoveBrank(myform.login.value)=="")
+	{
+		alert("请输入用户名！");
+		myform.login.focus();
+		return(false);
+	}
+	if(myform.pwd.value=="")
+	{
+		alert("请输入密码！");
+		myform.pwd.focus();
+		return(false);
+	}
+}
+function loginout()
+{
+	if(confirm("确定要退出吗？"))
+{
+	location.href ="/login.php?do=loginout";
+}
+}
+function getpwd()
+{
+	location.href="/getpassword.php";
+}
+function regmember()
+{
+	location.href ="/register.php?person";
+}
+-->
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="2" class="logintab">
+<form action="/login.php?do=login&goto=/hr/" method="post" name="loginform" id="loginform" onSubmit="return check(this);">
+	<tr>
+		<td width="170">用户名：<input name="login" type="text" class="inputl"  /></td>
+	</tr>
+	<tr>
+		<td>密　码：<input name="pwd" type="password" class="inputl" /></td>
+	</tr>
+    <tr>
+		<td> 
+	        <input type="submit" name="button" id="button" value="立即登录" />
+         </td>
+	</tr>
+	<tr>
+		<td>
+			<a href="#" onclick="regmember();">个人免费注册</a> <a href="#" onclick="getpwd();">忘记密码</a>
+		</td>
+	</tr>
+</form>
+</table>
+
+            <?php } ?>
+            
+            
+            </div>
+		</div>
+		<div class="newshmain">
+			<div class="tit"><span></span>快速导航</div>
+			<div class="con">
+            <ul>
+            <?php 
+            foreach($rsdb as $key=>$rs){
+            echo "<li><a href='/hr/hr.php?id=".$rs['c_id']."'>".$rs['c_title']."</a></li>";
+            }
+            echo "<li><a href='".$cfg['path']."hr/hr_hirelist.php'>高端职位列表</a></li>";
+            ?>
+            </ul>
+            </div>
+		</div>
+		<div class="newshmain">
+			<div class="tit"><span></span>联系猎头</div>
+			<div class="con">
+			  联系电话：<?php echo $cfg['phone'];  ?><br />
+			  联系传真：<?php echo $cfg['fax'];  ?><br />
+              联 系 人：<?php echo $cfg['contact'];  ?><br />
+			  联系地址：<?php echo $cfg['address'];  ?><br />
+		      
+			</div>
+		</div>
+	</div>
+	<div class="news_right">
+		<div class="newsmain">
+			<div class="tit"><span></span>高级猎头职位</div>
+			<div class="con">
+				{getlasthrhirelist()}
+			</div>
+		</div>	
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

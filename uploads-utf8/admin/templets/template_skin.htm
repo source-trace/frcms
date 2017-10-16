@@ -1,0 +1,76 @@
+<?php
+echo ahead("风格样式管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">风格样式管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="template_skin.php?do=add">添加CSS样式</a> | <a href="template_skin.php">风格样式管理</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php
+if($do=="add"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+  <tr>
+    <th colspan="2">添加风格样式</th>
+  </tr>
+<form name="addform" method="post" action="?do=savedata&ofileid=<?php echo $fileid;?>">
+  <tr>
+    <td align="right" width="80">风格目录：</td>
+    <td><?php echo $skin_path;?></td>
+  </tr>
+  <tr>
+    <td align="right">文件名：</td>
+    <td><input type="text" size="20" name="fileid" class="txt" value="<?php echo $fileid;?>"/>.css 不支持中文</td>
+  </tr>
+  <tr>
+    <td align="right">样式名称：</td>
+    <td><input name="name" type="text" size="20" class="txt" value="<?php echo $name;?>" /></td>
+  </tr>
+<tr>
+<td align="right">样式内容：</td>
+<td>
+<textarea name="content" style="width:98%;height:300px;"><?php echo $content;?></textarea>
+</td>
+</tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td><input name="submit2" type="submit" class="inputs" value=" 保 存 " />
+    <input name="submit" type="button" class="inputs" value=" 返 回 " onclick="window.history.go(-1);" />
+    <input name="Submit3" type="reset" class="inputs" value=" 重 置 " /></td>
+  </tr>
+</form>
+</table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=8 height=25>CSS样式列表</th>
+</tr>
+<form name="addform" method="post" action="?do=savelist">
+<tr align="center" style="font-weight:bold;"> 
+	<td width="20%" height="22">文件名</td>
+	<td width="20%">样式名称</td> 
+	<td width="10%">文件大小</td>
+    <td width="25%">修改时间</td>
+	<td width="15%">属性</td>
+	<td width="10%">操作选项</td>
+</tr>
+<?php echo $skinlist;?>
+<tr align="center"> 
+	<td height="22" colspan="6">
+		<label>
+			<input type="submit" name="button" id="button" value="批量保存文件名称" class="inputs">
+		</label></td>
+	</tr>
+</form>
+</table>
+<?php
+}
+echo acopy();
+?>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<meta name="keywords" content="招聘,最新人才,人才" />
+<meta name="description" content="{$FR_网站名称}为您提供最新人才信息" />
+<title>人才搜索-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+function confirmX(num){
+	var ids = document.getElementsByName("id");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			if (obj.checked==true){
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.checks.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1){
+		document.form.action="../member/index.php?a=search&mpage=company_interviewsend&show=1";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	if(num==2){
+		document.form.action="../member/index.php?do=myexpert&mpage=company_myexpert&show=1";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("id");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 人才搜索中心</div>
+</div>
+<div class="container">
+	<div class="moremain">
+		<div class="tit"><span></span>人才搜索中心</div>
+		<div class="con"><table width="80%" border="0" cellspacing="0" cellpadding="4">
+        	<form name="resumesearch" action="resume_searchresult.php?numberss={$numbers}&taxiss={$taxis}&details={$detail}" method="post">
+              <tr>
+                <td>行　业：<input type="hidden" value="{$trade}" name="trade"><input type="text" name="trades" value="{if $trades!=""}{$trades}{else}选择行业{/if}" class="search_case" onClick="JumpSearchLayers(2,0,4,'resumesearch','trades','trade');" readonly /></td>
+                <td>职　位：<input type="hidden" value="{$position}" name="position"><input type="text" name="positions" value="{if $positions!=""}{$positions}{else}选择职位{/if}" class="search_case" onClick="JumpSearchLayers(0,0,1,'resumesearch','positions','position');" readonly /></td>
+                <td>工作地：<input type="hidden" value="{$workadd}" name="workadd"><input type="text" name="workadds" value="{if $workadds!=""}{$workadds}{else}选择地点{/if}" class="search_case" onClick="JumpSearchLayers(0,0,2,'resumesearch','workadds','workadd');" readonly /></td>
+              </tr>
+              <tr>
+                <td>日　期：<input type="hidden" value="{$datetime}" name="datetime"><input type="text" name="datetimes" value="{if $datetimes!=""}{$datetimes}{else}选择日期{/if}" class="search_case" onClick="JumpSearchDate('resumesearch','datetimes','datetime');" readonly /></td>
+                <td>关键字：<input name="keyword" type="text" size="15" class="inputk" value="{$keyword}" /></td>
+                <td><input type="submit" name="Submit3" value="搜 索" class="inputs" /></td>
+              </tr>
+              </form>
+            </table><table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="moretab">
+          <form name="form" action="?position={$position}&workadd={$workadd}&numberss={$numbers}&taxiss={$taxiss}&usergroup={$usergroup}&page={$page}" method="post">
+            {$newresumelist}
+            <tr class="moretabpage">
+              <td height="21" colspan="9"><div class="moretabdiv"><input type="hidden" name="checks" value="">每页显示<select name="numbers" size="1" style="z-index:0" onchange="javascript:window.location='{joinchar($strfilename)}numbers='+this.options[this.selectedIndex].value;">
+            <option value="10" {if $numbers==10}selected{/if}>10条</option>
+            <option value="20" {if $numbers==20}selected{/if}>20条</option>
+            <option value="50" {if $numbers==50}selected{/if}>50条</option>
+            </select>
+            <select name="taxis" size="1" onchange="javascript:window.location='{joinchar($strfilename)}taxis='+this.options[this.selectedIndex].value;">
+            <option value="1" {if $taxis==1}selected{/if}>按发布时间降序</option>
+            <option value="2" {if $taxis==2}selected{/if}>按发布时间升序</option>
+            <option value="3" {if $taxis==3}selected{/if}>按关注度排序</option>
+            </select>
+            <input name="Input2" type="button" value="发送面试邀请" class="inputs" onClick="confirmX(1);" /> 
+			<input name="Input3" type="button" value="放入人才库" class="inputs" onClick="confirmX(2);" />  </div>{$getpageinfo['pagecode']}</td>
+            </tr>
+            </form>
+          </table>
+      </div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+{$FR_搜索弹出层}
+</body>
+</html>
+<script language="javascript" src="../js/searchjs.js"></script>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">
+    <ul>
+      <li><a href="/hr/hr.php?id=11">猎头服务介绍</a></li>
+      <li><a href="/hr/hr.php?id=12">服务收费标准 </a></li>
+      <li><a href="/hr/hr.php?id=13">在线猎头顾问 </a></li>
+      <li><a href="/hr/hr.php?id=14">猎头服务机构</a></li>
+	</ul>
+</div>
+</div>
+
+<div class="container">
+	<div class="schtop">
+		<div class="schname">{$m_name}<img src='http://127.0.0.1:8080/skin/system/group0.gif' alt='{$g_name}' /></div>
+		<div class="schurl"> </div></div>
+		<div class="schdh">
+			<li><a href="/School/school_view.php?sid={$m_id}">院校介绍</a></li>
+			<li><a href="/School/require_more.php?sid={$m_id}">招生简章</a></li>
+			<li><a href="/School/student_more.php?sid={$m_id}">优秀毕业生</a></li>
+			<li><a href="/School/department_more.php?sid={$m_id}">专业设置</a></li>
+			<li><a href="/School/professor_more.php?sid={$m_id}">专家教授</a></li>
+		</div>
+	</div>
+</div>
+
+
+<div class="container mtop">
+	<div class="schcon_left">
+		<div class="sch_info">
+			<div class="tit"><span></span>专家教授信息</div>
+			<div class="con">
+            
+<table border="0" cellspacing="1" cellpadding="4" width="100%" bgcolor="#cccccc">
+  <tbody>
+    <tr>
+      <td bgcolor="#eefaff" width="15%" align="right">姓名：</td>
+      <td bgcolor="#ffffff" width="25%">{$p_name}</td>
+      <td bgcolor="#eefaff" width="15%" align="right">性别：</td>
+      <td bgcolor="#ffffff" width="25%">{$p_sex}</td>
+      <td bgcolor="#ffffff" rowspan="5" width="20%" align="middle"><img src="{$p_photo}" width="90" height="120" /></td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">民族:</td>
+      <td bgcolor="#ffffff">{$p_nation}</td>
+      <td bgcolor="#eefaff" align="right">出生年月:</td>
+      <td bgcolor="#ffffff">{$p_birth}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">毕业院校:</td>
+      <td bgcolor="#ffffff">{$p_school} <a href="/School/School_View.asp?sid=1964" target="_blank">查看</a></td>
+      <td bgcolor="#eefaff" align="right">专业:</td>
+      <td bgcolor="#ffffff">{$p_profession}　</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">最高学历:</td>
+      <td bgcolor="#ffffff">{$p_edu}</td>
+      <td bgcolor="#eefaff" align="right">现有职称:</td>
+      <td bgcolor="#ffffff">{$p_jobtitle}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">工作单位:</td>
+      <td bgcolor="#ffffff">{$p_comname} </td>
+      <td bgcolor="#eefaff" align="right">职务:</td>
+      <td bgcolor="#ffffff">{$p_position}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" align="right">所在地区:</td>
+      <td bgcolor="#ffffff" colspan="4">{$p_province} </td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" colspan="5">个人简介</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" colspan="5">{$p_introduce}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" colspan="5">重要成果</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" colspan="5">{$p_fruit}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#eefaff" colspan="5">联系方式</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff" colspan="5">地 址：{$p_address}<br />
+        邮 编：{$p_post}<br />
+     
+        电   话：{$p_tel}<br />
+        传 真：{$p_fax}　<br />
+        E-mail：{$p_email}m<br />
+        个人主页：<a href="{$p_url}" target="_blank">{$p_url}</a><br /></td>
+    </tr>
+  </tbody>
+</table>
+            
+            
+            </div>
+		</div>
+	</div>
+	<div class="schcon_right">
+		<div class="sch_info">
+			<div class="tit"><span></span>院校环境</div>
+			<div class="con"><img src="{$m_logo}" width="210" height="160" align="absmiddle" /></div>
+		</div>
+		<div class="sch_info mtop">
+			<div class="tit"><span></span>联系方式</div>
+			<div class="con">
+				<li>地址:{$m_address}</li>
+				<li>邮编:{$m_post}</li>
+				<li>联系人:{$m_m_contact}</li>
+				<li>电话:{$m_tel}</li>
+				<li>传真:{$m_fax}</li>
+				<li>E-mail:{$m_email}</li>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

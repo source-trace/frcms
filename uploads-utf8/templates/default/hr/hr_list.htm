@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"><ul>
+        <?php 
+            $rsdb=getltarticle();
+            foreach($rsdb as $key=>$rs){
+            echo "<li><a href='".formatlink(0,4,1,$rs['c_id'],0)."'>".$rs['c_title']."</a></li>";
+            }
+			echo "<li><a href='".formatlink(0,4,2,1,0)."'>高端职位列表</a></li>";
+            ?>
+</ul></div>
+</div>
+<div class="container">
+	<div class="news_left">
+		<div class="newshmain">
+			<div class="tit"><span></span>快速导航</div>
+			<div class="con">
+            <ul>
+            <?php 
+            foreach($rsdb as $key=>$rs){
+            echo "<li><a href='".formatlink(0,4,1,$rs['c_id'],0)."'>".$rs['c_title']."</a></li>";
+            }
+            echo "<li><a href='".formatlink(0,4,2,1,0)."'>高端职位列表</a></li>";
+            ?>
+            </ul>
+            </div>
+		</div>
+		<div class="newshmain">
+			<div class="tit"><span></span>联系猎头</div>
+			<div class="con">
+			  联系电话：<?php echo $cfg['phone'];  ?><br />
+			  联系传真：<?php echo $cfg['fax'];  ?><br />
+              联 系 人：<?php echo $cfg['contact'];  ?><br />
+			  联系地址：<?php echo $cfg['address'];  ?><br />
+		      
+			</div>
+		</div>
+	</div>
+	<div class="news_right">
+		<div class="newsmain">
+			<div class="tit"><span></span>高级猎头职位</div>
+			<div class="con">
+				{getlasthrhirelist(20,$page)}
+			</div>
+		</div>	
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

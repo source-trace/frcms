@@ -1,0 +1,67 @@
+<?php
+echo ahead("数据库还原");
+?>
+<script language="javascript" src="../js/ajax.js"></script>
+<script language="javascript">
+
+function CheckAll(form){
+	var ifcheck = null;
+	for (var i=0;i<form.elements.length-1;i++){
+		var e = form.elements[i];
+		if(e.type=='checkbox'){
+			if (ifcheck === null) ifcheck = !e.checked;
+			e.checked = ifcheck;
+			if (typeof e.onclick == 'function') e.onclick();
+		}
+	}
+	return ifcheck;
+}
+
+</script>
+</head>
+<body>
+<table width="100%" border="0" align=center cellpadding="2"  cellspacing="1" class="tableBorder">
+  <tr> 
+    <th height=25 colspan="6">数据备份管理</th>
+  </tr>
+  <tr> 
+    <td height="24" colspan="8" class="pl20"><strong>提示信息:</strong></td>
+  </tr>
+  <tr> 
+    <td colspan="8" class="pl20">本功能在恢复备份数据的同时,将覆盖原有数据,请确定是否需要恢复,以免造成数据损失<br />
+数据恢复功能只能恢复由当前版本导出的数据文件,其他软件导出格式可能无法识别<br />
+如果一个备份文件有多个分卷，您只需任选一个备份文件导入，程序会自动导入其他分卷! 
+	</td>
+  </tr>
+  <form name="form1" method="post" action="?do=del">
+    <tr align="center"> 
+      <td width="5%" height=25>选择</td>
+      <td width="20%">文件名</td>
+      <td width="8%">文件大小</td>
+      <td width="17%">备份时间</td>
+      <td width="5%">卷号</td>
+      <td width="17%">操作</td>
+    </tr>
+    <?php foreach($bks as $k=>$v) {?>
+    <tr align="center">
+    <td><input type="checkbox" name="filenames[]" class="checkbox" value="<?php echo $v['filename'];?>"></td>
+    <td align="left">&nbsp;<a href="<?php echo $path;?>date/backup/<?php echo $v['filename'];?>" title="点鼠标右键另存为保存此文件" target="_blank"><?php echo $v['filename'];?></a></td>
+    <td><?php echo $v['filesize'];?>M</td>
+    <td><?php echo $v['time'];?></td>
+<td><?php echo $v['number'];?></td>
+    <td><a href="?do=import&filepre=<?php echo $v['pre'];?>" onClick="return confirm('确定要导入此系列文件吗？现有数据将被覆盖，此操作将不可恢复');">导入</a>&nbsp;&nbsp;<a href="?do=del&filenames=<?php echo $v['filename'];?>" onClick="return confirm('确定要删除该文件吗？此操作将不可恢复');">删除</a></td>
+</tr>
+<?php }?> 
+    <tr> 
+      <td height="25" colspan="8">
+      	&nbsp; 
+        <input name="b1" type="button" id="b1" class="inputs" onClick="CheckAll(this.form)" value=" 全 选 " />
+        &nbsp; 
+        <input name="submit" type="submit" id="b3" class="inputs" onClick="return confirm('确定要删除所选文件吗？此操作将不可恢复');" value=" 删 除 " />
+      </td>
+  </tr>
+  </form>
+</table>
+<?php
+echo acopy();
+?>

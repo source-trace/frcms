@@ -1,0 +1,165 @@
+<?php
+echo ahead("充值卡充值管理");
+?>
+<script type="text/javascript" src="../js/calendar.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">充值卡充值管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="plus_card.php">所有充值卡</a>&nbsp;|&nbsp;<a href="plus_card.php?u=0">所有未使用的充值卡</a>&nbsp;|&nbsp;<a href="plus_card.php?u=1">所有已使用的充值卡</a>&nbsp;|&nbsp;<a href="plus_card.php?u=2">所有已失效的充值卡</a>&nbsp;|&nbsp;<?php if(aflags($admin_flags,0,1)){?><a href="plus_card.php?do=add">添加充值卡</a>&nbsp;|&nbsp;<a href="plus_card.php?do=batch">批量生成充值卡</a>&nbsp;&nbsp;<?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php
+if($do=="add"||$do=="edit"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post">
+<input type="hidden" name="cid" value="<?php echo $cid;?>">
+<tr>
+    <th colspan=2 height=25><?php if($cid!=''){echo '修改';}else{echo '添加';}?>充值点卡</th>
+</tr>
+<tr><td width="80" height="25" align="right">充值卡卡号：</td>
+<td><input maxlength="12" size="20" name="num" class="txt" value="<?php echo $num;?>" <?php if($cid!=''){echo 'readonly';?>readonly<?php }?> />请输入长度为6—12位的纯数字卡号,不可修改。</td>
+</tr>
+<tr>
+	<td height="25" align="right">充值卡密码：</td>
+    <td><input maxlength="10" size="20" name="pass" class="txt" value="<?php echo $pass;?>" />请输入长度为4—10位的数字密码</td>
+</tr>
+<tr> <td height="25" align="right">充值卡面值：</td>
+<td><input maxlength="30" size="10" name="validnum" class="txt" value="<?php echo $validnum;?>" />元</td></tr>
+<tr><td height="25" align="right">截止时间：</td>
+<td><input maxlength="20" size="10" name="enddate" id="enddate" class="txt" value="<?php echo $enddate;?>" onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)" readonly /></td></tr>
+<tr><td height="25" align="center" colspan="2"><input name="Submit" type="submit" class="inputs" value="<?php if($cid!=''){echo ' 修 改 ';}else{echo ' 添 加 ';}?>"></td></tr>
+</form>
+</table>
+<?php
+}elseif($do=="batch"){
+?>
+<table width="100%" border="0" cellpadding="2" cellspacing="1" class="tableBorder mt6" align="center">
+  <tr>
+    <th colspan="2"><strong>批量生成充值卡</strong></th>
+  </tr>
+  <form name="form1" action="?do=batchsave" method="post">
+  <tr>
+    <td width="29%" align="right">生成充值卡张数：</td>
+    <td width="71%"><input name="num" type="text" id="num" value="10" class="txt" size="9" /> <?php print_r($numarray);?>
+      *请填写数字 </td>
+  </tr>
+  <tr>
+    <td align="right">充值卡面值：</td>
+    <td><select name="validnum" id="validnum">
+      <option value="0">0元</option>
+      <option value="10">10元</option>
+      <option value="20">20元</option>
+      <option value="30">30元</option>
+      <option value="50">50元</option>
+      <option value="100">100元</option>
+      <option value="500">500元</option>
+      <option value="1000">1000元</option>
+    </select>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">截止时间：</td>
+    <td><input name="enddate" type="text" id="enddate" value="<?php echo $enddate;?>" class="txt" onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)" readonly /> 
+      *请输入正确的时间格式 如2008-10-5 </td>
+  </tr>
+  <tr>
+  <td align="right">　</td>
+    <td><input name="Submit" type="submit" class="inputs" value="批量生成" /></td>
+  </tr>
+  </form>
+</table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form" action="plus_card.php" method="post">
+<tr>
+    <th colspan=9 height=25>充值点卡列表</th>
+</tr>
+<tr align="center"> 
+    <td width="15%" height="22">卡号</td>
+    <td width="12%">密码(密文)</td> 
+    <td width="8%">面值</td>
+    <td width="8%">状态</td>
+    <td width="12%">使用者</td>
+    <td width="18%">充值时间</td>
+    <td width="12%">截止日期</td>
+    <td width="10%">操作选项</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25><?php echo $rs["c_num"];?></td>
+    <td><?php echo $rs["c_pass"];?></td>
+    <td><?php echo $rs["c_validnum"];?></td>
+    <td><?php if($rs["c_username"]==""&&datediff($rs["c_enddate"],dtime(time(),3),"d")>=0){echo '<span style="color:#009900">未使用</span>';}elseif($rs["c_username"]==""&&datediff($rs["c_enddate"],dtime(time(),3),"d")<0){echo '<span style="color:#FF0000">已失效</span>';}else{echo '<span style="color:#FF0000">已使用</span>';}?>　</td>
+    <td><?php echo $rs["c_username"];?>　</td>
+    <td><?php echo $rs["c_usetime"];?></td>
+    <td><?php echo $rs["c_enddate"];?></td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&cid=<?php echo $rs["c_id"];?>"><img src="images/white_edit.png" alt="编辑" width="16" height="16" border="0" align="absmiddle"></a> <?php }?>&nbsp;
+    <?php if(aflags($admin_flags,3,1)){?><a href="javascript:if(confirm('确定要删除吗?'))location.href='?do=del&cids=<?php echo $rs["c_id"];?>'"><img src="images/white_delete.png" alt="删除" width="16" height="16" border="0" align="absmiddle"></a><?php }?></td>
+    <td><input type="checkbox" name="cid" value="<?php echo $rs["c_id"]; ?>" class="checkbox" /></td>
+</tr>
+<?php 
+}
+?>
+<?php if(aflags($admin_flags,3,1)){?>
+<tr><td height="25" align="right" colspan="9"> <input type="hidden" name="cids" value="">
+    <input name="button" type="button" class="inputs" onClick="confirmX(1);" value=" 删除 "></td></tr>
+<?php }?>
+<tr>
+<td height="25" align="center" colspan="9" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("cid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.cids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("cid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

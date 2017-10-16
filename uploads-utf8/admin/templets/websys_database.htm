@@ -1,0 +1,212 @@
+<?php
+echo ahead("数据库备份");
+ ?>
+<script language="javascript" src="../js/ajax.js"></script>
+<script language="javascript">
+var myajax;
+var newobj;
+var posright = 10;
+var posTop = 10;
+function LoadUrl(surl){
+  newobj = document.getElementById('_showinfo');
+  if(!newobj){
+  	newobj = document.createElement("DIV");
+    newobj.id = '_showinfo';
+    newobj.style.position='absolute';
+    newobj.className = "fshow";
+    newobj.style.top = posTop;
+    newobj.style.right = posright;
+    document.body.appendChild(newobj);
+  }else{
+  	newobj.style.display = "block";
+  }
+  myajax = new Ajax(newobj);
+  myajax.SendGet("websys_database.php?"+surl);
+}
+function HideObj(objname){
+   var obj = document.getElementById(objname);
+   obj.style.display = "none";
+}
+
+//获得选中文件的数据表
+
+function getCheckboxItem(){
+	 var myform = document.form1;
+	 var allSel="";
+	 if(myform.tables.value) return myform.tables.value;
+	 for(i=0;i<myform.tables.length;i++)
+	 {
+		 if(myform.tables[i].checked){
+			 if(allSel=="")
+				 allSel=myform.tables[i].value;
+			 else
+				 allSel=allSel+","+myform.tables[i].value;
+		 }
+	 }
+	 return allSel;	
+}
+
+function SelAll(str){
+    var myform = document.form1;
+    for(i=0;i<myform.tables.length;i++){
+        if(str==1){
+            myform.tables[i].checked = true;
+        }else if(str==2){
+            if(myform.tables[i].checked) myform.tables[i].checked = false;
+            else myform.tables[i].checked = true;
+        }else if(str==3){
+            myform.tables[i].checked = false;
+        }
+    }
+}
+
+function checkSubmit()
+{
+	var myform = document.form1;
+	myform.tabledb.value = getCheckboxItem();
+	return true;
+}
+</script>
+</head>
+<body>
+<table width="100%" border="0" align=center cellpadding="2"  cellspacing="1" class="tableBorder">
+  <tr> 
+    <th height=25 colspan="8">数据库管理</th>
+  </tr>
+  <tr> 
+    <td height="24" colspan="8" class="pl20"><strong>提示信息:</strong></td>
+  </tr>
+  <tr> 
+    <td colspan="8" class="pl20">您可以根据自己的需要选择需要备份的数据库表,导出的数据文件可用"恢复数据库"功能进行数据导入<br />
+为了数据安全,备份文件采用随机字符串加密命名保存,如果备份数据超过设定的大小，程序会自动采用分卷备份功能，请耐心等待直到程序提示全部备份完成<br />
+附件的备份只需手工转移附件目录和文件即可! 
+	</td>
+  </tr>
+  <tr> 
+      <th height=25 colspan="8">默认系统表：</th>
+    </tr>
+  <form name="form1" method="post" action="?do=bak" onSubmit="checkSubmit()">
+  <input type='hidden' name='tabledb' value='' />
+    <tr align="center"> 
+      <td width="5%" height=25>选择</td>
+      <td width="20%">数据表名</td>
+      <td width="8%">记录数</td>
+      <td width="17%">操作</td>
+      <td width="5%">选择</td>
+      <td width="20%">表名</td>
+      <td width="8%">记录数</td>
+      <td width="17%">操作</td>
+    </tr>
+  <?php  
+  for($i=0; isset($SysTables[$i]); $i++)
+  { 
+    $t = $SysTables[$i];
+    echo "<tr align='center'>\r\n";
+  ?> 
+    <td><input type="checkbox" name="tables" value="<?php echo $t; ?>" class="checkbox" checked /></td>
+    <td align="left"><?php echo $t; ?></td>
+    <td><?php echo $db->counter($t); ?></td>
+    <td>
+    <a href="#" onClick="LoadUrl('do=opimize&tname=<?php echo $t; ?>');" title="此操作可优化该表结构，以获得更好的数据库运行效率">优化</a> |
+    <a href="#" onClick="LoadUrl('do=repair&tname=<?php echo $t; ?>');" title="此操作可修复该表在进行查询，删除，更新等操作时产生的错误">修复</a> |
+    <a href="#" onClick="LoadUrl('do=viewinfo&tname=<?php echo $t; ?>');">结构</a>
+    </td>
+  <?php
+   $i++;
+   if(isset($SysTables[$i])) {
+   	$t = $SysTables[$i];
+  ?>
+    <td><input type="checkbox" name="tables" value="<?php echo $t; ?>" class="checkbox" checked /></td>
+    <td align="left"><?php echo $t; ?></td>
+    <td><?php echo $db->counter($t); ?></td>
+    <td>
+    <a href="#" onClick="LoadUrl('do=opimize&tname=<?php echo $t; ?>');" title="此操作可优化该表结构，以获得更好的数据库运行效率">优化</a> |
+    <a href="#" onClick="LoadUrl('do=repair&tname=<?php echo $t; ?>');" title="此操作可修复该表在进行查询，删除，更新等操作时产生的错误">修复</a> |
+    <a href="#" onClick="LoadUrl('do=viewinfo&tname=<?php echo $t; ?>');">结构</a>
+  </td>
+  <?php
+   }
+   else
+   {
+   	  echo "<td></td><td></td><td></td><td></td>\r\n";
+   }
+   echo "</tr>\r\n";
+  }
+  ?>
+  <tr> 
+      <th height=25 colspan="8">其他数据表：</th>
+    </tr>
+    <tr align="center"> 
+      <td width="5%" height=25>选择</td>
+      <td width="20%">表名</td>
+      <td width="8%">记录数</td>
+      <td width="17%">操作</td>
+      <td width="5%">选择</td>
+      <td width="20%">表名</td>
+      <td width="8%">记录数</td>
+      <td width="17%">操作</td>
+    </tr>
+  <?php  
+  for($i=0; isset($OtherTables[$i]); $i++)
+  { 
+    $t = $OtherTables[$i];
+    echo "<tr align='center'>\r\n";
+  ?> 
+    <td><input type="checkbox" name="tables" value="<?php echo $t; ?>" class="checkbox" checked /></td>
+    <td align="left"><?php echo $t; ?></td>
+    <td><?php echo $db->counter($t); ?></td>
+    <td>
+    <a href="#" onClick="LoadUrl('do=opimize&tname=<?php echo $t; ?>');">优化</a> |
+    <a href="#" onClick="LoadUrl('do=repair&tname=<?php echo $t; ?>');">修复</a> |
+    <a href="#" onClick="LoadUrl('do=viewinfo&tname=<?php echo $t; ?>');">结构</a>
+    </td>
+  <?php
+   $i++;
+   if(isset($OtherTables[$i])) {
+   	$t = $OtherTables[$i];
+  ?>
+    <td><input type="checkbox" name="tables" value="<?php echo $t; ?>" class="checkbox" checked /></td>
+    <td align="left"><?php echo $t; ?></td>
+    <td><?php echo $db->counter($t); ?></td>
+    <td>
+    <a href="#" onClick="LoadUrl('do=opimize&tname=<?php echo $t; ?>');">优化</a> |
+    <a href="#" onClick="LoadUrl('do=repair&tname=<?php echo $t; ?>');">修复</a> |
+    <a href="#" onClick="LoadUrl('do=viewinfo&tname=<?php echo $t; ?>');">结构</a>
+  </td>
+  <?php
+   }
+   else
+   {
+   	  echo "<td></td><td></td><td></td><td></td>\r\n";
+   }
+   echo "</tr>\r\n";
+  }
+  ?>
+    <tr> 
+      <td height="25" colspan="8">
+      	&nbsp; 
+        <input name="b1" type="button" id="b1" class="inputs" onClick="SelAll(1)" value=" 全 选 " />
+        &nbsp; 
+        <input name="b2" type="button" id="b2" class="inputs" onClick="SelAll(2)" value=" 反 选 " />
+        &nbsp; 
+        <input name="b3" type="button" id="b3" class="inputs" onClick="SelAll(3)" value=" 取 消 " />
+      </td>
+  </tr>
+  <tr> 
+    <th height="24" colspan="8">数据备份选项：</th>
+  </tr>
+  <tr> 
+    <td height="30" colspan="8" class="pl20">
+        分卷大小： 
+      <input name="fsize" type="text" id="fsize" class="txt" value="2048" size="6" />
+      K&nbsp;， 
+      <input name="isstrdb" type="checkbox" id="isstrdb" class="checkbox" value="1" checked='1' />
+      备份表结构信息
+      <input type="submit" name="Submit" value=" 提 交 " class="inputs" />
+      </td>
+   </tr>
+  </form>
+</table>
+<?php
+echo acopy();
+?>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+
+<meta name="keywords" content="{$FR_网站关键字}" />
+<meta name="description" content="{$FR_网站描述}" />
+<title>{$commontitle}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{$FR_系统目录}favicon.ico" type="image/x-icon" />
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">{getsitebottomnav(1)}</div>
+</div>
+<div class="container">
+	<div class="aboutleft">
+		<div class="tit"><span></span>关于我们</div>
+		<div class="con">{$commonlist}</div>
+	</div>
+	<div class="about">
+		<div class="tit"><span></span>{$commontitle}</div>
+		<div class="con">
+        <ul class="alllink_ul">{$FR_全部图片链接}</ul>
+        <ul class="alllink_ul">{$FR_全部文字链接}</ul>
+
+<br>
+{$commoncontent}</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright">
+		<center>
+			{$FR_版权信息}
+		</center>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$FR_网站关键字}" />
+<meta name="description" content="{$FR_网站描述}" />
+<title>个人会员注册-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<script src="{$FR_系统目录}js/jquery.js" language="javascript"></script>
+<script src="{$FR_系统目录}js/formValidator.js" language="javascript"></script>
+<script src="{$FR_系统目录}js/formValidatorRegex.js" language="javascript"></script>
+<script src="{$FR_系统目录}js/jquery.mailAutoComplete-3.1.js" language="javascript"></script>
+<script language="javascript" src="{$FR_系统目录}js/calendar.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.formValidator.initConfig({formID:"register",theme:"ArrowSolidBox",submitOnce:true,ajaxPrompt : '有数据正在异步验证，请稍等...'	});
+	$("#login").formValidator({onShowText:"请输入用户名",onShow:"请输入用户名",onFocus:"4-20位(可用汉字、字母、数字、下划线;)",onCorrect:"该用户名可以注册"}).inputValidator({min:4,max:20,onError:"4-20位(可用汉字、字母、数字、下划线;)"})
+	    .ajaxValidator({
+		dataType : "html",
+		async : true,
+		url : "register.php?do=check",
+		success : function(data){
+            if( data.indexOf("rue") > 0 ) return true;
+            return "用户用已被占用，请重新输入!";	
+		}
+	}).defaultPassed();
+	$("#pwd").formValidator({onShow:"请输入密码",onFocus:"至少1个长度",onCorrect:"输入正确"}).inputValidator({min:1,empty:{leftEmpty:false,rightEmpty:false,emptyError:"密码两边不能有空符号"},onError:"密码不能为空,请确认"});
+	$("#repwd").formValidator({onShow:"输再次输入密码",onFocus:"至少1个长度",onCorrect:"输入正确"}).inputValidator({min:1,empty:{leftEmpty:false,rightEmpty:false,emptyError:"重复密码两边不能有空符号"},onError:"重复密码不能为空,请确认"}).compareValidator({desID:"pwd",operateor:"=",onError:"2次密码不一致,请确认"});
+	$("#email").mailAutoComplete();
+    $("#email").formValidator({onShow:"请输入邮箱",onFocus:"邮箱6-100个字符,输入正确了才能离开焦点",onCorrect:"输入正确"}).inputValidator({min:6,max:100,onError:"你输入的邮箱长度非法,请确认"}).ajaxValidator({
+		dataType : "html",
+		async : true,
+		url : "register.php?do=check",
+		success : function(data){
+            if( data.indexOf("rue") > 0 ) return true;
+            return "邮箱已被占用，请重新输入!";	
+		}
+	}).regexValidator({regExp:"^([\\w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([\\w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$",onError:"你输入的邮箱格式不正确"}).defaultPassed();
+    $("#name").formValidator({onShow:"请输入真实姓名",onFocus:"至少1个长度",onCorrect:"输入正确"}).inputValidator({min:1,empty:{leftEmpty:false,rightEmpty:false,emptyError:"名字两遍不能有空符号"},onError:"姓名不能为空,请确认"});
+	$("#mobile").formValidator({onShow:"请输入你的手机号码",onFocus:"请正确输入你的手机号码",onCorrect:"输入正确"}).inputValidator({min:11,max:11,onError:"手机号码必须是11位的,请确认"}).regexValidator({regExp:"mobile",dataType:"enum",onError:"你输入的手机号码格式不正确"});;
+	$("#birth").formValidator({onShow:"请输入的出生日期",onFocus:"请输入的出生日期，不能全部是0哦",onCorrect:"输入正确"}).inputValidator({min:"1900-01-01",max:"2000-01-01",type:"date",onError:"你必须年满12岁!"}).defaultPassed();
+	$("#province").formValidator({tipID:"cityTip",onShow:"请选择现所在地",onFocus:"所在地必须选择",onCorrect:"谢谢你的配合"}).inputValidator({min:1,onError: "所在地必须选择!"}).defaultPassed();
+    //$("#city").formValidator({onShow:"请选择现所在地",onFocus:"所在地必须选择",onCorrect:"谢谢你的配合"}).inputValidator({min:1,onError: "所在地必须选择!"}).defaultPassed();
+    $("#edu").formValidator({onShow:"请选择你的学历",onFocus:"学历必须选择",onCorrect:"谢谢你的配合"}).inputValidator({min:1,onError: "学历必须选择!"}).defaultPassed();
+    $("#verifycode").formValidator({empty:false,onShow:"请输入验证码",onFocus:"请输入验证码"}).inputValidator({min:4,onError:"请输入验证码"})
+	    .ajaxValidator({
+		dataType : "html",
+		async : true,
+		url : "register.php?do=check",
+		success : function(data){
+            if( data.indexOf("rue") > 0 ) return true;
+            return "输入错误，请重新输入";	
+		}
+	}).defaultPassed();
+    $('#show').click(function(){
+        if($(this).prop("checked")==true){
+            $("#showregs").show();
+        }else{
+            $("#showregs").hide();
+        }
+    });    
+});
+
+</script>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 注册个人会员</div>
+</div>
+<div class="container">
+	<div class="regmember">
+		<div class="tit"><span></span>注册个人会员 </div>
+		<div class="con">
+        <form method="post" name="register" id="register" action="{$FR_系统目录}register.php?do=register&person">
+        <ul>
+        	<li class="t">基本信息 <span style="color:#F00">*为必填</span></li>
+        </ul>
+        <ul>
+        	<li class="l"><span style="color:#F00">*</span> 用户名：</li>
+            <li class="r"><label><input name="login" type="text" id="login" /></label><div id="loginTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 密码：</li>
+            <li class="r"><label><input name="pwd" type="password" id="pwd" /></label><div id="pwdTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l">确认密码：</li>
+            <li class="r"><label><input name="repwd" type="password" id="repwd" /></label><div id="repwdTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 电子邮件：</li>
+            <li class="r"><label><input name="email" type="text" id="email" /></label><div id="emailTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"></li>
+            <li class="r"><label><input name="sendemail" type="checkbox" value="1" checked="checked" style="width:20px;" />接受来自<a href="{$FR_网站网址}">{$FR_网站名称}</a>的消息邮件</label></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 手机号码：</li>
+            <li class="r"><label><input name="mobile" id="mobile" /></label><div id="mobileTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 真实姓名：</li>
+            <li class="r"><label><input name="name" type="text" id="name" maxlength="10" /></label><div id="nameTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 性&nbsp;&nbsp;&nbsp; 别：</li>
+            <li class="r"><label><input type="radio" value="1" style="width:20px;" name="sex" id="sex" checked="checked" />男</label><label><input type=radio id="sex" value="2" style="width:20px;" name="sex" />女</label><div id="sexTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 出生日期：</li>
+            <li class="r"><label><input name="birth" type="text" id="birth" onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)" /></label><div id="birthTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 现所在地：</li>
+            <li class="r"><label><select name="province" size="1" class="t100" id="province" onChange="changeProvince(this.form.province.options[this.selectedIndex].value,this.form,'')">
+		<option value="">选择省</option>
+		</select> 	
+		<select name="capital" class="t100" id="capital" onchange="changeCity(this.form.capital.options[this.form.capital.selectedIndex].value,this.form,'')">
+		<option value="">选择市</option>
+		</select> 
+        <select name="city" class="t100" id="city">
+		<option value="">选择区县</option>
+		</select></label><div id="cityTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 最高学历：</li>
+            <li class="r"><label><select name="edu" id="edu" class="t100">
+                    <option value="">请选择</option>
+                    {getother('edu','e','e_id asc',0)}
+                    </select></label><div id="eduTip"></div></li>
+        </ul>
+        <ul>
+            <li class="l"></li>
+            <li class="r"><label><input name="show" id="show" type="checkbox" value="1" style="width:20px;" /><span style="color:#F00">填写详细信息(选填项)</span></label></li>
+        </ul>
+        <ul id="showregs" style="display: none;">
+            <li class="l">证件类型：</li>
+            <li class="r"><label><select name="cardtype" size="1" id="cardtype" class="t100">
+                    <option value="0">身份证</option>
+                    <option value="1">驾证</option>
+                    <option value="2">军官证</option>
+                    <option value="3">护照</option>
+                    <option value="4">其它</option>
+                    </select></label></li>
+            <li class="l">证件编号：</li>
+            <li class="r"><label><input name="idcard" id="idcard" /></label><div id="idcardTip"></div></li>
+            <li class="l">婚姻状况：</li>
+            <li class="r"><label><select name="marriage" id="marriage" class="t100">
+                    <option value="">请选择</option>
+                    {getother('marriage','m','m_id asc','',1)}
+                    </select></label><div id="marriageTip"></div></li>
+            <li class="l">政治面貌：</li>
+            <li class="r"><label><select name="polity" id="polity"  class="t100">
+                    <option value="">请选择</option>
+                    {getother('polity','p','p_id asc','',1)}
+                    </select></label><div id="polityTip"></div></li>
+            <li class="l">户口所在地：</li>
+            <li class="r"><label><select name="hukouprovince" size="1" class="t100" id="hukouprovince" onChange="changeProvince(this.form.hukouprovince.options[this.selectedIndex].value,this.form,'hukou')">
+		<option value="">选择省</option>
+		</select>		
+		<select name="hukoucapital" class="t100" id="hukoucapital" onchange="changeCity(this.form.hukoucapital.options[this.form.hukoucapital.selectedIndex].value,this.form,'hukou')">
+		<option value="">选择市</option>
+		</select>
+		<select name="hukoucity" class="t100" id="hukoucity">
+		<option value="">选择区县</option>
+		</select></label><div id="hukoucityTip"></div></li>
+            <li class="l">联系电话：</li>
+            <li class="r"><label><input name="tel" id="tel" /></label><div id="telTip"></div></li>
+            <li class="l">聊天号码：</li>
+            <li class="r"><label><input name="chat" id="chat" /></label><div id="chatTip"></div></li>
+            <li class="l">个人主页：</li>
+            <li class="r"><label><input name="url" id="url" /></label><div id="urlTip"></div></li>
+            <li class="l">通讯地址：</li>
+            <li class="r"><label><input name="address" id="address" /></label><div id="addressTip"></div></li>
+            <li class="l">邮政编码：</li>
+            <li class="r"><label><input name="post" id="post" /></label><div id="postTip"></div></li>
+        </ul>
+        {if $regverifycode==1}<ul>
+            <li class="l"><span style="color:#F00">*</span> 验证码：</li>
+            <li class="r"><label><input type="text" name="verifycode" id="verifycode" title="输入右侧图片所示字符,不区分大小写" style="width: 60px;" /> <img src="inc/verifycode.php"  alt="验证码,看不清楚?请点击刷新验证码" align="absmiddle" style="cursor : pointer;" onclick="this.src=this.src+'?'+Math.random();" /></label><div id="verifycodeTip"></div></li>
+        </ul>{/if}
+        <ul>
+            <li class="l"></li>
+            <li class="r">在注册之前请您仔细阅读<a href="{$FR_系统目录}common.php?cid=8" target="_blank"><font color="#FF0000">{$FR_网站名称}服务条款</font></a>。</li>
+        </ul>
+        <ul>
+            <li class="l"></li>
+            <li class="r"><label for="submit"><input name="submit" type="submit" class="regsubmit" value="同意服务条款，提交注册信息" /></label></li>            
+        </ul>
+        </form>
+		</div>
+    </div>
+    <div class="regright">
+		<div class="tit"><span></span>注册</div>
+		<div class="con">我已经是{$FR_网站名称}个人会员了，点击<a href="login.php?{$reg}">这里</a>登录。<br />我是企业，我要<a href="?company">注册企业招聘会员</a>。<br />我是院校，我要<a href="?school">注册院校联盟会员</a>。<br />我是培训机构，我要<a href="?train">注册教育培训会员</a>。</div>
+        <div class="regad"><script language='javascript' src='/webad/ads.php?p=4'></script></div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>
+<script language = "JavaScript" src="{$FR_系统目录}js/getprovince.js"></script>
+<script language = "JavaScript">
+function changeProvince(selvalue,form,str){	
+	if(str=='hukou'){
+		form.hukoucapital.length=0; 
+		form.hukoucity.length=0;
+	}else{
+		form.capital.length=0; 
+		form.city.length=0;
+	}
+	var selvalue=selvalue;	  
+	var j,d,mm,f=0;
+    selvalues='';
+	d=0;
+	for(j=0;j<provArray.length;j++) {
+        if(provArray[j][0]==selvalue&&f==0){selvalues=provArray[j][2];f=1;}
+		if(provArray[j][1]==selvalues) {
+			if (d==0){
+			mm=provArray[j][2];
+			}
+			var newOption2=new Option(provArray[j][0],provArray[j][0]);
+			if(str=='hukou'){
+				document.getElementById('hukoucapital').options.add(newOption2);
+			}else{
+				document.getElementById('capital').options.add(newOption2);
+			}
+			d=d+1;	
+		}		
+		if(provArray[j][1]==mm) 
+		{		
+			var newOption3=new Option(provArray[j][0],provArray[j][0]);
+			if(str=='hukou'){
+				document.getElementById('hukoucity').options.add(newOption3);
+			}else{
+				document.getElementById('city').options.add(newOption3);
+			}
+		}			
+	}
+}
+function changeCity(selvalue,form,str) { 
+	if(str=='hukou'){form.hukoucity.length=0;}else{form.city.length=0;} 
+	var selvalue=selvalue;
+	var j,d,f=0;
+    selvalues='';
+	for(j=0;j<provArray.length;j++) 
+	{
+        if(provArray[j][0]==selvalue&&f==0){selvalues=provArray[j][2];f=1;}
+        if(provArray[j][1]==selvalues) 
+		{
+			var newOption4=new Option(provArray[j][0],provArray[j][0]);
+			if(str=='hukou'){
+				document.getElementById('hukoucity').options.add(newOption4);
+			}else{
+				document.getElementById('city').options.add(newOption4);
+			}
+		}
+	}
+}
+function selectprovince(str) { 
+var j;
+	for(j=0;j<provArray.length;j++) {
+		if(provArray[j][1]==0) {
+			var newOption4=new Option(provArray[j][0],provArray[j][0]);
+            //alert(newOption4);
+			if(str=='hukou'){
+				document.getElementById('hukouprovince').options.add(newOption4);
+			}else{
+				document.getElementById('province').options.add(newOption4);
+			}
+		}
+	}
+}
+selectprovince('hukou');
+selectprovince('');
+</script>

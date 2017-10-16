@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="keywords" content="招聘会{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>招聘会-{$cfg['sitetitle']}</title>
+<link href="{$cfg['siteurl']}{$cfg['path']}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"><li> 您现在的位置：<a href="{$cfg['siteurl']}">{$cfg['sitename']}</a> >> <a href="index.php">招聘会列表</a></li></div>
+</div>
+<div class="container">
+	<div class="zphleft">
+        <div class="zphmain">
+            <div class="tit"><span></span>招聘会列表</div>
+    		<div class="con">
+                <ul class="zphhead">
+                    <li><span>有效期截止到</span>招聘会名称</li>
+                </ul>
+                <ul>
+                <!--{loop $zlist $a}-->
+                    <li<!--{if $id==$a[z_id]}--> class="zphli"<!--{/if}-->><span>{$a[z_deadline]}</span><a href="?page={$page}&id={$a[z_id]}">{$a[z_name]}</a></li>
+                <!--{/loop}-->
+                </ul>
+                <ul><!--{$getpageinfo['pagecode']}--></ul>
+            </div>
+        </div>
+	</div>
+	<div class="zphright">
+		<div class="tit"><span></span>招聘会详情<a name="w"></a></div>
+		<div class="con">
+            <!--{if $rs}-->
+            <div id="zphright_1"><!--{$rs[z_name]}--></div>
+            <div id="zphright_2">
+        <!--{$rs[z_content]}--><br /><br />
+        时间：<!--{$rs[z_date]}--><br />
+        地点：<!--{$rs[z_location]}--><br />
+        地址：<!--{$rs[z_address]}--><br />
+        <!--{if $rs[z_tel]}-->电话：<!--{$rs[z_tel]}--><br /><!--{/if}-->
+        <!--{if $rs[z_email]}-->邮箱：<!--{$rs[z_email]}--><br /><br /><!--{/if}-->
+        <!--{if $rs[z_bus]}-->乘车路线：<!--{$rs[z_bus]}--><br /><!--{/if}-->
+            </div>
+            <br />
+            <!--{if $rs[z_map]}--><div id="zphright_2">
+        	  <iframe src="{membermap($rs[z_map],338,200)}" width="338" height="200" frameborder="0" scrolling="no" id="map"></iframe>
+        	</div><!--{/if}-->
+         
+            <div id="text1_foot" style="padding-bottom:20px">
+        	  有效日期截止到：
+        	  <span><!--{$rs[z_deadline]}--></span>
+        	  阅读次数：<span><!--{$rs[z_views]}--></span><br />
+            </div>
+            <!--{/if}-->
+        </div>
+		<div class="ad_zph"><script language='javascript' src='{$FR_系统目录}webad/ads.php?p=13'></script></div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

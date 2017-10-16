@@ -1,0 +1,158 @@
+<?php
+echo ahead("网站公告管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网站公告管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="websys_announce.php">管理首页</a> | <?php if(aflags($admin_flags,0,1)){?><a href="?do=add">添加公告</a>&nbsp;|&nbsp;<?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>频道选项：</b><?php echo channel();?></td>
+  </tr>
+</table>
+<?php
+if($do=="add"||$do=="edit"){
+?>
+<script charset="utf-8" src="../freditor/kindeditor.js"></script>
+<script>
+	KE.show({id : 'content',width : "100%",height : "300px",resizeMode : 1,
+		afterCreate : function(id) {
+			KE.event.ctrl(document, 13, function() {
+				KE.util.setData(id);
+				document.forms['addform'].submit();
+			});
+			KE.event.ctrl(KE.g[id].iframeDoc, 13, function() {
+				KE.util.setData(id);
+				document.forms['addform'].submit();
+			});
+		}
+	});
+</script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata" method="post">
+<input type="hidden" name="aid" value="<?php echo $aid;?>">
+<tr>
+    <th colspan=2 height=25><?php if($aid!=''){echo '修改';}else{echo '添加';}?>网站公告</th>
+</tr>
+<tr><td width="80" height="25" align="right">公告标题：</td>
+<td><input maxlength="100" size="50" name="title" class="txt" value="<?php echo $title;?>" /></td></tr>
+<tr><td height="25" align="right">所属频道：</td>
+<td><select name="cid" size="1">
+        <option value="0" selected="selected">全部频道</option>
+        <?php echo $Channellist;?>
+        </select>
+</td></tr>
+<tr> <td height="25" align="right">公告内容：</td>
+<td><textarea name="content" cols="60" rows="10" class="txt"><?php echo $content;?></textarea></td></tr>
+<tr><td height="25" align="right">显示方式：</td>
+<td><select name="showtype" size="1" class="lh17">
+        <option value="0" <?php if($showtype==0){echo 'selected="selected"';}?>>文本+弹窗</option>
+        <option value="1" <?php if($showtype==1){echo 'selected="selected"';}?>>仅文本</option>
+        <option value="2" <?php if($showtype==2){echo 'selected="selected"';}?>>仅弹窗</option>
+    </select>
+</td></tr>
+<tr><td height="25" align="right">发布人员：</td>
+<td><input maxlength="30" size="15" name="author" value="<?php echo $author;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">发布时间：</td>
+<td><input maxlength="100" size="25" name="dateandtime" value="<?php echo $dateandtime;?>" class="txt" /></td></tr>
+<tr><td height="25" align="right">有效期：</td>
+<td><input maxlength="10" size="5" name="outtime" value="<?php echo $outtime;?>" class="txt" />天</td></tr>
+<tr><td height="25" align="right">是否最新：</td>
+<td><input name="isnew" type="radio" class="checkbox" value="1" <?php if($isnew==1){echo 'checked="checked"';}?> />
+是&nbsp;
+<input name="isnew" type="radio" class="checkbox" value="0" <?php if($isnew==0){echo 'checked="checked"';}?> />
+否&nbsp;&nbsp;选择“是”显示出来，同时显示在首页上</td></tr>
+<tr><td height="25" align="center" colspan="2"><input name="Submit" type="submit" class="inputs" value="<?php if($aid!=''){echo ' 修 改 ';}else{echo ' 添 加 ';}?>"></td></tr>
+</form>
+</table>
+<?php }else{ ?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="form" action="websys_announce.php" method="post">
+<tr>
+    <th colspan=7 height=25>网站公告列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="46%">公告标题</td> 
+    <td width="18%">发布时间</td>
+    <td width="10%">所属频道</td>
+	<td width="10%">所属站点</td>
+    <td width="6%">操作</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center" onMouseOver="this.style.background='#FFFFCC'" onMouseOut="this.style.background='#EEF7FD'"> 
+    <td height=25><?php echo $rs["a_id"];?></td>
+    <td align="left"><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&aid=<?php echo $rs["a_id"];?>"><?php }else{echo "<a href=\"../announce.php?aid=$rs[a_id]\" target=\"_blank\">";}?><?php echo $rs["a_title"];?></a></td>
+    <td><?php echo $rs["a_dateandtime"];?></td>
+    <td><?php echo channel($rs["a_channelid"]);?></td>
+	<td><?php if(aflags($admin_flags,1,1)&&_getcookie('admin_type')!='sitemanage'){?>
+    <select name="site" id="site" style="width:80px;" size="1" onChange="javascript:window.location='?cid=<?php echo $cid;?>&page=<?php echo $page;?>&do=setsite&id=<?php echo $rs["a_id"];?>&site='+this.options[this.selectedIndex].value;">
+	<option value="0" selected="selected">主站</option>
+	<?php echo asite($rs["a_site"]);?>
+	</select>
+    <?php }else{echo asite($rs["a_site"],1);}?>
+    </td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&aid=<?php echo $rs["a_id"];?>">编辑</a><?php }else{echo "<font color=\"#666666\">编辑</font>";}?></td>
+    <td><input type="checkbox" name="aid" value="<?php echo $rs["a_id"]; ?>" class="checkbox" /></td>
+</tr>
+<?php 
+}
+?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="aids" value="">
+    <?php if(aflags($admin_flags,3,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(1);" value=" 删除 "><?php }?></td></tr>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("aid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form.aids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("aid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

@@ -1,0 +1,41 @@
+<?php
+echo ahead("设置会员余额");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+</head>
+<body>
+ <table width="100%" border="0" cellpadding="2" cellspacing="1"  align="center"  class="tableBorder">
+    <tr>
+      <th height=25 colspan="4"> 设置会员账户余额</th>
+    </tr>
+    <form name="form1" method="post" action="user_pointmodi.php?do=savedata">
+      <tr>
+        <td width="120" height="25" align="right">会员帐号：</td>
+        <td width="150"><input name="m_login" type="text" id="m_login" size="20" maxlength="50" value="<?php echo $m_login;?>" disabled></td>
+      </tr>
+      <tr>
+        <td height="25" align="right">会员名称：</td>
+        <td><input name="name" type="text" id="name" size="40" maxlength="50" value="<?php echo $m_name;?>" disabled></td>
+      </tr>
+      <tr>
+        <td height="25" align="right">账户金额：</td>
+        <td><input name="balance" type="text" id="balance" value="<?php echo $m_balance;?>" size="8" maxlength="10">
+          元</td>
+      </tr>
+      <tr>
+        <td height="25" align="right">消费积分：</td>
+        <td><input name="integral" type="text" id="integral" value="<?php echo $m_integral;?>" size="8" maxlength="10">
+          元</td>
+      </tr>
+      <tr>
+        <td height="25" colspan="5"><input type="hidden" name="id" value="<?php echo $id;?>"><div align="center">
+            <input name="Submit" type="submit" class="inputs" value="设 置">
+          &nbsp;
+          <input name="Submit2" type="reset" class="inputs" value="重 置">
+           &nbsp;
+           <input name="Submit22" type="button" class="inputs" style="cursor:hand" onClick="javascript:window.close();" value="关 闭">
+        </div></td>
+      </tr>
+    </form>
+  </table>
+<?php echo acopy();?>

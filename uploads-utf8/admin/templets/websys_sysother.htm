@@ -1,0 +1,62 @@
+<?php
+echo ahead($sysname."行业分类设置");
+?>
+</head>
+<script language="javascript" type="text/javascript">
+function setid(){
+    strs1='';strs2='';
+	if(!window.listform.scount.value){
+		window.listform.scount.value=1;
+    }
+	for(i=1;i<=window.listform.scount.value;i++){
+		strs1+='<input maxlength="50" size="30" name="sname[]" class="txt" value="" /><br><br>';
+        strs2+='<input maxlength="50" size="30" name="senname[]" class="txt" value="" /><br><br>';
+	}
+    window.upid1.innerHTML=strs1;
+    window.upid2.innerHTML=strs2;
+}
+</script>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25"><?php echo $sysname;?>管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><strong>提示信息：</strong><?php echo $sysname;?>直接与会员及会员发布的信息相关联。删除可能导致部分页面出错，请谨慎操作！</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="websys_sysother.php">管理首页</a> | <a href="websys_sysother.php?sys=ecoclass">单位性质</a> | <a href="websys_sysother.php?sys=edu">学历</a> | <a href="websys_sysother.php?sys=nation">民族</a> | <a href="websys_sysother.php?sys=polity">政治面貌</a> | <a href="websys_sysother.php?sys=marriage">婚姻状况</a> | <a href="websys_sysother.php?sys=foreignlanguage">外语</a> | <a href="websys_sysother.php?sys=foreigndegree">外语能力</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="listform" action="?do=savedata&sys=<?php echo $sys;?>" method="post">
+<tr>
+    <th colspan=5 height=25><?php echo $sysname;?>列表</th>
+</tr>
+<tr align="center"> 
+    <td width="40" height="22">编号</td>
+    <td>中文名称</td>
+    <td>英文名称</td>
+    <td width="40">操作</td>
+</tr>
+<?php echo $syslist;?>
+<?php if(aflags($admin_flags,2,1)){?>
+<tr>
+    <th colspan=5 height=25>批量新增（新增<input type="text" name="scount" size="4" onBlur="setid();" value="1" class="txt">项，不新增请不要填写以下内容。)</th>
+</tr>
+<tr align="center"> 
+    <td width="40" height="22">新增</td>
+    <td align="left" id="upid1"><input maxlength="50" size="30" name="sname[]" class="txt" value="" /></td>
+    <td align="left" id="upid2"><input maxlength="50" size="30" name="senname[]" class="txt" value="" /></td>
+    <td>　</td>
+</tr>
+<tr>
+    <td colspan=5 height=25 class="tdpage"><input name="submit" type="submit" class="inputs" value="批量修改添加"></td>
+</tr>
+<?php }?>
+</form>
+</table>
+<?php
+echo acopy();
+?>

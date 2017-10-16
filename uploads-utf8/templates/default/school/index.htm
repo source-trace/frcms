@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>{$c_name}-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">
+    <ul>
+      <li><a href="/hr/hr.php?id=11">猎头服务介绍</a></li>
+      <li><a href="/hr/hr.php?id=12">服务收费标准 </a></li>
+      <li><a href="/hr/hr.php?id=13">在线猎头顾问 </a></li>
+      <li><a href="/hr/hr.php?id=14">猎头服务机构</a></li>
+	</ul>
+</div>
+</div>
+<div class="container">
+	<div class="news_left">
+		<div class="newshmain">
+			<div class="tit"><span></span>会员登录 Sign in</div>
+			<div class="con">
+
+            <?php include('login.php'); ?>
+            </div>
+		</div>
+		<div class="newshmain">
+			<div class="tit"><span></span>院校排行榜</div>
+			<div class="con">
+            {$FR_院校排行榜}
+            </div>
+		</div>
+		<div class="newshmain">
+			<div class="tit"><span></span>优秀毕业生</div>
+			<div class="con">
+			  {$FR_优秀毕业生}
+		      
+			</div>
+		</div>
+	</div>
+	<div class="news_right">
+		<div class="newsmain">
+			<div class="tit"><span></span>最新院校</div>
+			<div class="con">
+				{$FR_最新院校}
+			</div>
+		</div>
+	
+    
+    
+
+    <div class="newsmain mtop">
+			<div class="tit"><span></span>专家教授</div>
+			<div class="con">
+				{$FR_专家教授}
+			</div>
+
+</div>
+    
+    
+
+    <div class="newsmain mtop">
+			<div class="tit"><span></span>院校展示</div>
+			<div class="con">
+				{$FR_院校展示}
+			</div>
+
+</div>    
+    
+    
+
+    <div class="newsmain mtop">
+			<div class="tit"><span></span>全国院校联盟</div>
+			<div class="con">
+				{$FR_全国院校联盟}
+			</div>
+
+</div>      
+    
+    
+    
+    
+    
+    	
+		
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<?php
+echo ahead("后台日志管理");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">后台日志管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>提示信息：</b></td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20">后台日志记录后台管理员登录、管理员对信息及会员进行管理操作的日常记录！</td>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="form" action="?" method="post">
+<tr>
+    <th colspan=7 height=25>操作日志列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="12%">操作人</td>
+    <td width="40%">内容</td>
+    <td width="18%">操作时间</td>
+    <td width="15%">IP</td>
+    <td width="5%">状态</td>
+    <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php echo $gblist;?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="lids" value="">
+       <?php if(aflags($admin_flags,3,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(1);" value=" 删除 "><?php }?></td></tr>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("lid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form.lids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("lid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

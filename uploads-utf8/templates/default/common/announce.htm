@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="keywords" content="网站公告，{$title}" />
+<meta name="description" content="公告：{$title}" />
+<title><!--{if $aid!=''}-->{$title}-{/if}网站公告-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> <a href="{$cfg[path]}announce.php">网站公告</a><!--{if $aid!=''}--> >> {$title}<!--{/if}--></div>
+</div>
+<div class="container">
+    <!--{if $rsdb}-->
+    <div class="announceleft">
+		<div class="tit"><span></span>最新公告列表</div>
+		<div class="con">{getannounce(0,1,12,14)}</div>
+	</div>
+	<div class="announce">
+		<div class="tit"><span></span>公告列表</div>
+		<div class="con">
+        <!--{loop $rsdb $rs}-->
+        <li>{$rs[a_dateandtime]} <a href="{$cfg[path]}announce.php?aid={$rs[a_id]}" target="_blank">{$rs[a_title]}</a></li>
+        <!--{/loop}-->
+        <div>{$getpageinfo['pagecode']}</div>
+        </div>
+	</div>
+    <!--{else}-->
+	<div class="announceleft">
+		<div class="tit"><span></span>最新公告列表</div>
+		<div class="con">{getannounce(0,1,12,14)}</div>
+	</div>
+	<div class="announce">
+		<div class="tit"><span></span>{$title}</div>
+		<div class="con">{$content}</div>
+	</div>
+    <!--{/if}-->
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

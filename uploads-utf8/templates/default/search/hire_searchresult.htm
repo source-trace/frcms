@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta content="all" name="robots" />
+<meta name="keywords" content="招聘,最新职位,企业招聘职位" />
+<meta name="description" content="{$FR_网站名称}为您提供最新招聘职位" />
+<title>职位搜索-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+function confirmX(num){
+	var ids = document.getElementsByName("hid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			if (obj.checked==true){
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.checks.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1){
+		document.form.action="../member/index.php?a=hire&mpage=person_resumesend&show=3";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	if(num==2){
+		document.form.action="../member/index.php?do=favorite&mpage=person_favoriteadd&show=3";
+		document.form.target="_blank";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("hid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 职位搜索结果</div>
+</div>
+<div class="container">
+	<div class="searchleft">
+		<div class="tit"><span></span>行业招聘</div>
+		<div class="con">{GetTradeList("hire_searchresult.php",100,"t_order asc","_self")}</div>
+	</div>
+	<div class="searchmain">
+		<div class="tit"><span></span>职位搜索</div>
+		<div class="con"><table width="80%" border="0" cellspacing="0" cellpadding="4">
+        	<form name="hiresearch" action="hire_searchresult.php?numberss={$numbers}&taxiss={$taxis}&details={$detail}" method="post">
+              <tr>
+                <td>行　业：<input type="hidden" value="{$trade}" name="trade"><input type="text" name="trades" value="{if $trades!=""}{$trades}{else}选择行业{/if}" class="search_case" onClick="JumpSearchLayers(2,0,4,'hiresearch','trades','trade');" readonly /></td>
+                <td>职　位：<input type="hidden" value="{$position}" name="position"><input type="text" name="positions" value="{if $positions!=""}{$positions}{else}选择职位{/if}" class="search_case" onClick="JumpSearchLayers(0,0,1,'hiresearch','positions','position');" readonly /></td>
+                <td>工作地：<input type="hidden" value="{$workadd}" name="workadd"><input type="text" name="workadds" value="{if $workadds!=""}{$workadds}{else}选择地点{/if}" class="search_case" onClick="JumpSearchLayers(0,0,2,'hiresearch','workadds','workadd');" readonly /></td>
+              </tr>
+              <tr>
+                <td>日　期：<input type="hidden" value="{$datetime}" name="datetime"><input type="text" name="datetimes" value="{if $datetimes!=""}{$datetimes}{else}选择日期{/if}" class="search_case" onClick="JumpSearchDate('hiresearch','datetimes','datetime');" readonly /></td>
+                <td>关键字：<input name="keyword" type="text" size="15" class="inputk" value="{$keyword}" /></td>
+                <td><input name="keywordtype" type="radio" value="1" checked />公司 <input name="keywordtype" type="radio" value="2" checked />职位
+                <input type="submit" name="Submit3" value="搜 索" class="inputs" /></td>
+              </tr>
+              </form>
+            </table>
+      </div>
+	</div>
+    	<div class="searchmain">
+		<div class="tit"><span></span>职位搜索结果</div>
+		<div class="con">
+<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="moretab">
+          <form name="form" action="?" method="post">
+            <tr class="moretabhead" align="center">
+              <td width="5%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+              <td width="15%" height="21">职位名称</td>
+              <td width="28%">单位名称</td>
+              <td width="30%">工作地点</td>
+              <td width="12%">更新时间</td>
+              <td width="10%">操作</td>
+            </tr>
+            {$newhirelist}
+            <tr class="memtabmain">
+          <td height="21" colspan="6" style="text-align:left">1、本次查询到 {$counts} 个职位。<br />
+2、为避免重复设定查询条件，建议使用“<a href="../member/index.php?mpage=person_addsearch&show=3">自定义职位搜索器</a>”，将设置保存起来重复利用。</td>
+        </tr>
+            <tr class="moretabpage">
+              <td height="21" colspan="6"><div class="moretabdiv"><input type="hidden" name="checks" value=""><input name="Input2" type="button" value="申请选中的职位" class="inputs" onClick="confirmX(1);" /> 
+            <input name="Input3" type="button" value="放入收藏夹" class="inputs" onClick="confirmX(2);" /> </div>{$getpageinfo['pagecode']}</td>
+            </tr>
+            </form>
+          </table>
+      </div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+{$FR_搜索弹出层}
+</body>
+</html>
+<script language="javascript" src="../js/searchjs.js"></script>

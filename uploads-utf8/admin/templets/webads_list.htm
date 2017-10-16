@@ -1,0 +1,394 @@
+<?php
+echo ahead("网站广告管理");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网站广告管理:</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="webads_list.php">广告管理首页</a> | <?php if(aflags($admin_flags,0,1)){?><a href="webads_list.php?do=addad">添加网站广告</a> | <?php }?><a href="webads_list.php?sdo=ok">正常广告列表</a> | <a href="webads_list.php?sdo=top">点击由高到低</a> | <a href="webads_list.php?sdo=end">点击由低到高</a> | <a href="webads_list.php?sdo=close">暂停广告列表</a> | <a href="webads_list.php?sdo=lose">失效广告列表</a> | <?php if(aflags($admin_flags,2,1)){?><a href="webads_list.php?do=place">广告位管理</a> | <?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+<form method="post" action="?sdo=<?php echo $sdo;?>" name="searchs" target="_self" onSubmit="return checkform()">
+<tr><td height=25 class="pl20"><b>广告搜索：</b><select size="1" name="kclass">
+	<option value="1" selected="selected">广告ID</option>
+	<option value="2" <?php if($kclass==2){echo "selected=\"selected\"";}?>>广告标题</option>
+	<option value="3" <?php if($kclass==3){echo "selected=\"selected\"";}?>>URL地址</option>
+</select>
+<input type="text" name="kword" size="30" value="<?php echo $kword;?>">
+<input name="submit" type="submit" class="inputs" value="立即搜索">
+</td></tr>
+</form>
+</table>
+<?php
+if($do=="addad"){
+?>
+<script type="text/javascript" src="../js/calendar.js"></script>
+<script language="javascript">
+<!--
+function opw(url,name, width, height)
+{ //v2.0
+	window.open(url,name,''+'width='+width+',height='+height+',scrollbars=yes'+'');
+}
+function checkad()
+{
+	if(document.addform.ad_name.value=="")
+	{
+		alert("请输入广告标题!");
+		document.addform.ad_name.focus();
+		return false;
+	}
+	if(document.addform.ad_contactman.value=="")
+	{
+		alert("请输入广告客户名称!");
+		document.addform.ad_contactman.focus();
+		return false;
+	}
+	adtype=document.addform.ad_type;
+	adtypelen=adtype.length;
+	for (i=0;i<adtypelen;i++){
+            if (adtype[i].checked){
+                adtypevalue = adtype[i].value;
+                break;
+            }
+        }
+
+	if(adtypevalue=="image")
+	{
+		if(document.addform.ad_pic.value=="")
+		{
+			alert("请输入图片广告的图片文件地址!");
+			document.addform.ad_pic.focus();
+			return false;
+		}
+		if(document.addform.ad_url.value=="")
+		{
+			alert("请输入图片广告指向的 URL 链接地址!");
+			document.addform.ad_url.focus();
+			return false;
+		}
+	}else if(adtypevalue=="text"){
+		if(document.addform.ad_text.value=="")
+		{
+			alert("请输入文字广告的显示内容!");
+			document.addform.ad_text.focus();
+			return false;
+		}
+		if(document.addform.ad_url.value=="")
+		{
+			alert("请输入文字广告指向的 URL 链接地址!");
+			document.addform.ad_url.focus();
+			return false;
+		}
+	}else if(adtypevalue=="flash"){
+		if(document.addform.ad_pic.value=="")
+		{
+			alert("请输入或上传Flash广告的Flash调用地址!");
+			document.addform.ad_pic.focus();
+			return false;
+		}
+	}else if(adtypevalue=="code"){
+		if(document.addform.ad_text.value=="")
+		{
+			alert("请输入HTML代码广告的广告代码!");
+			document.addform.ad_text.focus();
+			return false;
+		}
+	}
+}
+function show(avalue)
+{
+	adpic=document.addform.ad_pic.value;
+	adurl=document.addform.ad_url.value;
+	adtext='';//document.addform.ad_text.value;
+	if(avalue=='image'||avalue=='float'||avalue=='floats'){
+		document.getElementById("adcon").innerHTML = "<table width=\"100%\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"1\" class=\"tablebg\"><tr><td width=\"80\" align=\"right\">图片地址：</td><td><input type=\"text\" name=\"ad_pic\" value=\""+adpic+"\" size=\"40\" class=\"txt\" /><input name=\"Submit\" type=\"button\" class=\"inputs\" value=\"浏览上传\" onClick=\"javascript:opw('../inc/job_up.php?fromForm=addform&fromEdit=ad_pic','adpic',420,165)\" /> * 请输入或上传图片广告的图片调用地址</td></tr><tr><td align=\"right\">图片链接：</td><td><input type=\"text\" name=\"ad_url\" value=\""+adurl+"\" size=\"40\" class=\"txt\" /> * 请输入图片广告指向的 URL 链接地址</td></tr><tr><td align=\"right\">图片大小：</td><td><input name=\"ad_width\" type=\"text\" value=\"<?php echo $adwidth;?>\" size=\"8\" class=\"txt\" readonly /> 如需修改请直接修改广告位的大小即同时修改</td></tr><tr><td align=\"right\">替换文字：</td><td><input type=\"text\" name=\"ad_text\" value=\""+adtext+"\" size=\"40\" class=\"txt\" /> 请输入图片广告的鼠标悬停文字信息</td></tr></table>";
+	}else if(avalue=='text'){
+		document.getElementById("adcon").innerHTML = "<table width=\"100%\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"1\" class=\"tablebg\"><tr><td width=\"80\" align=\"right\">文字内容：</td><td><input type=\"text\" name=\"ad_text\" value=\""+adtext+"\" size=\"40\" class=\"txt\" /> * 请输入文字广告的显示内容</td></tr><tr><td align=\"right\">文字链接：</td><td><input type=\"text\" name=\"ad_url\" value=\""+adurl+"\" size=\"40\" class=\"txt\" /> * 请输入文字广告指向的 URL 链接地址<input type=\"hidden\" name=\"ad_pic\" value=\""+adpic+"\" /></td></tr></table>";
+	}else if(avalue=='flash'){
+		document.getElementById("adcon").innerHTML = "<table width=\"100%\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"1\" class=\"tablebg\"><tr><td width=\"80\" align=\"right\">Flash地址：</td><td><input type=\"text\" name=\"ad_pic\" value=\""+adpic+"\" class=\"txt\" size=\"40\" /><input name=\"Submit\" type=\"button\" class=\"inputs\" value=\"浏览上传\" onClick=\"javascript:opw('../inc/job_up.php?fromForm=addform&fromEdit=ad_pic','adpic',420,165)\" /> * 请输入或上传Flash广告的Flash调用地址</td></tr><tr><td align=\"right\">Flash大小：</td><td><input name=\"ad_width\" type=\"text\" value=\"<?php echo $adwidth;?>\" size=\"8\" class=\"txt\" readonly /> 如需修改请直接修改广告位的大小即同时修改<input type=\"hidden\" name=\"ad_url\" value=\""+adurl+"\" /><input type=\"hidden\" name=\"ad_text\" value=\""+adtext+"\" /></td></tr></table>";
+	}else if(avalue=='code'){
+		document.getElementById("adcon").innerHTML = "<table width=\"100%\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"1\" class=\"tablebg\"><tr><td width=\"80\" align=\"right\">HTML代码：</td><td><textarea name=\"ad_text\" cols=\"40\" rows=\"4\">"+adtext+"</textarea><input type=\"hidden\" name=\"ad_url\" value=\""+adurl+"\" /><input type=\"hidden\" name=\"ad_pic\" value=\""+adpic+"\" /></td></tr></table>";
+	}
+}
+function getsort(typeid,t)
+{
+	if(t==1){
+		window.location='?do=addad&placeid='+typeid+'&aid=<?php echo $aid;?>';
+	}else{
+		window.location='?do=addad&placeid=<?php echo $placeid;?>&priceid='+typeid+'&aid=<?php echo $aid;?>';
+	}
+}
+//-->
+</script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+  <tr>
+    <th colspan="2">添加网站广告</th>
+  </tr>
+<form name="addform" method="post" action="?do=savedata&aid=<?php echo $aid;?>" onSubmit="return checkad();">
+  <tr>
+    <td width="80" align="right">广告位置：</td>
+    <td><select name="ad_placeid" onChange="javascript:getsort(this.options[this.selectedIndex].value,1);">
+		<option value="" selected>选择广告种类</option>
+        <?php echo $placelist;?>
+        </select>
+        <select name="ad_priceid" onChange="javascript:getsort(this.options[this.selectedIndex].value,2);">
+		<option value="" selected>选择广告位</option>
+        <?php echo $pricelist;?>
+        </select></td>
+  </tr>
+  <tr>
+    <td align="right">广告标题：</td>
+    <td><input name="ad_name" type="text" class="txt" onFocus="javascript:if(priceid.value==''){alert('请先选择广告位!');document.addform.priceid.focus();}" value="<?php echo $adname;?>" size="40" maxlength="50" /> <span class="f00">*</span> 注意: 广告标题只为识别辨认不同广告条目之用，并不在广告中显示</td>
+  </tr>
+  <tr>
+    <td align="right">广告客户：</td>
+    <td><input name="ad_contactman" type="text" class="txt" value="<?php echo $adcontactman;?>" size="40" maxlength="50" /> <span class="f00">*</span> 不超过15个中文或30个字母数字</td>
+  </tr>
+  <tr>
+    <td align="right">联系方式：</td>
+    <td><input name="ad_tel" type="text" size="40" class="txt" value="<?php echo $adtel;?>" maxlength="50" /></td>
+  </tr>
+  <tr>
+    <td align="right">广告类型：</td>
+    <td><input name="ad_type" type="radio" class="checkbox" value="image" checked="checked" onClick="show(this.value);" /> 图片 <input name="ad_type" type="radio" class="checkbox" value="text" <?php if($adtype=="text"){echo "checked=\"checked\"";}?> onClick="show(this.value);" /> 文字 <input name="ad_type" type="radio" class="checkbox" value="flash" <?php if($adtype=="flash"){echo "checked=\"checked\"";}?> onClick="show(this.value);" /> Flash <input name="ad_type" type="radio" class="checkbox" value="code" <?php if($adtype=="code"){echo "checked=\"checked\"";}?> onClick="show(this.value);" /> 代码 <input name="ad_type" type="radio" class="checkbox" value="float" <?php if($adtype=="float"){echo "checked=\"checked\"";}?> onClick="show(this.value);" /> 浮动 <input name="ad_type" type="radio" class="checkbox" value="floats" <?php if($adtype=="floats"){echo "checked=\"checked\"";}?> onClick="show(this.value);" /> 漂浮</td>
+  </tr>
+  <tr>
+    <td align="right">广告内容：</td>
+    <td id="adcon"><?php if($adtype=="image"||$adtype=="float"||$adtype=="floats"){?>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+      <tr>
+        <td width="80" align="right">图片地址：</td>
+        <td><input type="text" name="ad_pic" value="<?php echo $adpic;?>" size="40" class="txt" maxlength="100" /><input name="Submit" type="button" class="inputs" value="浏览上传" onClick="javascript:opw('../inc/job_up.php?fromForm=addform&fromEdit=ad_pic','adpic',420,165)" /> * 请输入或上传图片广告的图片调用地址</td>
+      </tr>
+      <tr>
+        <td align="right">图片链接：</td>
+        <td><input type="text" name="ad_url" value="<?php echo $adurl;?>" size="40" class="txt" /> * 请输入图片广告指向的 URL 链接地址</td>
+      </tr>
+      <tr>
+        <td align="right">图片大小：</td>
+        <td><input name="ad_width" type="text" value="<?php echo $adwidth;?>" size="8" class="txt" readonly /> 如需修改请直接修改广告位的大小即同时修改</td>
+      </tr>
+      <tr>
+        <td align="right">替换文字：</td>
+        <td><input type="text" name="ad_text" value="<?php echo $adtext;?>" size="40" class="txt" /> 请输入图片广告的鼠标悬停文字信息</td>
+      </tr>
+    </table>
+    <?php }elseif($adtype=="text"){?>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+      <tr>
+        <td width="80" align="right">文字内容：</td>
+        <td><input type="text" name="ad_text" value="<?php echo $adtext;?>" size="40" class="txt" /> * 请输入文字广告的显示内容</td>
+      </tr>
+      <tr>
+        <td align="right">文字链接：</td>
+        <td><input type="text" name="ad_url" value="<?php echo $adurl;?>" size="40" class="txt" /> * 请输入文字广告指向的 URL 链接地址<input type="hidden" name="ad_pic" value="<?php echo $adpic;?>" /></td>
+      </tr>
+    </table>
+    <?php }elseif($adtype=="flash"){?>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+      <tr>
+        <td width="80" align="right">Flash地址：</td>
+        <td><input type="text" name="ad_pic" value="<?php echo $adpic;?>" class="txt" size="40" /><input name="Submit" type="button" class="inputs" value="浏览上传" onClick="javascript:opw('../inc/job_up.php?fromForm=addform&fromEdit=ad_pic','adpic',420,165)" /> * 请输入或上传Flash广告的Flash调用地址</td>
+      </tr>
+      <tr>
+        <td align="right">Flash大小：</td>
+        <td><input name="ad_width" type="text" value="<?php echo $adwidth;?>" size="8" class="txt" readonly /> 如需修改请直接修改广告位的大小即同时修改<input type="hidden" name="ad_url" value="<?php echo $adurl;?>" /><input type="hidden" name="ad_text" value="<?php echo $adtext;?>" /></td>
+      </tr>
+    </table>
+    <?php }elseif($adtype=="code"){?>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+      <tr>
+        <td width="80" align="right">HTML代码：</td>
+        <td><textarea name="ad_text" cols="40" rows="4" class="textarea"><?php echo $adtext;?></textarea><input type="hidden" name="ad_url" value="<?php echo $adurl;?>" /><input type="hidden" name="ad_pic" value="<?php echo $adpic;?>" /></td>
+      </tr>
+    </table>
+    <?php }?></td>
+  </tr>
+  <tr>
+    <td align="right">播放条件：</td>
+    <td>受多个条件限制的广告，只要有一个条件满足，该广告便自动进入休眠状态，你可以修改限制条件并激活广告。</td>
+  </tr>
+  <tr>
+    <td rowspan="2" align="right">&nbsp;</td>
+    <td><input name="ad_act" type="radio" class="checkbox" value="0" checked="checked"> 无限制循环<br>
+    <input name="ad_act" type="radio" class="checkbox" value="1" <?php if($adact==1){echo "checked=\"checked\"";}?>> 
+    限制点击数<br><input name="ad_act" type="radio" class="checkbox" value="2" <?php if($adact==2){echo "checked=\"checked\"";}?>> 
+    限制显示数<br><input name="ad_act" type="radio" class="checkbox" value="3" <?php if($adact==3){echo "checked=\"checked\"";}?>> 
+    限制显示截止时间<br><input name="ad_act" type="radio" class="checkbox" value="4" <?php if($adact==4){echo "checked=\"checked\"";}?>>
+    限制点击数+显示数<br><input name="ad_act" type="radio" class="checkbox" value="5" <?php if($adact==5){echo "checked=\"checked\"";}?>>
+    限制点击数+显示截止时间<br><input name="ad_act" type="radio" class="checkbox" value="6" <?php if($adact==6){echo "checked=\"checked\"";}?>>
+    限制显示数+显示截止时间<br><input name="ad_act" type="radio" class="checkbox" value="7" <?php if($adact==7){echo "checked=\"checked\"";}?>>
+    限制点击数+显示数+截止时间</td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+      <tr>
+        <td>点击数不超过 <input type="text" name="ad_click" value="<?php echo $adclick;?>" size="8" class="txt" />
+  &nbsp;&nbsp;&nbsp; * 请填写数字</td>
+        </tr>
+      <tr>
+        <td>显示数不超过 <input type="text" name="ad_show" value="<?php echo $adshow;?>" size="8" class="txt">
+          &nbsp;&nbsp;&nbsp; * 请填写数字</td>
+        </tr>
+      <tr>
+        <td>显示截止期为 <input type="text" name="ad_enddate" id="ad_enddate" value="<?php echo $adenddate;?>" onClick="ShowCalendar(this.id)" size="10" class="txt" readonly />
+          &nbsp; * 请选择日期</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td align="right">备&nbsp;&nbsp;&nbsp; 注：</td>
+    <td><textarea name="ad_other" cols="40" rows="4" class="textarea"><?php echo $adother;?></textarea></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td> &nbsp;
+      <input name="Submit2" type="submit" class="inputs" value=" 提 交 " /> 
+     &nbsp; <input name="Submit3" type="reset" class="inputs" value=" 重 置 " /></td>
+  </tr>
+</form>
+</table>
+<?php
+}elseif($do=="place"){
+?>
+<script language="javascript">
+<!--
+function checkadplace()
+{
+	if(document.adplace.adplacename.value=="")
+	{
+		alert("请输入广告位种类名称!");
+		document.adplace.adplacename.focus();
+		return false;
+	}
+}
+function checkadprice()
+{
+	if(document.adprice.adpricename.value=="广告位名称")
+	{
+		alert("请输入广告位名称");
+		document.adprice.adpricename.focus();
+		return false;
+	}
+	if(document.adprice.adrow.value=="行*列")
+	{
+		alert("请输入广告位行*列");
+		document.adprice.adrow.focus();
+		return false;
+	}
+	if(document.adprice.adwidth.value=="宽*高")
+	{
+		alert("请输入广告位的宽*高");
+		document.adprice.adwidth.focus();
+		return false;
+	}	
+	if(document.adprice.adid.value=="")
+	{
+		alert("请输入广告位编号");
+		document.adprice.adid.focus();
+		return false;
+	}
+	var objv = document.adprice.adid.value;
+	var pattern = /^([0-9])+$/;
+	flag = pattern.test(objv);
+	if(!flag)
+	{
+		alert("广告位编号只能为数字!");
+		document.adprice.adid.select();
+		return false; 
+	}
+}
+function view(ids)
+{
+	if(document.getElementById(ids).style.display=="block")
+	{
+		document.getElementById(ids).style.display="none";
+		document.getElementById("view"+ids).innerHTML="查看";
+	}
+	else
+	{
+		document.getElementById(ids).style.display="block";
+		document.getElementById("view"+ids).innerHTML="关闭";
+	}
+}
+//-->
+</script>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+  <tr align="center">
+    <th height="25" colspan="2">广告种类管理</th>
+    <th width="73%">广告位管理</th>
+  </tr>
+  <tr align="center">
+    <td colspan="2" align="left"><form name="adplace" method="post" action="?do=placesave&pid=<?php echo $pid;?>" onSubmit="return checkadplace()" style="padding:0; margin:0;">&nbsp;<input type="text" name="adplacename" value="<?php echo $adplacename;?>" />&nbsp;<input name="Submit" type="submit" class="inputs" value="编辑" /></form></td>
+    <td align="left"><form name="adprice" method="post" action="?do=adpricesave&apid=<?php echo $apid;?>" onSubmit="return checkadprice()" style="padding:0; margin:0;">&nbsp;在
+      <select name="adplaceid">
+      <?php echo $adplaceidlist;?>
+      </select>
+      <input name="adpricename" type="text" size="11" value="<?php echo $adpricename;?>" onBlur="if(this.value=='') this.value='广告位名称';" onFocus="if(this.value=='广告位名称') this.value='';" /> <input name="adrow" type="text" size="5" value="<?php echo $adrow;?>" onBlur="if(this.value=='') this.value='行*列';" onFocus="if(this.value=='行*列') this.value='';" />  <input name="adwidth" type="text" size="8" value="<?php echo $adwidth;?>" onBlur="if(this.value=='') this.value='宽*高';" onFocus="if(this.value=='宽*高') this.value='';" />
+    
+    编号:<input name="adid" type="text" size="3" value="<?php echo $adid;?>" />
+    价格:<input name="admoney" type="text" size="5" value="<?php echo $admoney;?>" />
+    元/
+    <select name="adunit">
+		<option value="月" selected="selected">月</option>
+		<option value="季" <?php if($adunit=="季"){echo "selected=\"selected\"";}?>>季</option>
+		<option value="年" <?php if($adunit=="年"){echo "selected=\"selected\"";}?>>年</option>
+    </select>
+     <input name="Submit2" type="submit" class="inputs" value="提交" /></form></td>
+  </tr>
+  <tr align="center">
+    <td colspan="2" valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+      <tr align="center">
+        <td width="17%"><strong>序号</strong></td>
+        <td width="50%"><strong>广告位种类</strong></td>
+        <td width="33%"><strong>操作</strong></td>
+      </tr>
+      <?php echo $adplacelist;?>
+    </table></td>
+    <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+      <tr align="center">
+        <td width="6%"><strong>代码</strong></td>
+        <td width="17%"><strong>广告种类</strong></td>
+        <td width="15%"><strong>广告位置</strong></td>
+        <td width="8%"><strong>广告数</strong></td>
+        <td width="12%"><strong>行列</strong></td>
+        <td width="12%"><strong>宽高</strong></td>
+        <td width="8%"><strong>编号</strong></td>
+        <td width="11%"><strong>价格</strong></td>
+        <td width="11%"><strong>操作</strong></td>
+      </tr>
+      <?php echo $adsplacelist;?>
+    </table></td>
+  </tr>
+</table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=9 height=25>广告列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="15%">广告标题</td>
+    <td width="10%">广告位名称</td>
+    <td width="7%">类型</td>
+    <td width="14%">播放条件</td>
+    <td width="8%">状态</td>
+    <td width="15%">效果</td>
+	<td width="10%">所属站点</td>
+    <td width="11%">操作</td>
+</tr>
+<?php echo $adlist;?>
+<tr>
+    <td colspan=9 height=25 class="tdpage"><?php echo $getpageinfo['pagecode'];?></td>
+</tr>
+</table>
+<?php
+}
+echo acopy();
+?>

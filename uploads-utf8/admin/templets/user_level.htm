@@ -1,0 +1,65 @@
+<?php
+echo ahead("用户等级设置");
+?>
+</head>
+<script language="javascript" type="text/javascript">
+function setid(){
+    strs1='';strs2='';strs3='';
+	for(i=1;i<=window.listform.tcount.value;i++){
+		strs1+='<input maxlength="50" name="lname[]" class="txt" value="" /><br><br>';
+        strs2+='<input maxlength="50" name="lintegral[]" class="txt" value="0" /><br><br>';
+        strs3+='<input name="limages[]" class="txt" value="level/level1.gif" /><img src="../skin/system/level/level0.gif" /><br><br>';
+	}
+    window.upid1.innerHTML=strs1;
+    window.upid2.innerHTML=strs2;
+    window.upid3.innerHTML=strs3;
+}
+</script>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">用户等级设置</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><strong>提示信息：</strong>用户等级根据用户在网站中所获得的积分进行划分，显示在用户信息展示页面！</td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="user_level.php">等级管理首页</a> | <a href="user_level.php?do=count">更新会员等级</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="listform" action="?do=savedata" method="post">
+<tr>
+    <th colspan=7 height=25>用户等级列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="10%">用户等级</td>
+    <td width="18%">头衔</td>
+    <td width="18%">最少积分</td>
+    <td width="25%">等级图标</td>
+    <td width="8%">用户数</td>
+    <td width="16%">操作</td>
+</tr>
+<?php echo $syslist;?>
+<tr>
+    <th colspan=7 height=25>批量新增分类（新增<input type="text" name="tcount" size="4" onBlur="setid();" value="1" class="txt">项，不新增请不要填写以下内容。)</th>
+</tr>
+<tr align="center"> 
+    <td height="22">新增</td>
+    <td align="left">　</td>
+    <td id="upid1"><input maxlength="50" name="lname[]" class="txt" value="" /></td>
+    <td id="upid2"><input maxlength="50" name="lintegral[]" class="txt" value="0" /></td>
+    <td align="left" id="upid3"><input name="limages[]" class="txt" value="level/level1.gif" /><img src="../skin/system/level/level0.gif" /></td>
+    <td>0</td>
+    <td>　</td>
+</tr>
+<tr align="center">
+    <td colspan=7 height=25 class="tdpage"><input name="submit" type="submit" class="inputs" value="批量修改添加"></td>
+</tr>
+</form>
+</table>
+<?php
+echo acopy();
+?>

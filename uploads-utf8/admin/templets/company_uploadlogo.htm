@@ -1,0 +1,40 @@
+<?php
+echo ahead("设置会员余额");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" type="text/javascript">
+function opw(url,name,width,height) 
+{
+	window.open(url,name,''+'width='+width+',height='+height+',scrollbars=yes'+'');
+}
+</script>
+</head>
+<body>
+ <table width="100%" border="0" cellpadding="2" cellspacing="1"  align="center"  class="tableBorder">
+    <tr>
+      <th height=25 colspan="5"> 设置会员账户余额</th>
+    </tr>
+      <tr>
+        <td width="120" height="25" align="right">会员帐号：</td>
+        <td width="150" colspan="2"><input name="m_login" type="text" id="m_login" size="20" maxlength="50" value="<?php echo $m_login;?>" disabled></td>
+      </tr>
+      <tr>
+        <td height="25" align="right">会员名称：</td>
+        <td colspan="2"><input name="name" type="text" id="name" size="40" maxlength="50" value="<?php echo $m_name;?>" disabled></td>
+      </tr>
+      <tr>
+        <td height="25" align="right">LOGO：</td>
+        <td width="170"><img height="120" src="<?php echo $m_logo;?>" width="160" border="0" style="border: #666666 1px solid; padding:1px;" /></td>
+        <td><?php if($m_logo!=''){?><INPUT name='btnDel' type='button' class="inputs" onClick="location.href='company_uploadlogo.php?do=del&id=<?php echo $id;?>'" value='删除'><?php }?></td>
+      </tr>
+      <form name="form1" method="post" action="company_uploadlogo.php?do=savedata">
+      <tr>
+        <td height="25" colspan="6"><input type="hidden" name="id" value="<?php echo $id;?>"><div align="center">
+           请选择上传LOGO：<input name="photo" type="text" id="photo" size="20" />
+          <input name="b122" type="button" class="inputs" value="浏览" onClick="javascript:opw('../inc/job_up.php?fromForm=form1&fromEdit=photo','adpic',420,165)" /> <input name="b122" type="submit" class="inputs" value="保存" /> 
+           <input name="Submit22" type="button" class="inputs" style="cursor:hand" onClick="javascript:window.close();" value="关 闭">
+        </div></td>
+      </tr>
+    </form>
+  </table>
+<?php echo acopy();?>

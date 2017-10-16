@@ -1,0 +1,134 @@
+<?php
+echo ahead("在线支付设置");
+?>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网上支付管理:</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="plus_onlinepay.php?do=info">管理首页</a> | <a href="plus_onlinepay.php?do=info">支付记录管理</a> | <a href="plus_onlinepay.php">在线支付设置</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+</table>
+<?php
+if($do=="info"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<form name="listform" action="?do=savedata" method="post">
+<tr>
+    <th colspan=10 height=25>会员在线支付记录</th>
+</tr>
+<tr align="center"> 
+    <td width="120" height="22">用户名/类型</td>
+    <td width="120">订单编号/用途</td>
+    <td width="140">支付时间/IP</td>
+    <td width="120">接口/金额/结果</td>
+    <td>联系方式</td>
+    <td width="40">操作</td>
+</tr>
+<?php echo $syslist;?>
+<tr>
+    <td colspan=6 height=25 class="tdpage"><?php echo $getpageinfo['pagecode'];?></td>
+</tr>
+</form>
+</table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+    <tr>
+        <th colspan="5" height="25">网上支付设置 <span style="font-weight: 400"> (请选择您将要使用的在线支付方式,我们提供如下几种接口:)</span></th>
+    </tr>
+    <tr align="center"> 
+        <td colspan="3">网上支付接口类型/参数设置</td>
+        <td>选择(打√表示已启用)</td>
+        <td>提交选择</td>
+    </tr>
+<!---------------------------------------------支付宝--------------------------------------------->
+  <form action="plus_onlinepay.php" method="post" name="alipay">
+    <tr>
+      <td rowspan="3" align="center"><b>支付宝<font class="f00">(推荐)</font></b><br /><a href="https://www.alipay.com/himalayas/practicality_customer.htm?customer_external_id=C4393949511062978817&market_type=from_agent_contract&pro_codes=61F99645EC0DC4380ADE569DD132AD7A" target="_blank"><font class="f00">在线免费签约</font></a><input type="hidden" name="payflag" value="<?php echo $paytype1;?>" /><input type="hidden" name="do" value="save" /></td>
+      <td align="right">支付宝帐号：</td>
+      <td><input type="text" name="ipayno" size="40" maxlength="80" class="txt" value="<?php echo $payno1;?>" /></td>
+      <td rowspan="3" align="center"><input name="chk" type="radio" class="checkbox" value="1" onclick="document.alipay.payflag.value=1;" <?php echo $chk1;?> />
+      担保交易<br />
+      <input name="chk" type="radio" class="checkbox" value="1" onclick="document.alipay.payflag.value=5;" <?php echo $chk5;?> />
+      即时到账<br />
+      <input name="chk" type="radio" class="checkbox" value="0" />
+      尚未签约</td>
+      <td rowspan="3" align="center"><?php if(aflags($admin_flags,1,1)){?><input name="B2" type="submit" class="inputs" value="确定选择" /><?php }?>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right">合作者身份ID：</td>
+      <td><input type="text" name="ipayid" size="40" maxlength="80" class="txt" value="<?php echo $payid1;?>" /></td>
+    </tr>
+    <tr>
+      <td align="right">安全码：</td>
+      <td><input type="password" name="ipaykey" size="40" maxlength="200" class="txt" value="<?php echo $paykey1;?>" /></td>
+   
+    </tr>
+  </form>
+  <!---------------------------------------------网银在线--------------------------------------------->
+  <form action="plus_onlinepay.php" method="post">
+    <tr>
+      <td rowspan="2" align="center"><b>网银在线</b><input type="hidden" name="payflag" value="2" /><input type="hidden" name="do" value="save" /></td>
+      <td align="right">商家号：</td>
+      <td><input type="text" name="ipayno" size="40" maxlength="80" class="txt" value="<?php echo $payno2;?>" /></td>
+      <td rowspan="2" align="center"><input name="chk" type="checkbox" class="checkbox" value="1" <?php echo $chk2;?>>
+      选择</td>
+      <td rowspan="2" align="center"><?php if(aflags($admin_flags,1,1)){?><input name="B3" type="submit" class="inputs" value="确定选择" /><?php }?>&nbsp;</td>
+    </tr>
+    <tr>
+      <td  align="right">私钥：</td>
+      <td><input type="password" name="ipaykey" size="40" maxlength="200" class="txt" value="<?php echo $paykey2;?>" /></td>
+    </tr>
+  </form>
+     <!---------------------------------------------财付通--------------------------------------------->
+  <form action="plus_onlinepay.php" method="post">
+    <tr>
+      <td rowspan="2" align="center"><b>财付通支付</b><input type="hidden" name="payflag" value="3" /><input type="hidden" name="do" value="save" /></td>
+      <td align="right">商户号：</td>
+      <td><input type="text" name="ipayno" size="40" maxlength="80" class="txt" value="<?php echo $payno3;?>" /></td>
+      <td rowspan="2" align="center"><input name="chk" type="checkbox" class="checkbox" value="1" <?php echo $chk3;?>>
+      选择</td>
+      <td rowspan="2" align="center"><?php if(aflags($admin_flags,1,1)){?><input name="B3" type="submit" class="inputs" value="确定选择" /><?php }?>&nbsp;</td>
+    </tr>
+    <tr>
+      <td  align="right">密钥：</td>
+      <td><input type="password" name="ipaykey" size="40" maxlength="200" class="txt" value="<?php echo $paykey3;?>" /></td>
+    </tr>
+  </form>
+     <!---------------------------------------------易宝支付--------------------------------------------->
+  <form action="plus_onlinepay.php" method="post">
+    <tr>
+      <td rowspan="2" align="center"><b>易宝支付</b><input type="hidden" name="payflag" value="4" /><input type="hidden" name="do" value="save" /></td>
+      <td align="right">商户编号：</td>
+      <td><input type="text" name="ipayno" size="40" maxlength="80" class="txt" value="<?php echo $payno4;?>" /></td>
+      <td rowspan="2" align="center"><input name="chk" type="checkbox" class="checkbox" value="1" <?php echo $chk4;?>>
+      选择</td>
+      <td rowspan="2" align="center"><?php if(aflags($admin_flags,1,1)){?><input name="B3" type="submit" class="inputs" value="确定选择" /><?php }?>&nbsp;</td>
+    </tr>
+    <tr>
+      <td  align="right">密钥：</td>
+      <td><input type="password" name="ipaykey" size="40" maxlength="200" class="txt" value="<?php echo $paykey4;?>" /></td>
+    </tr>
+  </form>
+</table>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">网上支付设置说明:</th>
+  </tr>
+  <tr>
+    <td height="25" class="pl20">所有网上支付的参数设置均需要先到对应支付接口官方网站申请注册成该网站的会员后,方可从那里获取参数信息!<br>
+        各支付接口官方网址列表：<br>支付宝：<a target="_blank" href="https://www.alipay.com/himalayas/practicality_customer.htm?customer_external_id=C4393949511062978817&market_type=from_agent_contract&pro_codes=61F99645EC0DC4380ADE569DD132AD7A">http://www.alipay.com</a>&nbsp; 
+      <br />网银在线：<a target="_blank" href="http://www.chinabank.com.cn">http://www.chinabank.com.cn</a>
+      <br />财付通：<a target="_blank" href="http://www.tenpay.com">http://www.tenpay.com</a>
+      <br />易宝支付：<a target="_blank" href="http://www.yeepay.com">http://www.yeepay.com</a></td>
+  </tr>
+</table>
+<?php
+}
+echo acopy();
+?>

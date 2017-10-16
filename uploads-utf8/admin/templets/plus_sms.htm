@@ -1,0 +1,184 @@
+<?php
+echo ahead("手机短信发送管理");
+?>
+<script language="javascript">
+function insertText(labelstr)
+{
+document.smsform.msgbody.focus();
+var sel=document.selection;
+if (sel!=null) 
+   {
+   var mg=sel.createRange();
+   if (mg!=null)
+        {
+        mg.text=labelstr;
+        }
+   }
+}
+function getmembertype(typeid)
+{
+	location.href='?do=sendsms&typeid='+typeid;
+}
+function check()
+{
+if (document.smsform.msgbody.value=="")
+{
+	alert("请输入短信内容!");
+	document.smsform.msgbody.focus();
+	return false;
+}
+}
+</script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">手机短信发送管理</th>
+  </tr>
+<?php if(aflags($admin_flags,1,1)){?>
+  <tr>
+  <form action="?do=smsconfig" method="post">
+    <td height=25 class="pl20"><b>接口配置：</b>帐号:
+        <input type="text" id="username" name="username" size="12" class="txt" value="<?php echo $_SESSION["vcpuser"];?>">  
+        MD5私钥:
+        <input type="password" id = "apikey" name="apikey" size="12" class="txt" value="888888">  
+        余额:<font color="#FF0000"><b><?php echo $account;?></b></font>条 
+      <input type="submit" value="修改配置" class="inputs">  [<a href="http://sms.finereason.com/login.asp" target="_blank" style="color:#F00">申请账号</a>] 该功能需要先申请账号并充值后才能使用。</td>
+    </form>
+  </tr>
+<?php }?>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="plus_sms.php?do=sendsms">群发短信</a> | <a href="plus_sms.php?r=1">发送成功记录</a> | <a href="plus_sms.php?r=0">发送失败记录</a> | <a href="plus_sms.php">全部记录</a> | <?php if(aflags($admin_flags,1,1)){?><a href="plus_smstemp.php">短信模板设置</a> | <?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php
+if($do=="sendsms"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form action="?do=send" method="post" name="smsform" onsubmit="return check();">
+<input type="hidden" name="members" value="<?php echo $members;?>">
+<tr>
+    <th colspan=2 height=25>群发短信</th>
+</tr>
+<tr><td width="80" height="25" align="right">收件人：</td>
+<td><?php if($members==""){?><select name="mtype" onChange=getmembertype(this.options[this.selectedIndex].value)>
+		<option value="0">全部会员</option>
+		<?php for($m=1;$m<=4;$m++){?>
+		<option value="<?php echo $m;?>"
+        <?php if($typeid==$m) echo "selected"?>><?php echo $sysgroup[$m];?></option>
+		<?php }?>
+	    </select>
+		<select name="mtypes">
+		<option value="0" selected>全部会员</option>
+        <?php if($typeid!=0) echo agroup($typeid)?>
+		</select>
+		<select name="mdate">
+	    <option value="0">所有会员</option>
+	    <option value="1">一周未登录</option>
+	    <option value="2">30天未登录</option>
+	    <option value="3">一周内到期</option>
+	    <option value="4">30天内到期</option>
+        <option value="5">生日祝福</option>
+        <option value="6">周年贺电</option>
+	    </select>
+		<?php }else{
+        echo $members;
+        }?>
+</td></tr>
+<tr><td height="25" align="right">短信内容：</td>
+<td><textarea name="msgbody" cols="80" rows="5" onpropertychange="msgfnum.value=this.value.length"></textarea>
+      <br>每70个字为一条 已填写：<input name="msgfnum" type="text" value="0" size="2" readonly="readonly"  />个
+      <br>可选标签：<a style="cursor:hand" onClick="javascript:insertText('{$FR_会员用户名}');">会员用户名</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_会员名称}');">会员名称</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站名称}');">网站名称</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_网站网址}')">网站网址</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_LOGO地址}')">LOGO地址</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系人}')">联系人</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系地址}')">联系地址</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系电话}')">联系电话</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_联系传真}')">联系传真</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_管理员名称}')">管理员名称</a> | <a style="cursor:hand" onClick="javascript:insertText('{$FR_管理员邮箱}')">管理员邮箱</a></td></tr>
+<tr><td height="25" align="right">&nbsp;</td>
+<td><input name="submit1" type="submit" class="inputs" value=" 发 送 ">
+      <input name="Submit" type="reset" class="inputs" value=" 重 置 " />
+</td></tr>
+</form>
+</table>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="form" action="plus_sms.php" method="post">
+<tr>
+    <th colspan=8 height=25>短信发送列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="10%">发送人帐号</td> 
+    <td width="10%">接收人帐号</td>
+    <td width="12%">目标手机</td>
+    <td width="8%">是否成功</td>
+    <td width="10%">发送时间</td>
+    <td width="42%">发送内容</td>
+    <td width="3%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25><?php echo $rs["s_id"];?></td>
+    <td><?php echo $rs["s_memberlogin"];?></td>
+    <td><?php echo $rs["s_tomemberlogin"];?></td>
+    <td><?php echo $rs["s_tomobile"];?></td>
+    <td><?php if($rs["s_issuccess"]==1){echo '<font color="#009900">发送成功</font>';}else{echo '<font color="#FF0000">发送失败</font>';}?></td>
+    <td><?php echo $rs["s_sendtime"];?></td>
+    <td align="left"><?php echo $rs["s_content"];?></td>
+    <td><input type="checkbox" name="sid" value="<?php echo $rs["s_id"]; ?>" class="checkbox" /></td>
+</tr>
+<?php 
+}
+?>
+<?php if(aflags($admin_flags,3,1)){?>
+<tr><td height="25" align="right" colspan="8"> <input type="hidden" name="sids" value="">
+    <input name="button" type="button" class="inputs" onClick="confirmX(1);" value=" 删除 "></td></tr>
+<?php }?>
+<tr>
+<td height="25" align="center" colspan="8" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("sid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.sids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		document.form.action="?do=del";
+		document.form.submit();
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("sid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

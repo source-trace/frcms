@@ -1,0 +1,154 @@
+<?php
+echo ahead("会员上传管理");
+?>
+<link rel="stylesheet" href="css/xstyle.css" type="text/css" media="screen" />
+<style type="text/css">
+<!--
+.style11 {color: #0066CC;
+	font-weight: bold;
+}
+#labcontent .altCheckboxOn {
+	display: inline;
+	padding: 20px 2px; /* NS 6 problem */
+	padding-left: 70px;
+	color: #000;
+	line-height: 60px;
+	font-family: "Courier New", Courier, mono;
+	font-size: 1.2em;
+	font-weight: bold;
+	background-image: url(alt_checkbox_on.gif);
+	background-repeat: no-repeat;
+	background-position: 0% 50%;
+	border: 0px;
+}
+-->
+</style>
+<script type="text/javascript" src="inc/js.js"></script>
+</head>
+<body onLoad="initLightbox()">
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">会员上传管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="?type=1">企业LOGO</a> | <a href="?type=2">企业执照</a> | <a href="?type=3">企业形象</a> | <a href="?type=4">个人照片</a> | <a href="?type=5">个人证书</a> | <a href="?type=6">职场风采</a> | <a href="?type=7">院校LOGO</a> | <a href="?type=8">院校照片</a> | <a href="?type=9">专家照片</a> | <a href="?type=10">毕业生照片</a> | <a href="?type=11">培训LOGO</a> | <a href="?type=12">培训机构照片</a> | <a href="?type=13">培训师照片</a></td>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>二级选项：</b><a href="?type=<?php echo $type;?>&audit=1">已审核</a> | <a href="?type=<?php echo $type;?>&audit=0">待审核</a></td>
+  </tr>
+</table>
+<table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr> 
+	<th height=25 colspan="5"><?php echo $types;?></th>
+</tr>
+<form name="form" action="files_memberfiles.php" method="post">
+<tr><?php
+        $i=0;
+        foreach($rsdb as $key=>$rs){
+        $i++;
+        $p_pic=$rs['p_pic']=='error.gif'?$cfg['path'].'upfiles/error.gif':$rs['p_pic'];
+        if($rs['p_flag']){
+            if($type==2&&$rs['p_flag']==2){
+                $status='审核失败'; 
+            }else{
+                $status='已审核'; 
+            }
+        }else{
+        $status='未审核';            
+        }
+        ?>
+        <td align="center"><table width="140" border="0" cellspacing="1" cellpadding="0" class="tablebg">
+          <tr>
+            <td align="center"><a href="<?php echo $p_pic;?>" rel="lightbox[plants]" title="<?php echo $rs['m_name'];?>"><img src="<?php echo $p_pic;?>" border="0" align='absmiddle' style="border:1px #CCC8C9 solid; padding:2px;" width="120" height="90" /></a></td>
+          </tr>
+          <tr>
+            <td style="text-align: left;"><input type="checkbox" name="pid" value="<?php echo $rs['p_id'];?>"><?php echo $rs["m_name"];?></td>
+          </tr>
+          <tr>
+            <td style="text-align: left;">状态：<?php echo $status;?></td>
+          </tr>
+        </table>
+        </td>
+        <?php
+        if($i%5 == 0) echo "        	</tr><tr>\r\n";
+        }
+        ?>
+        </tr>
+<tr><td colspan="5" align="right"><input type="hidden" name="type" value="<?php echo $type;?>" /><input type="hidden" name="audit" value="<?php echo $audit;?>" /><input type="hidden" name="pids" value="" /><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox">
+  全选  
+      <?php if(aflags($admin_flags,1,1)){?><input name="button" type="button" class="inputs" onClick="confirmX(2);" value="通过审核" />
+      <input name="button" type="button" class="inputs" onClick="confirmX(3);" value="撤销审核" />
+      <?php }
+      if(aflags($admin_flags,3,1)){?>
+      <input name="button" type="button" class="inputs" onClick="confirmX(1);" value="删除" />
+      <?php }?></td>
+  </tr>
+<tr><td colspan="5" class="tdpage">
+<?php echo $getpageinfo['pagecode'];?></td>
+  </tr>
+ </form>
+</table>
+<?php
+echo acopy();
+?>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("pid");
+	var check=false;
+	var allSel="";
+	if (ids != null) {
+		
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				form.pids.value = allSel;
+				check=true;
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		if(confirm("警告:您确定要删除此图片吗！\n是否继续操作？"))	
+		{
+			document.form.action="files_memberfiles.php?do=del";
+			document.form.submit();		
+		}
+	}
+    if(num==2)
+	{
+		if(confirm("你确定要审核你选择的图片吗！\n是否继续操作？"))	
+		{
+			document.form.action="files_memberfiles.php?do=audit";
+			document.form.submit();		
+		}
+	}
+    if(num==3)
+	{
+		if(confirm("你确定要撤销审核你选择的图片吗！\n是否继续操作？"))	
+		{
+			document.form.action="files_memberfiles.php?do=unaudit";
+			document.form.submit();		
+		}
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("pid");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>

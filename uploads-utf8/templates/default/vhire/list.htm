@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="keywords" content="微招聘，一句话招聘{$c_keywords}" />
+<meta name="description" content="{$c_description}" />
+<title>微招聘-{$cfg['sitetitle']}</title>
+<link href="{$cfg['siteurl']}{$cfg['path']}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="{$cfg['path']}favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{$cfg['path']}favicon.ico" type="image/x-icon" />
+<script language="javascript">
+<!--
+function fnRemoveBrank(strSource)
+{
+ return strSource.replace(/^\s*/,'').replace(/\s*$/,'');
+}
+function Juge(theForm)
+{
+  if (fnRemoveBrank(theForm.v_comname.value) == "")
+  {
+    alert("请输入招聘单位名称!");
+    theForm.v_comname.focus();
+    return (false);
+  }
+  if (fnRemoveBrank(theForm.v_place.value) == "")
+  {
+    alert("请输入招聘岗位名称!");
+    theForm.v_place.focus();
+    return (false);
+  } 
+  if (fnRemoveBrank(theForm.v_tel.value) == "")
+  {
+    alert("请输入联系电话!");
+    theForm.v_tel.focus();
+    return (false);
+  }
+}
+ //-->
+</script>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"><li> 您现在的位置：<a href="{$cfg['siteurl']}">{$cfg['sitename']}</a> >> <a href="index.php">微招聘</a> >> 微招聘检索</li></div>
+</div>
+<div class="container">
+	<div class="vhireleft">
+        <div class="vhireform">
+    		<div class="tit"><span></span>微职位检索</div>
+    		<div class="con">
+                <form name="vsform" action="{$cfg['path']}vhire/list.php" method="post">
+                请输入关键词：<input name="keyword" type="text" id="keyword" class="vkeyword" value="{$keyword}" /> <input name="submit" type="submit" class="vsb" value="搜索微聘" />
+            </form>
+            </div>
+        </div>
+        <div class="vhiremain">
+            <div class="tit"><span></span>列表</div>
+    		<div class="con">
+    			<!--{php $counts = $db->counter($cfg['tb_pre']."vhire","`v_flag`=1 $sqladd");}-->
+				<!--{php $getpageinfo = page($page,$counts,$cfg['path']."vhire/list.php?keyword=$keyword",10,5);}-->
+            	<!--{php $sql="SELECT *,DATEDIFF('".date('Y-m-d')."',v_adddate) as valid FROM `".$cfg['tb_pre']."vhire` WHERE `v_flag`=1 $sqladd ORDER BY `v_top` DESC,`v_adddate` DESC";}-->
+    			<!--{php $sql.=$getpageinfo['sqllimit'];}-->
+                <!--{php $query=$db->query($sql);$vlist=array();}-->
+                <!--{php while($row=$db->fetch_array($query)){}-->
+                <!--{php $vlist[]=$row;}-->
+                <!--{php }}-->
+                <ul>
+                <!--{loop $vlist $a}-->
+                    <li><span>{time_tran($a[v_adddate])}</span>【{if $a[valid]<$a[v_validity]}<font color="green">招聘中</font>{else}已结束{/if}】<a href="list.php?keyword={$a[v_comname]}">{$a[v_comname]}</a> 招聘 <a href="list.php?keyword={$a[v_place]}">{$a[v_place]}</a> {if $a[v_number]==0}若干{else}{$a[v_number]}{/if} 名，要求：{$a[v_request]} 联系人：{$a[v_contact]} 电话：{$a[v_tel]} 地址：{$a[v_address]}</li>
+                <!--{/loop}-->
+                </ul>
+                <ul><!--{$getpageinfo['pagecode']}--></ul>
+            </div>
+        </div>
+	</div>
+	<div class="vhireright">
+		<div class="tit"><span></span>我也微招聘<a name="w"></a></div>
+		<div class="con">
+            <form name="vform" action="{$cfg['path']}vhire/index.php?do=add" method="post" onsubmit="return Juge(this)">
+                招聘单位：<input name="v_comname" type="text" id="v_comname" size="25" /><br />
+                招聘岗位：<input name="v_place" type="text" id="v_place" size="25" /><br />
+                招聘人数：<input name="v_number" type="text" id="v_number" size="3" /> 人<br />
+                应聘要求：<input name="v_request" type="text" id="v_request" size="25" /><br />
+                面试地址：<input name="v_address" type="text" id="v_address" size="25" /><br />
+                联系电话：<input name="v_tel" type="text" id="v_tel" size="25" /><br />
+                联 系 人：<input name="v_contact" type="text" id="v_contact" size="25" /><br />
+                有 效 期：<select name="v_validity" id="v_validity">
+                <option value="3">3天</option>
+                <option value="5">5天</option>
+                <option value="10">10天</option>
+                <option value="30">30天</option>
+                <option value="180">半年</option>
+                <option value="365">一年</option>
+                <option value="9999">长期</option>
+                </select><br />
+                验 证 码：<input type="text" name="verifycode" size="6" title="输入右侧图片所示字符,不区分大小写" /> <img src="{$cfg[path]}inc/verifycode.php"  alt="验证码,看不清楚?请点击刷新验证码" align="absmiddle" style="cursor : pointer;" onclick="this.src=this.src+'?'+Math.random();" />
+                <input name="Submit" type="submit" class="inputs" value="发布" />
+            </form>
+        </div>
+		<div class="ad_vhire"><script language='javascript' src='{$FR_系统目录}webad/ads.php?p=13'></script></div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<?php
+echo ahead("求职简历管理");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/sms.js"></script>
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <form action="person_resumelist.php" method="post">
+  <tr>
+    <th height="25">求职简历管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="person_searchlist.php">管理首页</a>&nbsp;|&nbsp;<a href="person_searchlist.php">人才管理</a>&nbsp;|&nbsp;<?php if(aflags($admin_flags,0,1)){?><a href="person_addresume.php">简历添加</a>&nbsp;|&nbsp;<?php }?><a href="person_resumelist.php">简历管理</a>&nbsp;|&nbsp;<a href="person_searchresume.php">人才查询</a>&nbsp;|&nbsp;[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>二级选项：</b><a href="?operate=0">待审简历</a> | <a href="?operate=1">已审简历</a> | <a href="?operate=2">未激活</a> |  <a href="?operate=3">已激活</a><!-- | <a href="?operate=4">待审照片</a>--> | <a href="?operate=5">未公开简历</a> | <a href="?operate=6">普通人才</a> | <a href="?operate=7">毕业生</a> | <a href="?operate=8">高级人才</a></td>
+  </tr>
+  <tr>
+      <td height=25 class="pl20"><b>简历查询：</b>关键字： 
+          <input name="keyword" type="text" id="keyword" size="10">
+          <select name="segment" size="1" id="segment">
+            <option value="r_name">姓名</option>
+            <option value="r_login">会员帐号</option>
+          </select>
+          <select name="usergroup" id="usergroup">
+		    <option value="" selected>所有简历类型</option>
+            <option value="0">普通</option>
+            <option value="1">毕业生</option>
+            <option value="2">高级人才</option>
+          </select>
+          <select name="openness" id="openness">
+		    <option value="" selected>所有公开程度</option>
+            <option value="0">对所有公开</option>
+            <option value="1">完全保密</option>
+          </select>
+          <input type="submit" name="Submit" class="inputs" value="搜索"> <a href="person_searchresume.php"><font color="#FF0000">[高级搜索]</font></a></td>
+    </tr>
+    </form>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" id="nav-one" class="nav">
+<form name="form2" action="person_resumelist.php" method="post">
+<tr>
+    <th colspan=13 height=25>简历列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%"><b>编号</b></td>
+    <td width="6%"><b>姓名</b></td>
+    <td width="28%"><b>意向职位</b></td>
+    <td width="10%"><b>类型|激活</b></td>
+    <td width="10%"><b>公开|完整</b></td>
+    <td width="12%"><b>短信发送</b></td>
+    <td width="12%"><b>会员|更新时间</b></td>
+    <td width="9%"><b>状态|点击</b></td>
+    <td width="4%"><input name="checkSelect" type="checkbox" class="checkbox" onClick="javascript: checkAll(this)" value="checkbox"></td>
+</tr>
+<?php 
+echo $resumelist;
+?>
+<tr><td height="25" align="right" colspan="13">
+    <input type="hidden" name="members" value="">
+    <input type="hidden" name="usergroup" value="<?php echo $usergroup;?>">
+	<input type="hidden" name="openness" value="<?php echo $openness;?>">     
+    <input type="hidden" name="keyword" value="<?php echo $keyword;?>"> 
+    <input type="hidden" name="segment" value="<?php echo $segment;?>">
+    <input type="hidden" name="page" value="<?php echo $page;?>">
+    <?php if(aflags($admin_flags,1,1)){?>
+    <input name="button" type="button" class="inputs" onClick="confirmX(1);" value="简历审核"> 
+    <input name="button" type="button" class="inputs" onClick="confirmX(2);" value="撤销审核">
+    <input name="button" type="button" class="inputs" onClick="confirmX(4);" value="刷新简历">
+    <?php }
+    if(aflags($admin_flags,3,1)){?>
+    <input name="button" type="button" class="inputs" onClick="confirmX(3);" value="删  除">
+    <?php }?>
+</td></tr>
+<tr>
+<td height="25" align="center" colspan="13" class="tdpage"><?php echo $getpageinfo['pagecode'];?></td></tr>
+</form>
+</table>
+<script language="javascript">
+function confirmX(num)
+{
+	var ids = document.getElementsByName("member");
+	var check=false;
+	var allSel="";
+	var a=0;
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) 
+		{
+			var obj = ids[i];
+			if (obj.checked==true)
+			{
+				if(allSel==""){
+				allSel=obj.value;
+				}else{
+				allSel=allSel+","+obj.value;
+				}
+				document.form2.members.value = allSel;
+				check=true;
+				a+=1
+				
+			}
+		}
+		if(check==false){alert("请选择操作对象！");return false;}
+	}
+	if(num==1)
+	{
+		if(confirm("你确定要审核你所选择的简历吗？"))	
+		{
+			document.form2.action="person_resumelist.php?do=audit";
+			document.form2.submit();		
+		}
+	}
+	if(num==2)
+	{
+		if(confirm("你确定要撤销审核你所选择的简历吗？"))	
+		{
+			document.form2.action="person_resumelist.php?do=unaudit";
+			document.form2.submit();		
+		}
+	}
+	if(num==3)
+	{
+		if(confirm("警告:此操作将会删除该简历及于该简历相关的所有信息！\n是否继续操作？"))	
+		{
+			document.form2.action="person_resumelist.php?do=del";
+			document.form2.submit();		
+		}
+	}
+	if(num==4)
+	{
+		if(confirm("你确定要刷新你所选择的简历吗？"))	
+		{
+			document.form2.action="person_resumelist.php?do=refresh";
+			document.form2.submit();		
+		}
+	}
+	return false;	
+}
+function checkAll(box1) {
+    var ids = document.getElementsByName("member");
+	if (ids != null) {
+		for (i=0; i<ids.length; i++) {
+			var obj = ids[i];
+			obj.checked = box1.checked;
+		}
+	}
+}
+</script>
+<?php echo acopy();?>

@@ -1,0 +1,221 @@
+<?php
+echo ahead("会员资料管理");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/sms.js"></script>
+</head>
+<body>
+<table width="540" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+<form name="addform" id="addform" action="?do=savedata" method="post">
+  <tr>
+    <th height="25" class="tableHeaderText" colspan="4"> 会员资料管理<input type="hidden" name="id" value="<?php echo $m_id;?>"> </th>
+  </tr>
+  <tr>
+    <td colspan="4" align="left" class="style1"><strong> 　会员账户信息：</strong></td>
+  </tr>
+  <tr>
+    <td width="80" align="right">用户名：</td>
+    <td width="180"><?php echo $m_login;?>&nbsp;<?php if($m_flag==1) {echo "已审核";}else{echo "未审核";}?></td>
+    <td width="80" align="right">注册时间：</td>
+    <td width="200"><?php echo $m_regdate;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">登录时间：</td>
+    <td><?php echo $m_logindate;?>&nbsp;</td>
+    <td align="right">登录IP：</td>
+    <td><?php echo $m_loginip;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">登录次数：</td>
+    <td><?php echo $m_loginnum;?>次&nbsp;</td>
+    <td align="right">会员积分：</td>
+    <td><?php echo $m_integral;?>分&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">会员余额：</td>
+    <td><?php if(aflags($admin_flags,1,1)){?><a href="#" title="点击可进入设置帐户余额，可实现管理员后台充值！" onClick="if (confirm('确定要修改此帐户的余额吗？')) window.open ('user_pointmodi.php?id=<?php echo $m_id;?>','win_point','height=230,width=550,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')"><?php echo $m_balance;?></a><?php }else{echo $m_balance;}?>元&nbsp;</td>
+    <td align="right">会员服务：</td>
+    <td><?php if(aflags($admin_flags,1,1)){?><a href="#" title="点击可进入设置会员类型及会员服务时间！" onClick="if (confirm('确实要修改用户类型吗？')) window.open ('user_typemodi.php?id=<?php echo $m_id;?>&m_typeid=<?php echo $m_typeid;?>','window_typemodi','height=260,width=550,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no') "><?php echo $g_name;?></a><?php }else{echo $g_name;}?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">服务开始：</td>
+    <td><?php echo $m_startdate;?>&nbsp;</td>
+    <td align="right">服务结束：</td>
+    <td><?php echo $m_enddate;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="4" align="left" class="style1"><strong> 　会员基本资料：</strong></td>
+  </tr>
+  <?php if($m_typeid!=1){?><tr>
+    <td align="right">公司名称：</td>
+    <td colspan="3"><?php echo $m_name;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">营业执照：</td>
+    <td colspan="3"><?php echo $m_licence;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">所属行业：</td>
+    <td><?php echo $m_trade;?>&nbsp;</td>
+    <td align="right">所在地区：</td>
+    <td><?php echo $m_seat;?></td>
+  </tr>
+  <tr>
+    <td align="right">公司性质：</td>
+    <td><?php echo $m_ecoclass;?>&nbsp;</td>
+    <td align="right">成立日期：</td>
+    <td><?php echo $m_founddate;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">注册资金：</td>
+    <td><?php echo $m_fund;?>万元&nbsp;</td>
+    <td align="right">员工人数：</td>
+    <td><?php echo $m_workers;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">公司简介：</td>
+    <td colspan="3" style="white-space:normal;word-break:break-all; overflow:hidden"><?php echo $m_introduce;?></td>
+  </tr>
+  <?php }else{?>
+  <tr>
+    <td align="right">真实姓名：</td>
+    <td><?php echo $m_name;?>&nbsp;</td>
+    <td align="right">性别：</td>
+    <td><?php echo hiresex($m_sex);?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">出生日期：</td>
+    <td><?php echo $m_birth;?>&nbsp;</td>
+    <td align="right">学历：</td>
+    <td><?php echo hireedu($m_edu);?></td>
+  </tr>
+  <tr>
+    <td align="right">证件类型：</td>
+    <td><?php echo hirecardtype($m_cardtype);?>&nbsp;</td>
+    <td align="right">证件号码：</td>
+    <td><?php echo $m_idcard;?></td>
+  </tr>
+  <tr>
+    <td align="right">户口所在地：</td>
+    <td><?php echo $m_hukou;?>&nbsp;</td>
+    <td align="right">现所在地：</td>
+    <td><?php echo $m_seat;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">婚姻状况：</td>
+    <td><?php echo $m_marriage;?>&nbsp;</td>
+    <td align="right">政治面貌：</td>
+    <td><?php echo $m_polity;?>&nbsp;</td>
+  </tr>
+  <?php }?>
+  <tr>
+    <td colspan="4" align="left" class="style1"><strong> 　会员联系方式：</strong></td>
+  </tr>
+  <tr>
+    <td align="right">通讯地址：</td>
+    <td colspan="3"><?php echo $m_address;?>(<?php echo $m_post;?>)</td>
+  </tr>
+  <tr>
+    <td align="right">联系电话：</td>
+    <td><?php echo $m_tel;?>&nbsp;</td>
+    <td align="right">手机号码：</td>
+    <td><?php if($m_mobile!='') echo "<a onClick=\"sendsms('$m_login',2,'$m_mobile','$m_name','$cfg[siteurl]$cfg[path]');\" style=\"cursor:pointer\"><span id=\"s_$m_login\">$m_mobile 发短信</span></a>";?>&nbsp;</td>
+  </tr>
+  <?php if($m_typeid!=1){?>
+  <tr>
+    <td align="right">联系人：</td>
+    <td><?php echo $m_contact;?>&nbsp;</td>
+    <td align="right">传真号码：</td>
+    <td><?php echo $m_fax;?>&nbsp;</td>
+  </tr>
+  <?php }?> 
+  <tr>
+    <td align="right">电子邮件：</td>
+    <td><?php echo $m_email;?>&nbsp;</td>
+    <td align="right">QQ号码：</td>
+    <td><?php echo $m_chat;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">网站地址：</td>
+    <td colspan="3"><?php echo $m_url;?>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="4" align="left" class="style1"><strong> 　会员服务统计：</strong>（剩余可用/已用总计）</td>
+  </tr>
+<?php if($m_typeid==1){?>
+  <tr>
+    <td align="right">职位收藏：</td>
+    <td><?php echo $m_myfavoritenum.'/'.$m_myfavoritenums;?></td>
+    <td align="right">申请职位：</td>
+    <td><?php echo $m_mysendnum.'/'.$m_mysendnums;?></td>
+  </tr>
+  <tr>
+    <td align="right">创建简历：</td>
+    <td><?php echo $m_resumenums;?></td>
+    <td align="right">求职信：</td>
+    <td><?php echo $m_letternums;?></td>
+  </tr>
+  <tr>
+    <td align="right">联系方式：</td>
+    <td><?php echo $m_contactnum.'/'.$m_contactnums;?></td>
+    <td align="right">短信：</td>
+    <td><?php echo $m_smsnum.'/'.$m_smsnums;?></td>
+  </tr>
+<?php }elseif($m_typeid==2){?>
+  <tr>
+    <td align="right">职位库：</td>
+    <td><?php echo $m_hirenum.'/'.$m_hirenums;?></td>
+    <td align="right">人才库：</td>
+    <td><?php echo $m_expertnum.'/'.$m_expertnums;?></td>
+  </tr>
+  <tr>
+    <td align="right">下载简历：</td>
+    <td><?php echo $m_contactnum.'/'.$m_contactnums;?></td>
+    <td align="right">邀请面试：</td>
+    <td><?php echo $m_myinterviewnum.'/'.$m_myinterviewnums;?></td>
+  </tr>
+  <tr>
+    <td align="right">回收站：</td>
+    <td><?php echo $m_recyclenum.'/'.$m_recyclenums;?></td>
+    <td align="right">短信：</td>
+    <td><?php echo $m_smsnum.'/'.$m_smsnums;?></td>
+  </tr>
+<?php }elseif($m_typeid==3){?>
+
+<?php }elseif($m_typeid==4){?>
+
+
+<?php }?> 
+  
+  
+  
+  
+  
+<?php if(aflags($admin_flags,1,1)){?>  
+ <tr>
+    <td align="right"><strong>常规操作</strong>：</td>
+    <td colspan="3" align="left"><select name="logoflag" size="1" id="logoflag">
+      <option value="" selected>LOGO审核</option>
+      <option value="1" <?php if($m_logoflag==1) echo" selected";?>>LOGO已审</option>
+      <option value="0" <?php if($m_logoflag==0) echo" selected";?>>LOGO待审</option>
+    </select>
+      <select name="flag" size="1" id="flag">
+        <option value="" selected>会员审核</option>
+        <option value="1"<?php if($m_flag==1) echo" selected";?>>会员已审</option>
+        <option value="0"<?php if($m_flag==0) echo" selected";?>>会员待审</option>
+      </select>
+      <input type="submit" name="Submit2" style="cursor:hand" value="保存设置" class="inputs" /></td>
+    </tr>
+    <?php }?>
+  <tr>
+    <td colspan="4" align="center"><input type="button" name="Submit" style="cursor:hand" value="打印" class="inputs" onClick="window.print();" />
+    <input name="Submit3" type="button" class="inputs" id="Submit3" style="cursor:hand" onClick="javascript:window.close();" value="关 闭" /></td>
+  </tr>
+  </form>
+</table>
+<script language="javascript">
+function chkreload() {
+    window.location.reload();
+}
+</script>
+<?php echo acopy();?>

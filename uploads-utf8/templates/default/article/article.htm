@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<title>{$n_title}-{$s_name}-{$FR_网站标题}</title>
+<meta name="keywords" content="{$n_keywords}" />
+<meta name="description" content="{$n_description}" />
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<Script type="text/javascript">
+window.onload=function()
+{ 
+	//fResizeImg(500,500, 'ArticleCnt'); 
+	//fResizeImg(500, 500); 
+	//更新点击次数
+	newshits({$newsid}, 'article'); 
+}
+function newshits(newsid,typename)
+{var xmlhttp;
+try{xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");}
+catch (e){
+try{xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
+catch (e){ 
+try{xmlhttp=new XMLHttpRequest();}
+catch (e){
+}
+}
+}
+if (newsid==""){
+msg="0";
+var ch=document.getElementById("hits");
+ch.innerHTML="<font color='#ff0000'>"+msg+"</font>"; 
+return false;
+}
+//创建请求，并使用escape对email编码，以避免乱码
+xmlhttp.open("get","{$FR_系统目录}inc/hits.php?do="+escape(typename)+ "&id="+escape(newsid)+ "&t=" + new Date().getTime());
+xmlhttp.onreadystatechange=function()
+{if(4==xmlhttp.readyState)
+{if(200==xmlhttp.status)
+{msg=xmlhttp.responseText;}else{msg="0";}
+var ch=document.getElementById("hits");
+ch.innerHTML="<font color='#ff0000'>"+msg+"</font>"; 
+}
+}
+xmlhttp.send(null); 
+return false;
+} 
+function T(n)
+{
+     document.getElementById("ArticleCnt").style.fontSize=n+"px";
+}
+</Script>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh">{getarticletype($cid,0)}</div>
+</div>
+<div class="container">
+	<div class="news_left">
+		<div class="newshmain">
+			<div class="tit"><span></span>推荐文章</div>
+			<div class="con">{$FR_推荐文章}</div>
+		</div>
+		<div class="newshmain">
+			<div class="tit"><span></span>最新文章</div>
+			<div class="con">{$FR_最新文章}</div>
+		</div>
+		<div class="newshmain">
+			<div class="tit"><span></span>热点文章</div>
+			<div class="con">{$FR_热点文章}</div>
+		</div>
+	</div>
+	<div class="news_right">
+		<div class="newscon">
+			<h2>{$n_title}</h2>
+			<ul>
+				<li style="width:100%; text-align:center; padding:2px 0;">作者:{$n_author}  更新时间:{$n_addtime}  来源:{$n_from}</li>
+				<li style="width:100%; text-align:center; padding:2px 0;">【字号: <a href="javascript:T(16);">大</a> <a href="javascript:T(14);">中</a> <a href="javascript:T(12);">小</a>】  本条信息浏览人次共有<strong><span id='hits'>{$n_hits}</span></strong>次<!--{if $cfg['comment']=='1'}-->  【<a href="#pl">我要评论</a>】<!--{/if}-->  【<a href="javascript: window.print();">我要打印</a>】</li>
+			</ul>
+			{$n_overview}
+			<div id="ArticleCnt" class="cons">{$n_content}</div>
+			<div>
+				<li style="width:100%; text-align:center; font-weight:bold">{$n_keywordslist}</li>
+			</div>
+            <div class="news_sm ">
+              <span class="yellowbold">{$FR_网站名称}版权与免责声明：</span><br/>
+              1、本网转载其他媒体，目的在于传递信息，并不代表赞同其观点和对其真实性负责，本网不承担此类稿件侵权行为的连带责任。<br/>
+              2、如本网所转载稿件涉及版权等问题，请著作权或版权拥有机构致电或来函与本网联系，本网将在第一时间处理妥当。如有侵犯您的名誉权或其他权利，亦请及时通知本网。本网在审慎确认后，将即刻予以删除。<br/>
+              3、本网原创文章未经本网允许,私自转载者本网保留追究其版权责任的权利,转载请注明来源{$FR_网站名称}{$FR_网站网址}。<br/>
+            </div>
+            <div class="clear"></div>
+            <DIV class="news_wangzhai"><SCRIPT language=javascript src="{$FR_系统目录}js/wangzhai.js"></SCRIPT></DIV>
+			<ul>
+				<li style="width:100%; text-align:right;">编辑:{$n_editor}【<a href="javascript:window.close()">关闭窗口</a>】</li>
+			</ul>
+			<li style="width:40%; float:left; text-align:left; padding:6px 0 4px 20px;">上一篇:{showhead($n_sid,$newsid)}</li>
+			<li style="width:50%; float:left; text-align:left; padding:6px 0 4px 0;">下一篇: {shownext($n_sid,$newsid)}</li>
+		</div>
+        <!--{if $cfg['comment']=='1'}-->
+        <div  class="newsmain" style="margin-top:10px;">
+			<div class="tit"><span><!--<a href="{$FR_系统目录}comment/newscomment.php?newsid={$newsid}" target="_blank">查看全部评论</a>--></span><a name="pl" id="pl"></a>发表评论</div>
+			<div class="con">
+            <script type="text/javascript" src="{$FR_系统目录}comment/newscommentjs.php?newsid={$newsid}"></script>
+            <script language="javascript" type="text/javascript">
+			function fnRemoveBrank(strSource)
+			{
+			 return strSource.replace(/^\s*/,'').replace(/\s*$/,'');
+			}
+			 String.prototype.lenB=function()
+			{
+			return this.replace(/[^\x00-\xff]/g,"**").length;
+			}
+			function checkComment(thisform)  {
+				<?php if(!$user_login){  ?>
+			if(thisform.anonymous.checked){}
+			else{
+			if(fnRemoveBrank(thisform.pjrname.value)==""){
+				alert("请输入登录名，谢谢！");
+				thisform.pjrname.focus();
+				return false;
+			}
+			if(fnRemoveBrank(thisform.pjrpass.value)==""){
+				alert("请输入密码，谢谢！");
+				thisform.pjrpass.focus();
+				return false;
+			}
+			}
+			<?php } ?>
+			if(fnRemoveBrank(thisform.pj_content.value)=="") {
+				alert("请输入评论内容，控制在2000个字符之内，谢谢！");
+				thisform.pj_content.focus();
+				return false;
+			}
+			if ((thisform.pj_content.value).lenB()>=2000){
+				 alert("评论内容太长了，要求不多于2000个字符!");
+				thisform.pj_content.focus();
+				return (false);
+			} 
+			}
+			//-->
+			</script>
+			<form name="form1" action="{$FR_系统目录}comment/newscommentok.php" method="post" onsubmit="return checkComment(this)" target="_blank">
+			<li><input name="newsid" type="hidden" value="{$newsid}" /> 
+            <input name="n_title" type="hidden" value="{$n_title}" /> 
+            <?php if(!$user_login){  ?>
+            登录名：<input size="15" name="pjrname" style=" width:120px; height:16px;border:1px #CCCCCC solid;"  /> 
+            密  码：<input type="password" size="15" value="" name="pjrpass" style=" width:120px; height:16px;border:1px #CCCCCC solid;" /> 
+             <input type="checkbox" checked="checked" value="1" name="anonymous" /> 匿名发表(无需登录)
+            
+            <?php }else{  ?>
+            用户名：{$user_login}
+             <input type="checkbox" checked="checked" value="1" name="anonymous" /> 匿名发表
+            <?php } ?>
+           
+            </li>
+			<li><textarea name='pj_content' style='width:400px; height:60px; border:1px #CCCCCC solid; '></textarea></li>
+			<li><input name="Submit" type="submit" class="inputs" value=" 提 交 " /> <input name="Submit2" type="reset" class="inputs" value=" 重 置 " /></li>
+			</form>
+			<li><strong>发表评论须知：</strong></li>
+			<li>一、所发文章必须遵守《互联网电子公告服务管理规定》；</li>
+			<li>二、严禁发布供求代理信息、公司介绍、产品信息等广告宣传信息；</li>
+			<li>三、严禁恶意重复发帖；</li>
+			<li>四、严禁对个人、实体、民族、国家等进行漫骂、污蔑、诽谤。</li>
+			</div>
+		</div>
+        <!--{/if}-->
+        <div class="newsmain" style="margin-top:10px;">
+			<div class="tit"><span></span>图片资讯</div>
+			<div class="con">
+				<div class="newspic">{$FR_栏目图片资讯}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

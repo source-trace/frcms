@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="keywords" content="{$m_name}招聘，企业形象，活动图片" />
+<meta name="description" content="{$m_name}企业形象，{$c_description}" />
+<title>{$m_name}企业形象展示-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+</head>
+<script language="javascript">
+window.onload=function()
+{ 
+	fResizeImg(600,600, 'compic');  
+}
+function fResizeImg(w, h, id){     
+var img='';     
+var obj;     
+if(id==undefined)obj=document.images;     
+else obj=document.getElementById(id).getElementsByTagName('img');     
+	 
+for(var i=0; i<obj.length; i++){     
+	img=obj[i];     
+	if(img.width>w&&(img.height<img.width)){     
+		img.height=img.height-(img.height/(img.width/(img.width-w)))     
+		img.width=w;     
+	}else if(img.height>h&&(img.height>img.width)){     
+		img.width=img.width-(img.width/(img.height/(img.height-h)))     
+		img.height=h;     
+	}     
+		 
+	img.onclick=function(){     
+		try{ imgPopup.close();} catch(e){}     
+		imgPopup=open('#', 'imgurl', 'width=500, height=500, left='+(screen.availWidth-500)/2+     
+		', top='+(screen.availHeight-500)/2)     
+		imgPopup.document.write('<script>document.onclick=function(){ close();} /* 单击关闭窗口 */ <\/script>');     
+			 
+		imgPopup.document.write('<img src="'+this.src+'"/>'+     
+			'<script>'+     
+				'var w, h;'+     
+				'var img=document.images[0];'+     
+				'if(navigator.appName=="Opera"){w=img.width+10; h=img.height+40} else {w=img.width+10; h=img.height+25};'+     
+				'self.resizeTo(w, h);'+     
+				'self.moveTo((screen.availWidth-img.width)/2,(screen.availHeight-img.height)/2)'+     
+			'<\/script>'+     
+			'<style>body{margin:0; padding:0;} .hd{visibility:hidden;}<\/style>');     
+		imgPopup.document.write('<p class="hd">ok</p>');     
+		imgPopup.document.close();     
+		imgPopup.focus();     
+	}     
+}  
+}     
+</script>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> <a href="{$FR_系统目录}company/">企业招聘</a> >> {$m_name}形象展示</div>
+</div>
+<div class="container">
+	<div class="coms_left">
+		<div class="coms_infos">
+			<div class="tit"><span></span>{$m_name}</div>
+			<div class="con"><li><b>所属行业：</b>{$m_trade}</li>
+				<li><b>所在地区：</b>{$m_seat}</li>
+				<li><b>公司性质：</b>{$m_ecoclass}</li>
+				<li><b>成立日期：</b>{$m_founddate}</li>
+				<li><b>注册资金：</b>{$m_fund}万元</li>
+				<li><b>公司规模：</b>{$m_workers}</li>
+                <li class="comrzfw">{$g_name}</li>
+                <li class="comrzzz">{$m_confirm}</li>
+             </div>
+		</div>
+        <div class="coms_jobs">
+			<div class="tit"><span></span>招聘职位</div>
+			<div class="con">{getcomhirelist($m_id,0)}</div>
+		</div>
+	</div>
+	<div class="coms_right">
+		<div class="coms_intro" style="margin-top:0">
+			<div class="tit"><span><a href="{$FR_系统目录}company/hires.php?comid={$m_id}" target=_blank>查看招聘职位</a></span>公司简介</div>
+			<div class="con"><div class="comlogo"><img src="{$m_logo}" height="120" width="160" /></div>{$m_introduce}</div>
+		</div>
+        <div class="coms_intro">
+			<div class="tit"><span><a href="{$FR_系统目录}company/hires.php?comid={$m_id}" target=_blank>返回招聘页面</a></span>{$m_name} 企业形象展示</div>
+			<div class="con">
+                {if $pic!=''}
+                <div class="compic" id="compic"><li style="text-align:center"><img src="{$pic}" width="700" /></li>
+                    <li>图片名称：{$p_name}</li>
+                    <li>图片描述：{$p_info}</li>
+                </div>
+                <div class="back">【<a href="{$FR_系统目录}company/company.php?comid={$m_id}">返回企业招聘主页</a>】【<a href="{$FR_系统目录}company/hires.php?comid={$m_id}">返回职位列表页</a>】【<a href="{$FR_系统目录}company/pic.php?comid={$m_id}">返回形象展示列表页</a>】</div>
+                {else}
+                    <div>{getmemberpic($m_login,0,100,12,140,108)}</div>
+                    <div class="back">【<a href="{$FR_系统目录}company/company.php?comid={$m_id}">返回企业招聘主页</a>】【<a href="{$FR_系统目录}company/hires.php?comid={$m_id}">返回职位列表页</a>】</div>
+                {/if}
+            </div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<?php
+echo ahead("设置会员收费类型");
+?>
+<script language="javascript" src="inc/admin.js"></script>
+<script language="javascript" src="../js/calendar.js"></script>
+<script language="JavaScript">
+<!--
+function IsDate(DateString , Dilimeter) 
+{ 
+if (DateString==null) return false; 
+if (Dilimeter=='' || Dilimeter==null) 
+Dilimeter = '-'; 
+var tempy=''; 
+var tempm=''; 
+var tempd=''; 
+var tempArray; 
+if (DateString.length<8 && DateString.length>10) 
+return false;  
+tempArray = DateString.split(Dilimeter); 
+if (tempArray.length!=3) 
+return false; 
+if (tempArray[0].length==4) 
+{ 
+tempy = tempArray[0]; 
+tempd = tempArray[2]; 
+} 
+else 
+{ 
+tempy = tempArray[2]; 
+tempd = tempArray[1]; 
+} 
+tempm = tempArray[1]; 
+var tDateString = tempy + '/'+tempm + '/'+tempd+' 8:0:0';//加八小时是因为我们处于东八区 
+var tempDate = new Date(tDateString); 
+if (isNaN(tempDate)) 
+return false; 
+if (((tempDate.getUTCFullYear()).toString()==tempy) && (tempDate.getMonth()==parseInt(tempm)-1) && (tempDate.getDate()==parseInt(tempd))) 
+{ 
+return true; 
+} 
+else 
+{ 
+return false; 
+} 
+} 
+function Juge(theForm)
+{
+  if (!IsDate(theForm.startdate.value == ""))
+  {
+    alert("请正确填写开始时间!");
+    theForm.startdate.focus();
+    return (false);
+  }
+  if (!IsDate(theForm.enddate.value == ""))
+  {
+    alert("请正确填写结束时间!");
+    theForm.enddate.focus();
+    return (false);
+  }
+}
+function changetype(enddate,outlay){
+var today;
+today=new Date(); 
+month=today.getMonth();
+year=today.getYear();
+day=today.getDate(); 
+document.form1.startdate.value=year+'-'+(month+1)+'-'+day;
+document.form1.enddate.value=enddate;
+document.form1.prices2.value=outlay;
+}
+function show1()
+{
+	ispay.style.display="";
+}
+function show2()
+{
+	ispay.style.display="none";
+}
+function showuflag(str)
+{
+	if (str==0){uflag.style.display="none";}
+	else{uflag.style.display="";}
+	
+}
+-->
+</script>
+</head>
+<body>
+ <table width="100%" border="0" cellpadding="2" cellspacing="1"  align="center"  class="tableBorder">
+    <tr>
+      <th height=25 colspan="4"> 修改会员账户付费类型</th>
+    </tr>
+    <form name="form1" method="post" action="user_typemodi.php?do=savedata">
+      <tr>
+        <td height=25 colspan=5 align=left><font color=#333333>（注：带</font><font color=#ff6600>＊</font><font color=#b00000><font color=#333333>号为必填项）</font></font> </td>
+      </tr>
+      <tr>
+        <td width="120" height="25" align="right">会员帐号：</td>
+        <td width="150"><input name="m_login" type="text" id="m_login" size="15" maxlength="50" value="<?php echo $m_login;?>" disabled>
+        <input name="member" type="hidden" id="member" value="<?php echo $m_login;?>"></td>
+        <td width="120" align="right">会员名称：</td>
+        <td><input name="name" type="text" id="name" size="30" maxlength="50" value="<?php echo $m_name;?>" disabled></td>
+      </tr>
+      <tr>
+        <td height="25" align="right">服务类型：</td>
+        <td colspan="3"><?php echo agetgroup($m_typeid,3,$m_groupid);?></td>
+      </tr>
+      <tr>
+        <td height="25" align="right">帐户时限：</td>
+        <td colspan="3">从
+			<input name="startdate" type="text" size="10" id="startdate" value="<?php echo $m_startdate;?>" onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)" > &nbsp;&nbsp; 至    
+        &nbsp;<input name="enddate" type="text" size="10" id="enddate" value="<?php echo $m_enddate;?>" onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)">		</td>
+      </tr>
+      <tr>
+        <td height="25" align="right">是否扣费：</td>
+        <td colspan="3">
+          <input name="free" type="radio" class="checkbox" onClick="show1()" value="1">
+            是
+            <input name="free" type="radio" class="checkbox" onClick="show2()" value="0" checked>
+        否（此操作是否扣费）当前余额：<font color="#FF0000"><?php echo $m_balance;?></font>元</td>
+      </tr>
+      <tr id="ispay" style="display:none">
+        <td height="25" align="right">扣费金额：</td>
+        <td colspan="3"><input name="prices2" type="text" id="prices2" value="0" size="8" maxlength="10">
+          元</td>
+      </tr>
+      <tr>
+        <td height="25" align="right">重置权限：</td>
+        <td colspan="3"><input type="radio" name="user_flag" onClick="showuflag(0)" value="0" class="checkbox" />不重置<input type="radio" name="user_flag" onclick="showuflag(0)" value="1" class="checkbox" checked="checked" />重置
+          <input type="radio" name="user_flag" value="2" onClick="showuflag(0)" class="checkbox">累加
+          <input type="radio" name="user_flag" value="3" onClick="showuflag(1)" class="checkbox">自定义
+          <span class="f00">(重置会员各项权限)</span></td>
+      </tr>
+      <?php if($m_typeid==1){?>
+      <tr id="uflag" style="display:none">
+        <td height="25" align="right">权限设置：</td>
+        <td colspan="3"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td>职位收藏
+              <input name="uflag1" type="text" id="uflag1" value="<?php echo $m_myfavoritenum;?>" size="2" maxlength="10"></td>
+            <td>接收通知
+              <input name="uflag2" type="text" id="uflag2" value="<?php echo $m_myinterviewnum;?>" size="2" maxlength="10"></td>
+            <td>在线申请
+              <input name="uflag3" type="text" id="uflag3" value="<?php echo $m_mysendnum;?>" size="2" maxlength="10"></td>
+              <td>查看联系方式
+              <input name="uflag4" type="text" id="uflag4" value="<?php echo $m_contactnum;?>" size="2" maxlength="10"></td>
+            <td>短信数
+              <input name="uflag5" type="text" id="uflag5" value="<?php echo $m_smsnum;?>" size="2" maxlength="10"></td>
+          </tr>
+        </table></td>
+      </tr>
+      <?php }else{?>
+      <tr id="uflag" style="display:none">
+        <td height="25" align="right">权限设置：</td>
+        <td colspan="3"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td>职位库
+              <input name="uflag1" type="text" id="uflag1" value="<?php echo $m_hirenum;?>" size="2" maxlength="10"></td>
+            <td>人才库
+              <input name="uflag2" type="text" id="uflag2" value="<?php echo $m_expertnum;?>" size="2" maxlength="10"></td>
+            <td>面试通知
+              <input name="uflag3" type="text" id="uflag3" value="<?php echo $m_myinterviewnum;?>" size="2" maxlength="10"></td>
+            <td>回收站
+              <input name="uflag4" type="text" id="uflag4" value="<?php echo $m_recyclenum;?>" size="2" maxlength="10"></td>
+            <td>查看简历
+              <input name="uflag5" type="text" id="uflag5" value="<?php echo $m_contactnum;?>" size="2" maxlength="10"></td>
+            <td>短信数
+              <input name="uflag6" type="text" id="uflag6" value="<?php echo $m_smsnum;?>" size="2" maxlength="10"></td>
+          </tr>
+        </table></td>
+      </tr>
+      <?php }?>
+      <tr>
+        <td height="25" colspan="5"><input type="hidden" name="id" value="<?php echo $id;?>"><input type="hidden" name="typeid" value="<?php echo $m_typeid;?>"><div align="center">
+            <input name="Submit" type="submit" class="inputs" value="提 交">
+          &nbsp;
+          <input name="Submit2" type="reset" class="inputs" value="重 置">
+           &nbsp;
+           <input name="Submit22" type="button" class="inputs" style="cursor:hand" onClick="javascript:window.close();" value="关 闭">
+        </div></td>
+      </tr>
+    </form>
+  </table>
+<?php echo acopy();?>

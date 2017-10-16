@@ -1,0 +1,174 @@
+<?php
+echo ahead("投票管理");
+?>
+<script type="text/javascript" src="../js/calendar.js"></script>
+<script language="javascript" type="text/javascript">
+function show(id){
+	if(document.all(id).style.display=='none'){document.all(id).style.display='block';}
+	else{document.all(id).style.display='none';}
+}
+function setid(){
+	str='<br>';
+	if(!window.addform.votecount.value)
+		window.addform.votecount.value=1;
+		for(i=1;i<=window.addform.votecount.value;i++)
+		str+='&nbsp;<input type="text" name="titles[]" value="选项'+i+'" size="40"> 结果图形颜色:<select name="color[]"><option style="background-color:red;color:red" value="red" selected>默认</option><option style="background-color:#000000;color:#000000" value="#000000">黑色</option><option style="background-color:#0088FF;color:#0088FF" value="#0088FF">海蓝</option><option style="background-color:#0000FF;color:#0000FF" value="#0000FF">亮蓝</option><option style="background-color:#000088;color:#000088" value="#000088">深蓝</option><option style="background-color:#888800;color:#888800" value="#888800">黄绿</option><option style="background-color:#008888;color:#008888" value="#008888">蓝绿</option><option style="background-color:#008800;color:#008800" value="#008800">橄榄</option><option style="background-color:#8888FF;color:#8888FF" value="#8888FF">淡紫</option><option style="background-color:#AA00CC;color:#AA00CC" value="#AA00CC">紫色</option><option style="background-color:#8800FF;color:#8800FF" value="#8800FF">蓝紫</option><option style="background-color:#888888;color:#888888" value="#888888">灰色</option><option style="background-color:#CCAA00;color:#CCAA00" value="#CCAA00">土黄</option><option style="background-color:#FF8800;color:#FF8800" value="#FF8800">金黄</option><option style="background-color:#CC3366;color:#CC3366" value="#CC3366">暗红</option><option style="background-color:#FF00FF;color:#FF00FF" value="#FF00FF">紫红</option><option style="background-color:#3366CC;color:#3366CC" value="#3366CC">蓝黑</option></select><br><br>';
+		window.upid.innerHTML=str;
+}
+</script>
+
+</head>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">调查投票管理</th>
+  </tr>
+  <tr>
+  <td height=25 class="pl20"><b>管理选项：</b><a href="?">投票项目管理</a> | <?php if(aflags($admin_flags,0,1)){?><a href="?do=add">添加投票项目</a> | <?php }?>[<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+</table>
+<?php
+if($do=="add"||$do=="edit"){
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder">
+<form name="addform" action="?do=savedata&vid=<?php echo $vid;?>" method="post">
+<tr>
+    <th colspan=2 height=25><?php if($vid!=''){echo '修改';}else{echo '添加';}?>投票项目</th>
+</tr>
+<tr>
+  <td width="80" height="25" align="right">项目标题：</td>
+  <td><input name="title" type="text" size="40" value="<?php echo $title;?>" class="txt"></td>
+</tr>
+<tr>
+  <td height="25" align="right">投票方式：</td>
+  <td><input name="style" type="radio" class="checkbox" value="radio" checked>
+      单选
+      <input name="style" type="radio" class="checkbox" value="checkbox" <?php if($style=="checkbox") echo "checked";?>>
+      多选</td>
+</tr>
+<tr>
+  <td height="25" align="right">投票状态：</td>
+  <td><input name="ing" type="radio" class="checkbox" value="1" checked>
+      开&nbsp;&nbsp;
+      <input name="ing" type="radio" class="checkbox" value="0" <?php if($ing=="0") echo "checked";?>>
+      关</td>
+</tr>
+<tr>
+  <td height="25" align="right">投票时间：</td>
+  <td>&nbsp;开始于 <input onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)" size=10  readonly="" name="start" id="start" value="<?php echo $start;?>"/> 结束于 <input onClick="ShowCalendar(this.id)" onFocus="ShowCalendar(this.id)" size=10  readonly="" name="end" id="end" value="<?php echo $end;?>"/></td>
+</tr>
+<?php if($do=="add"){?><tr>
+  <td height="25" align="right">选项个数：</td>
+  <td>&nbsp;<input type="text" name="votecount" size="4" class="tx" onBlur="setid();" value="4" class="txt">
+</td>
+</tr>
+<tr align="center" valign="middle"> 
+    <td height="122" align="right" valign="top"><br>
+    选项名称：</td>
+  <td align="left" id="upid" height="122"><input type="text" name="titles[]" size="20" class="txt"></td>      
+</tr>
+<?php }?>
+<?php if($do=="edit"){?>
+<tr align="center" valign="middle">
+  <td height="122" align="right" valign="top">选项名称&nbsp; </td>
+  <td align="left" id="upids" height="122">
+<?php
+$i=0;
+foreach($rsdb as $key=>$rs){
+?>
+  <br><INPUT TYPE="hidden" name="vids[]" value="<?php echo $rs["v_id"];?>"><input type="text" name="titless[]" value="<?php echo $rs["v_title"];?>" size="40"> 图形颜色:<select name="colors[]"><option style="background-color:<?php echo $rs["v_color"];?>;color:<?php echo $rs["v_color"];?>" value="<?php echo $rs["v_color"];?>" selected>默认</option><option style="background-color:#000000;color:#000000" value="#000000">黑色</option><option style="background-color:#0088FF;color:#0088FF" value="#0088FF">海蓝</option><option style="background-color:#0000FF;color:#0000FF" value="#0000FF">亮蓝</option><option style="background-color:#000088;color:#000088" value="#000088">深蓝</option><option style="background-color:#888800;color:#888800" value="#888800">黄绿</option><option style="background-color:#008888;color:#008888" value="#008888">蓝绿</option><option style="background-color:#008800;color:#008800" value="#008800">橄榄</option><option style="background-color:#8888FF;color:#8888FF" value="#8888FF">淡紫</option><option style="background-color:#AA00CC;color:#AA00CC" value="#AA00CC">紫色</option><option style="background-color:#8800FF;color:#8800FF" value="#8800FF">蓝紫</option><option style="background-color:#888888;color:#888888" value="#888888">灰色</option><option style="background-color:#CCAA00;color:#CCAA00" value="#CCAA00">土黄</option><option style="background-color:#FF8800;color:#FF8800" value="#FF8800">金黄</option><option style="background-color:#CC3366;color:#CC3366" value="#CC3366">暗红</option><option style="background-color:#FF00FF;color:#FF00FF" value="#FF00FF">紫红</option><option style="background-color:#3366CC;color:#3366CC" value="#3366CC">蓝黑</option></select><br>
+  <?php
+}
+?>
+  <br>
+  </td>
+</tr>
+<tr>
+  <td height="25" align="right">选项个数：</td>
+  <td>&nbsp;<input type="text" name="votecount" size="4" onBlur="setid();" value="0" class="txt">
+</td>
+</tr>
+<tr align="center" valign="middle"> 
+    <td height="122" align="right" valign="top">选项名称：</td>
+  <td align="left" id="upid" height="122"></td>      
+</tr>
+<?php }?>
+<tr><td height="25" align="center" colspan="2"><input name="submit" type="submit" class="inputs" value=" 添 加 "></td></tr>
+</form>
+</table>
+<script language="javascript">
+setid();
+</script>
+<?php
+}else{
+?>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=8 height=25>投票项目列表</th>
+</tr>
+<tr align="center"> 
+    <td width="60" height="22">调用代码</td>
+    <td>投票主题</td> 
+    <td width="100">显示投票结果</td>
+    <td width="100">开始时间</td>
+    <td width="100">结束时间</td>
+    <td width="80">投票方式</td>
+    <td width="80">是否投票中</td>
+    <td width="80">操作</td>
+</tr>
+<?php
+$i=0;
+foreach($rsdb as $key=>$rs){
+?>
+<tr align="center"> 
+    <td height=25 onClick=show("daima<?php echo $i;?>") style="cursor:pointer;" title="查看代码">查看</td>
+    <td onClick=show("<?php echo $rs["v_id"];?>") style="cursor:pointer;" align="left" title="查看该投票的选项内容及投票结果"><?php echo $rs["v_title"];?></td>
+    <td onClick=show("<?php echo $rs["v_id"];?>") style="cursor:pointer;" title="显示该投票项内容及投票结果">点击查看</td>
+    <td><?php echo $rs["v_start"];?></td>
+    <td><?php echo $rs["v_end"];?></td>
+    <td><?php if($rs["v_style"]=="radio"){echo "单选投票";}else{echo "多选投票";}?></td>
+    <td><?php if($rs["v_ing"]==1){echo "投票进行中";}else{echo "投票关闭";}?></td>
+    <td><?php if(aflags($admin_flags,2,1)){?><a href="?do=edit&vid=<?php echo $rs["v_id"];?>"><img src="images/white_edit.png" alt="修改该投票项目信息" width="16" height="16" border="0" align="absmiddle"></a> 
+    <?php
+    }
+    if(aflags($admin_flags,3,1)){?><a href="?do=del&vid=<?php echo $rs["v_id"];?>"><img src="images/white_delete.png" alt="删除" width="16" height="16" border="0" align="absmiddle"></a><?php }?>&nbsp;</td>
+</tr>
+<tr style="display:none;" id="<?php echo $rs["v_id"];?>">
+  <td height="25" align="center">选项</td>
+  <td colspan="7" align="left">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+<?php
+$totalcount=0;
+foreach($rsrows[$i] as $keys=>$rss){
+$totalcount=$totalcount+$rss["v_count"];
+}
+$t=0;
+foreach($rsrows[$i] as $keys=>$rss){
+$t++;
+?>
+  <tr align="center">
+    <td width="220" align="left"><?php echo $t."：".$rss["v_title"];?></td>
+	<td align="left"><hr width="<?php if($rss["v_count"]!=0){echo round($rss["v_count"]*300/$totalcount);}else{echo $rss["v_count"];}?>" color="<?php echo $rss["v_color"];?>" style="height:10px;" /></td>
+    <td width="167" align="left">票数:<span class="f00"><?php echo $rss["v_count"];?></span> 票(<?php if($rss["v_count"]!=0){echo round($rss["v_count"]*100/$totalcount,2);}else{echo $rss["v_count"];}?>%)</td>
+	<td width="76"><?php if(aflags($admin_flags,3,1)){?><a href="?do=del&vid=<?php echo $rss["v_id"];?>"><img src="images/white_delete.png" alt="删除该投票选项" width="16" height="16" border="0" align="absmiddle"></a><?php }?>&nbsp;</td>
+  </tr>
+  <?php
+}
+?>
+</table>
+</td>
+</tr>
+
+<tr id="daima<?php echo $i;?>" style="display:none;"><td colspan="8" align="center">
+	<input type="text" size="80" value="<script language='javascript' src='/plus/vote.php?vid=<?php echo $rs["v_id"];?>'></script>" class="txt"><br>
+	请将此段代码加到要显示投票的位置，该位置将显示该项投票内容
+</td></tr>
+<?php 
+$i++;
+}
+?>
+</table>
+<?php } ?>
+<?php
+echo acopy();
+?>

@@ -1,0 +1,87 @@
+<?php
+echo ahead($cname."栏目分类管理");
+?>
+</head>
+<script type="text/javascript">
+function check()
+{
+if (document.form2.sname.value=="")
+{
+	alert("请输入类别名称！");
+	document.form2.sname.focus();
+	return false;
+}
+if (document.form2.order.value=="")
+{
+	alert("请输入类别排序！");
+	document.form2.order.focus();
+	return false;
+}
+var objv = document.form2.order.value;
+var pattern = /^([0-9])+$/;
+flag = pattern.test(objv);
+if(!flag)
+{
+	alert("类别排序只能为数字!");
+	document.form2.order.focus();
+	return false; 
+} 
+}
+</script>
+<body>
+<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="tableBorder">
+  <tr>
+    <th height="25">栏目分类管理</th>
+  </tr>
+  <tr>
+    <td height=25 class="pl20"><b>管理选项：</b><a href="info_main.php?do=add&cid=<?php echo $cid;?>&cname=<?php echo $cname;?>">添加<?php echo $cname;?></a> | <a href="info_main.php?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>"><?php echo $cname;?>管理</a> | <a href="info_sort.php?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>#type">添加栏目分类</a> | <a href="info_sort.php?cid=<?php echo $cid;?>&cname=<?php echo $cname;?>">栏目分类管理</a> | [<a href="javascript:location.reload()">刷新页面</a>]</td>
+  </tr>
+  </tr>
+</table>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableBorder mt6">
+<tr>
+    <th colspan=6 height=25>栏目分类列表</th>
+</tr>
+<tr align="center"> 
+    <td width="5%" height="22">编号</td>
+    <td width="30%">栏目名称</td>
+    <td width="25%">上级栏目</td>
+    <td width="10%">显示顺序</td>
+    <td width="20%">添加时间</td>
+    <td width="10%">操作</td>
+</tr>
+<?php echo $sortlist;?>
+</table>
+<table width="98%" border="0" cellspacing="1" cellpadding="2" align=center class="tableBorder">
+  <tr>
+    <th colspan="2"><?php if($do=="edit"){echo "修改";}else{echo "添加";}?>栏目分类<a name="type" id="type"></a></th>
+  </tr>
+<form name="form2" action="info_sort.php?do=savedata" method="post" onsubmit="return check();">
+<input type="hidden" name="cid" value="<?php echo $cid;?>">
+<input type="hidden" name="cname" value="<?php echo $cname;?>">
+<input type="hidden" name="sid" value="<?php echo $sid;?>">
+<input type="hidden" name="fname" value="<?php echo $fname;?>">
+  <tr>
+    <td align="right" width="80"><b>上级栏目：</b></td>
+    <td><select name="fid" size="1">
+    <option value="0" selected="selected">作为一级栏目</option>
+    <?php echo anewssort($cid,$fid);?>
+    </select></td>
+  </tr>
+  <tr>
+    <td align="right"><b>栏目名称：</b></td>
+    <td><input name="sname" type="text" id="sname" value="<?php echo $sname;?>" /></td>
+  </tr>
+  <tr>
+    <td align="right"><b>显示顺序：</b></td>
+    <td><input name="order" type="text" id="order" value="<?php echo $order;?>" size="10" /> *请填写数字（数字越小排在越前面）</td>
+  </tr>
+  <tr>
+  	<td align="right">&nbsp;</td>
+    <td><?php if($do=="edit"){?><input type="submit" name="Submit3" value="修改栏目" class="inputs" /><?php }else{?><input type="submit" name="Submit3" value="新增栏目" class="inputs" /><?php }?></td>
+    </tr>
+</form>
+</table>
+<?php
+echo acopy();
+?>

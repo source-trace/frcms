@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$cfg['charset']}" />
+<meta http-equiv="Content-Language" content="{$cfg['charset']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta name="author" content="web@yjys.net,嘉挚科技" />
+<meta name="Copyright" content="www.yjys.net,版权所有,请勿转载" />
+<meta name="keywords" content="{$FR_网站关键字}" />
+<meta name="description" content="{$FR_网站描述}" />
+<title>注册院校会员-{$FR_网站标题}</title>
+<link href="{$FR_网站网址}{$FR_系统目录}css/{$FR_网站样式}/common.css" rel="stylesheet" type="text/css">
+<script src="{$FR_系统目录}js/jquery-1.4.2.min.js" language="javascript"></script>
+<script src="{$FR_系统目录}js/jquery.validate.min.js" language="javascript"></script>
+<script language="javascript" src="{$FR_系统目录}js/calendar.js" type="text/javascript"></script>
+<script type="text/javascript">
+String.prototype.trim = function(){
+return this.replace(/^( |[\s　])+|( |[\s　])+$/g, "" );
+}
+//左右是否有空格
+function lrspace(str){
+    var reg = /^( |[\s　])+|( |[\s　])+$/g;
+    return reg.test(str);
+}
+$.validator.methods.islogin=function(value, element) {    
+	var tel = /^([A-Za-z0-9_@.-]|[\u4e00-\u9fa5]){4,20}$/;
+	return tel.test(value);}
+$.validator.addMethod("iszipcode", function(value, element) {    
+	var tel = /^[0-9]{6}$/;
+	return this.optional(element) || (tel.test(value));});
+$.validator.methods.istel=function(value, element) {    
+	var tel = /^[0-9\s+.-]+$/;
+	return this.optional(element) || (tel.test(value));}
+$().ready(function() {
+    $('#login').keyup(function(){
+        if(lrspace($(this).val())){
+            $(this).val($(this).val().trim());
+        }
+    });
+    $('#pwd').keyup(function(){
+        if(lrspace($(this).val())){
+            $(this).val($(this).val().trim());
+        }
+    });
+    $('#repwd').keyup(function(){
+        if(lrspace($(this).val())){
+            $(this).val($(this).val().trim());
+        }
+    });
+    $('#email').keyup(function(){
+        if(lrspace($(this).val())){
+            $(this).val($(this).val().trim());
+        }
+    });
+    $('input[type=text]').bind('paste',function(){
+        var obj = $(this);
+        setTimeout(function(){obj.keyup();},100);
+    });
+	$("#register").validate({
+		success: function(label) {
+			label.text("输入正确!").addClass("success");
+		}, 
+		rules: {
+			login: {islogin: true,remote: {url: "register.php?do=check",type: "post",dataType: "json", data: {login: function() {return $("#login").val();}}}},
+			pwd: {required: true,minlength: 4,maxlength: 20},
+			repwd: {required: true,minlength: 4,maxlength: 20,equalTo: "#pwd"},
+			email: {required: true,email: true,maxlength: 100,remote: {url: "register.php?do=check",type: "post",dataType: "json", data: {email: function() {return $("#email").val();}}}},
+			name: {required: true,maxlength: 100},
+			ecoclass: {required: true},
+			introduce:{required: true,minlength: 10,maxlength: 8000},
+			contact: {required: true,maxlength: 100},
+			tel: {required: true,istel:true,maxlength: 100},
+			fax: {istel:true,maxlength: 100},
+			mobile: {required: true,digits:true,rangelength:[10,12]},
+			chat: {digits:true},
+			url: {url: true},
+			address: {maxlength: 100},
+			post: "iszipcode",
+			verifycode: {required: true}
+		},
+		messages: {
+			login: {
+				islogin:"要求长度为4-20位(可用字母、数字、下划线;)",
+				remote:"用户用已被占用，请重新输入"
+			},
+			pwd: "用户密码须4-20位之间，区分大小写",
+			repwd: {
+				required: "请再次输入密码",
+				minlength: "用户密码须4-20位之间，区分大小写",
+				equalTo: "两次输入密码必须一致"
+			},
+			email: {
+				required: "E-mail地址为必填项",
+				email: "请填写有效的E-mail地址",
+				maxlength: "E-mail地址不得超出100个字符",
+				remote: "E-mail已被占用，请重新输入"
+			},
+			name: '请正确填写院校名称，填写后不能修改',
+			ecoclass: '请选择院校性质!',
+			introduce:'请输入院校介绍，10-8000个字符之间',
+			contact: '请输入联系人姓名',
+			tel: {required: "联系电话格式如：029-85460076",istel:"联系电话格式如：029-85460076",maxlength: "联系电话长度为100个字符以内"},
+			fax: {istel:"传真格式如：029-85460076",maxlength: "联系电话长度为100个字符以内"},
+			mobile: '请填写正确的手机或小灵通号码，以便接收短信通知',
+			chat: 'QQ号码为数字，请正确填写',
+			url: '请输入网址，格式如：{$FR_网站网址}',
+			address: '通讯地址长度为100个字符以内',
+			post: "邮政编码为6位数字",
+			verifycode: "必填"
+		}
+	});
+});
+</script>
+</head>
+<body>
+{$FR_网站标准头}
+<div class="navb">
+	<div class="navdh"> 您现在的位置：<a href="{$FR_网站网址}">{$FR_网站名称}</a> >> 注册院校会员</div>
+</div>
+<div class="container">
+	<div class="regmember">
+		<div class="tit"><span></span>注册院校会员 </div>
+		<div class="con">
+        <form method="post" name="register" id="register" action="{$FR_系统目录}register.php?do=register&school">
+        <ul>
+        	<li class="t">账户信息 <span style="color:#F00">*为必填</span></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 用户名：</li>
+            <li class="r"><input name="login" type="text" id="login" title="用户名要求长度为4-20位(可用字母、数字、下划线;)" /></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 密码：</li>
+            <li class="r"><input name="pwd" type="password" id="pwd" title="用户密码须4-20位之间，区分大小写" /></li>
+        </ul>
+        <ul>
+            <li class="l">确认密码：</li>
+            <li class="r"><input name="repwd" type="password" id="repwd" title="请再次输入密码" /></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 电子邮件：</li>
+            <li class="r"><input name="email" type="text" id="email" title="请填写有效的E-mail地址" /></li>
+        </ul>
+        <ul>
+            <li class="l"></li>
+            <li class="r"><input name="sendemail" type="checkbox" value="1" checked="checked" style="width:20px;" />接受来自<a href="{$FR_网站网址}">{$FR_网站名称}</a>的消息邮件</li>
+        </ul>
+        <ul>
+        	<li class="t">基本资料</li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 院校名称：</li>
+            <li class="r"><input name="name" type="text" id="name" title="请正确填写院校名称，填写后不能修改" /></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 院校性质：</li>
+            <li class="r"><select name="ecoclass" size="1" id="ecoclass">
+                    <option value="" selected>请选择院校性质</option>
+                    <option value="1">公立大学</option>
+                    <option value="2">公立学院</option>
+                    <option value="3">公立专科学校</option>
+                    <option value="4">公立中专/中技</option>
+                    <option value="5">私立大学</option>
+                    <option value="6">私立学院</option>
+                    <option value="7">私立专科学校</option>
+                    <option value="8">私立中专/中技</option>
+        </select></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 所在地：</li>
+            <li class="r"><select name="province" size="1" class="t100" id="province" onChange="changeProvince(this.form.province.options[this.selectedIndex].value,this.form,'')">
+		<option value="">选择省</option>
+		</select>		
+		<select name="capital" id="capital" class="t" onchange="changeCity(this.form.capital.options[this.form.capital.selectedIndex].value,this.form,'')">
+		<option value="">选择市</option>
+		</select>
+		<select name="city" id="city" class="t">
+		<option value="">选择区县</option>
+		</select></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 院校简介：</li>
+            <li class="r"><textarea name="introduce" cols="60" rows="8" id="introduce"></textarea></li>
+        </ul>
+        <ul>
+        	<li class="t">联系方式</li>
+        </ul>
+        <ul>
+            <li class="l">通讯地址：</li>
+            <li class="r"><input name=address id="address" /></li>
+        </ul>
+        <ul>
+            <li class="l">邮政编码：</li>
+            <li class="r"><input name=post id="post" /></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 联 系 人：</li>
+            <li class="r"><input name=contact id="contact" /></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 联系电话：</li>
+            <li class="r"><input name=tel id="tel" /></li>
+        </ul>
+        <ul>
+            <li class="l"><span style="color:#F00">*</span> 手机号码：</li>
+            <li class="r"><input name=mobile id="mobile" /></li>
+        </ul>
+        <ul>
+            <li class="l">传&nbsp;&nbsp;&nbsp; 真：</li>
+            <li class="r"><input name=fax id="fax" /></li>
+        </ul>
+        <ul>
+            <li class="l">QQ号码：</li>
+            <li class="r"><input name=chat id="chat" /></li>
+        </ul>
+        <ul>
+            <li class="l">院校主页：</li>
+            <li class="r"><input name=url id="url" /></li>
+        </ul>
+        {if $regverifycode==1}<ul>
+            <li class="l"><span style="color:#F00">*</span> 验证码：</li>
+            <li class="r"><input type="text" name="verifycode" class="t100" title="输入右侧图片所示字符,不区分大小写"> <img src="inc/verifycode.php"  alt="验证码,看不清楚?请点击刷新验证码" align="absmiddle" style="cursor : pointer;" onClick="this.src=this.src+'?'+Math.random();" /></li>
+        </ul>{/if}
+        <ul>
+            <li class="t">申请会员服务 <span style="color:#F00; font-weight:normal">请选择您要申请的会员服务，提交申请后本站客服会尽快与您联系！</span></li>
+        </ul>
+        <ul>
+            <li class="l">选择服务:</li>
+            <li class="r">{getgroup(3,3)}</li>
+        </ul>
+        <ul>
+            <li class="l"></li>
+            <li class="r">在注册之前请您仔细阅读<a href="{$FR_系统目录}common.php?cid=8" target="_blank"><font color="#FF0000">{$FR_网站名称}服务条款</font></a>。</li>
+        </ul>
+        <ul>
+            <li class="l"></li>
+            <li class="r"><label for="submit"><input name="submit" type="submit" class="regsubmit" value="同意服务条款，提交注册信息" /></label></li>            
+        </ul>
+        </form>
+		</div>
+    </div>
+    <div class="regright">
+		<div class="tit"><span></span>注册</div>
+		<div class="con">我已经是{$FR_网站名称}院校会员了，点击<a href="login.php?{$reg}">这里</a>登录。<br />我是企业，我要<a href="?company">注册企业招聘会员</a>。<br />我是个人，我要<a href="?school">注册个人求职会员</a>。<br />我是培训机构，我要<a href="?train">注册教育培训会员</a>。</div>
+        <div class="regad"><script language='javascript' src='/webad/ads.php?p=4'></script></div>
+	</div>
+</div>
+<div class="container">
+	<div class="copyright"><center>{$FR_版权信息}</center></div>	
+</div>
+</body>
+</html>
+<script language = "JavaScript" src="{$FR_系统目录}js/getprovince.js"></script>
+<script language = "JavaScript">
+function changeProvince(selvalue,form,str){	
+	if(str=='hukou'){
+		form.hukoucapital.length=0; 
+		form.hukoucity.length=0;
+	}else{
+		form.capital.length=0; 
+		form.city.length=0;
+	}
+	var selvalue=selvalue;	  
+	var j,d,mm,f=0;
+    selvalues='';
+	d=0;
+	for(j=0;j<provArray.length;j++) {
+        if(provArray[j][0]==selvalue&&f==0){selvalues=provArray[j][2];f=1;}
+		if(provArray[j][1]==selvalues) {
+			if (d==0){
+			mm=provArray[j][2];
+			}
+			var newOption2=new Option(provArray[j][0],provArray[j][0]);
+			if(str=='hukou'){
+				document.getElementById('hukoucapital').options.add(newOption2);
+			}else{
+				document.getElementById('capital').options.add(newOption2);
+			}
+			d=d+1;	
+		}		
+		if(provArray[j][1]==mm) 
+		{		
+			var newOption3=new Option(provArray[j][0],provArray[j][0]);
+			if(str=='hukou'){
+				document.getElementById('hukoucity').options.add(newOption3);
+			}else{
+				document.getElementById('city').options.add(newOption3);
+			}
+		}			
+	}
+}
+function changeCity(selvalue,form,str) { 
+	if(str=='hukou'){form.hukoucity.length=0;}else{form.city.length=0;} 
+	var selvalue=selvalue;
+	var j,d,f=0;
+    selvalues='';
+	for(j=0;j<provArray.length;j++) 
+	{
+        if(provArray[j][0]==selvalue&&f==0){selvalues=provArray[j][2];f=1;}
+        if(provArray[j][1]==selvalues) 
+		{
+			var newOption4=new Option(provArray[j][0],provArray[j][0]);
+			if(str=='hukou'){
+				document.getElementById('hukoucity').options.add(newOption4);
+			}else{
+				document.getElementById('city').options.add(newOption4);
+			}
+		}
+	}
+}
+function selectprovince(str) { 
+var j;
+	for(j=0;j<provArray.length;j++) {
+		if(provArray[j][1]==0) {
+			var newOption4=new Option(provArray[j][0],provArray[j][0]);
+            //alert(newOption4);
+			if(str=='hukou'){
+				document.getElementById('hukouprovince').options.add(newOption4);
+			}else{
+				document.getElementById('province').options.add(newOption4);
+			}
+		}
+	}
+}
+selectprovince('');
+</script>
